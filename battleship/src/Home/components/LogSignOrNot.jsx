@@ -1,10 +1,16 @@
-class LogSignOrNot extends React.Component{
+import React, { Component } from 'react';
+
+class LogSignOrNot extends Component{
     state = {
-        isLoggedIn : false
+        isLoggedIn : false,
     }
 
     render(){
-        return isLoggedIn? (<div><h3>Show username and rank points</h3></div>):this.renderButtons;
+        if (this.state.isLoggedIn){
+            return (<div><h3>Show username and rank points</h3></div>);
+        }else{
+            return this.renderButtons();
+        }
     }
 
     renderButtons(){
@@ -16,3 +22,5 @@ class LogSignOrNot extends React.Component{
         )
     }
 }
+
+export default LogSignOrNot;
