@@ -6,11 +6,7 @@ class LogSignOrNot extends Component{
     }
 
     render(){
-        if (this.state.isLoggedIn){
-            return (<div><h3>Show username and rank points</h3></div>);
-        }else{
-            return this.renderButtons();
-        }
+        return this.state.isLoggedIn?(<div><h3>Show username and rank points</h3></div>):this.renderButtons();
     }
 
     renderButtons(){
