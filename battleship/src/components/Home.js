@@ -2,11 +2,12 @@ import './Home.css';
 
 function Home() {
   return (
-    <div className="App">
-      <header className='App-header'>
+    <div className="Home">
+      <header className='Home-header'>
         BATTLESHIP
       </header>
-      <button type = "button" class='buttonPlay'>Play</button>
+      <button>Play</button>
+      <button>Create room</button>
     </div>
   );
 }
