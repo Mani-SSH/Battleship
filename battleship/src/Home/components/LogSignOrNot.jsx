@@ -11,10 +11,10 @@ class LogSignOrNot extends Component{
 
     renderButtons(){
         return (
-            <div>
-                <button>Log In</button>
-                <button>Sign Up</button>
-            </div>
+            <div id='log' className='sign'>
+                <button className='logg'>Log In</button>
+                <button className='logg1'>Sign Up</button>
+          </div>
         )
     }
 }

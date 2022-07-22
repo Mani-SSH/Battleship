@@ -1,6 +1,6 @@
 .Home {
   text-align: center;
-  background-color: antiquewhite;
+  background-color: rgb(243, 207, 159);
 }
 
 .Home-header{
@@ -29,7 +29,7 @@
 }
 .button-basic:hover
 {
-  box-shadow: 0 0 10px 0 #00d7c3 inset, 0 0 20px 2px #00d7c3;
+  box-shadow: 0 0 5px 0 #00d7c3 inset, 0 0 10px 1px #00d7c3;
   border: 2px solid #00d7c3;
 }
 .button-basic1{
@@ -53,7 +53,62 @@
 }
 .button-basic1:hover
 {
-  box-shadow: 0 0 10px 0 #00d7c3 inset, 0 0 20px 2px #00d7c3;
+  box-shadow: 0 0 5px 0 #00d7c3 inset, 0 0 10px 1px #00d7c3;
   border: 2px solid #00d7c3;
 }
+
+.logg
+{
+  width: 130px;
+  text-align: center;
+  text-transform: uppercase;
+  font-weight: 400;
+  cursor: pointer;
+  background-color: rgb(206, 29, 29);
+  border: 2px solid #100a59;
+  border-radius: 10px;
+  -webkit-transition: all .15s ease-in-out;
+  transition: all .15s ease-in-out;
+  color: #f7f7f7;
+	display: inline-block;
+  margin-bottom: 20px;
+  position: relative;
+  left: 450px;
+  bottom: 230px;
+  padding: 5px;
+  font-size: 15px;
+}
+.logg:hover
+{
+  box-shadow: 0 0 50px 0 #3f25b5 inset, 0 0 20px 2px #5c1fa7;
+  border: 2px solid #07cc24;
+}
+
+.logg1
+{
+  width: 130px;
+  text-align: center;
+  text-transform: uppercase;
+  font-weight: 400;
+  cursor: pointer;
+  background-color: rgb(206, 29, 29);
+  border: 2px solid #100a59;
+  border-radius: 10px;
+  -webkit-transition: all .15s ease-in-out;
+  transition: all .15s ease-in-out;
+  color: #f7f7f7;
+	display: inline-block;
+  margin-bottom: 20px;
+  position: relative;
+  left: 470px;
+  bottom: 230px;
+  padding: 5px;
+  font-size: 15px;
+}
+.logg1:hover
+{
+  box-shadow: 0 0 50px 0 #3f25b5 inset, 0 0 20px 2px #5c1fa7;
+  border: 2px solid #07cc24;
+}
+
 
