@@ -1,8 +1,59 @@
 .Home {
   text-align: center;
+  background-color: antiquewhite;
 }
 
 .Home-header{
-  font-size: 80px;
+  font-size: 90px;
   position: relative;
+  top: 10px;
 }
+.button-basic{
+  width: 270px;
+  text-align: center;
+  text-transform: uppercase;
+  font-weight: 700;
+  cursor: pointer;
+  background-color: black;
+  border: 2px solid #00d7c3;
+  border-radius: 20px;
+  -webkit-transition: all .15s ease-in-out;
+  transition: all .15s ease-in-out;
+  color: #00d7c3;
+	display: inline-block;
+  margin-bottom: 20px;
+  position: relative;
+  top: 70px;
+  padding: 10px;
+  font-size: 30px;
+}
+.button-basic:hover
+{
+  box-shadow: 0 0 10px 0 #00d7c3 inset, 0 0 20px 2px #00d7c3;
+  border: 2px solid #00d7c3;
+}
+.button-basic1{
+	width: 300px;
+  text-align: center;
+  text-transform: uppercase;
+  font-weight: 700;
+  cursor: pointer;
+  background-color: black;
+  border: 2px solid #00d7c3;
+  border-radius: 20px;
+  -webkit-transition: all .15s ease-in-out;
+  transition: all .15s ease-in-out;
+  color: #00d7c3;
+	display: inline-block;
+  margin-bottom: 20px;
+  position: relative;
+  top: 80px;
+  padding: 10px;
+  font-size: 30px;
+}
+.button-basic1:hover
+{
+  box-shadow: 0 0 10px 0 #00d7c3 inset, 0 0 20px 2px #00d7c3;
+  border: 2px solid #00d7c3;
+}
+
