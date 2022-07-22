@@ -5,12 +5,16 @@ import LogSignOrNot from './components/LogSignOrNot';
 class Home extends Component{
   render(){
     return (
-      <div className="Home">
+      <div id='call' className='Home'>
         <header className='Home-header'>
           BATTLESHIP
         </header>
-        <button>Play</button>
-        <button>Create room</button>
+        <div id='call1' className='Homie'>
+          <button className='button-basic'>Play</button>
+        </div>
+        <div id='call1' className='Homie'>
+          <button className='button-basic1'>Create room</button>
+        </div>
         <LogSignOrNot />
       </div>
     );
