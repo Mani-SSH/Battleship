@@ -1,6 +1,7 @@
 import '../../assets/css/Home.css';
 import React, { Component } from 'react';
 import LogSignOrNot from './components/LogSignOrNot';
+import CreateRoom from './components/CreateRoom';
 
 class Home extends Component{
   render(){
@@ -12,10 +13,8 @@ class Home extends Component{
         <div id='call1' className='Homie'>
           <button className='button-basic'>Play</button>
         </div>
-        <div id='call1' className='Homie'>
-          <button className='button-basic1'>Create room</button>
-        </div>
         <LogSignOrNot />
+        <CreateRoom />
       </div>
     );
   }
