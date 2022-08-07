@@ -1,5 +1,7 @@
 import React, { useState } from 'react';
-import Modal from 'react-modal';
+import Button from 'react-bootstrap/Button'
+import Modal from 'react-bootstrap/Modal'
+import 'bootstrap/dist/css/bootstrap.min.css';
 import '../../../assets/css/Home.css';
 
 var handleGenerateRoom = () => {
@@ -7,26 +9,37 @@ var handleGenerateRoom = () => {
 }
 
 export default function CreateRoom() {
-    const [isOpen, setIsOpen] = useState(false);
-  
-    function toggleModal() {
-      setIsOpen(!isOpen);
-    }
+    const [show, setShow] = useState(false);
+
+    const handleClose = () => setShow(false);
+    const handleShow = () => setShow(true);
   
     return (
         <div id='call1' className='Homie'>
-            <button className='button-basic1'onClick={toggleModal}>Create room</button>
+            <Button className='button-basic1' variant="primary" onClick={handleShow}>
+                Create Room
+            </Button>
 
             <Modal
-                isOpen={isOpen}
-                onRequestClose={toggleModal}
-                contentLabel='Create room'
+            show={show}
+            onHide={handleClose}
+            size="sm"
+            aria-labelledby="contained-modal-title-vcenter"
+            centered
             >
-                <div>Create Room</div>
-                <input placeholder='Enter room no.' maxlength="6"></input>
-                <button>Join</button>
-                <button onClick={handleGenerateRoom}>Generate Room</button>
-                <button onClick={toggleModal}>Close</button>
+                <Modal.Header closeButton>
+                    <Modal.Title>Create Room</Modal.Title>
+                </Modal.Header>
+
+                <Modal.Body>
+                    <input placeholder='Enter room no.' maxlength="6"></input>
+                </Modal.Body>
+
+                <Modal.Footer>
+                    <Button>Join</Button>
+                    <Button onClick={handleGenerateRoom}>Generate Room</Button>
+                    <Button variant="secondary" onClick={handleClose}>Close</Button>
+                </Modal.Footer>
             </Modal>
         </div>
     );

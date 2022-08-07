@@ -16,7 +16,7 @@ const io = new Server(httpServer,{
 httpServer.listen(PORT);
 
 io.on('connection', (socket) => {
-    console.log('New user connected');
+    console.log(`user connected with socket id: ${socket.id}`);
 })
 
 //mongoDB connection
