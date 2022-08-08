@@ -16,7 +16,7 @@ export default function CreateRoom() {
   
     return (
         <div id='call1' className='Homie'>
-            <Button className='button-basic1' variant="primary" onClick={handleShow}>
+            <Button className='button-basic1' size="lg" bsPrefix='Home' variant="success" onClick={handleShow}>
                 Create Room
             </Button>
 

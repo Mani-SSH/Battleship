@@ -1,10 +1,12 @@
 .Home {
   text-align: center;
-  background-color: rgb(243, 207, 159);
+  position: relative;
+  background-color: rgb(155, 163, 244);
 }
 
 .Home-header{
   font-size: 90px;
+  font-family: cursive;
   position: relative;
   top: 10px;
 }
@@ -33,28 +35,27 @@
   border: 2px solid #00d7c3;
 }
 .button-basic1{
-	width: 300px;
+	width: 280px;
   text-align: center;
   text-transform: uppercase;
-  font-weight: 700;
+  font-weight: 500;
   cursor: pointer;
-  background-color: black;
-  border: 2px solid #00d7c3;
+  background-color: rgb(17, 9, 90);
+  border: 2px solid #17c3cf;
   border-radius: 20px;
   -webkit-transition: all .15s ease-in-out;
   transition: all .15s ease-in-out;
-  color: #00d7c3;
+  color: #e0bbcc;
 	display: inline-block;
-  margin-bottom: 20px;
   position: relative;
-  top: 80px;
-  padding: 10px;
-  font-size: 30px;
+  top: 45px;
+  padding: 5px;
+  font-size: 25px;
 }
 .button-basic1:hover
 {
-  box-shadow: 0 0 5px 0 #00d7c3 inset, 0 0 10px 1px #00d7c3;
-  border: 2px solid #00d7c3;
+  box-shadow: 0 0 5px 0 #00d7c3 inset, 0 0 10px 1px #ba222c;
+  border: 2px solid #e90699;
 }
 
 .logg
