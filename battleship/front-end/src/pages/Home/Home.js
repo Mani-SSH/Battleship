@@ -10,7 +10,7 @@ function Home(){
   }
 
   useEffect(() => {
-    io.conn();
+    //io.conn();
   }, [])
 
   return (

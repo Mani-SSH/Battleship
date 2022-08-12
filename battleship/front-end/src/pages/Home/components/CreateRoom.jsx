@@ -3,9 +3,11 @@ import Button from 'react-bootstrap/Button'
 import Modal from 'react-bootstrap/Modal'
 import 'bootstrap/dist/css/bootstrap.min.css';
 import '../../../assets/css/Home.css';
+import * as io from '../../../io-client-handler'
 
-var handleGenerateRoom = () => {
-    
+const handleGenerateRoom = () => {
+    let roomID = io.getRoomID();
+    console.log(roomID);
 }
 
 export default function CreateRoom() {
