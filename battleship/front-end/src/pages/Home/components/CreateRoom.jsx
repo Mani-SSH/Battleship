@@ -34,7 +34,7 @@ export default function CreateRoom() {
                 </Modal.Header>
 
                 <Modal.Body>
-                    <input placeholder='Enter room no.' maxlength="6"></input>
+                    <input placeholder='Enter room no.' maxLength={6}></input>
                 </Modal.Body>
 
                 <Modal.Footer>
