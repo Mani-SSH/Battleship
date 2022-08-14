@@ -1,20 +1,26 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import Button from 'react-bootstrap/Button'
 import Modal from 'react-bootstrap/Modal'
 import 'bootstrap/dist/css/bootstrap.min.css';
 import '../../../assets/css/Home.css';
 import * as io from '../../../io-client-handler'
 
-const handleGenerateRoom = () => {
-    let roomID = io.getRoomID();
-    console.log(roomID);
-}
-
 export default function CreateRoom() {
     const [show, setShow] = useState(false);
+    const [roomID, setroomID] = useState("");
 
     const handleClose = () => setShow(false);
     const handleShow = () => setShow(true);
+
+    const handleGenerateRoom = () => {
+        io.socket.emit('generate-roomID');
+    }
+
+    useEffect(() => {
+        io.socket.on('send-roomID', (arg1) => {
+            setroomID(arg1)
+        })
+    } , [])
   
     return (
         <div id='call1' className='Homie'>
@@ -35,6 +41,8 @@ export default function CreateRoom() {
 
                 <Modal.Body>
                     <input placeholder='Enter room no.' maxLength={6}></input>
+                    <h6>Room No:</h6>
+                    { roomID }
                 </Modal.Body>
 
                 <Modal.Footer>
