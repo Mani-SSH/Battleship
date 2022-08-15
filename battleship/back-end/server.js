@@ -22,6 +22,7 @@ io.on('connection', (socket) => {
 
     socket.on('generate-roomID', () => {
         let roomID = makeRoomID();
+        console.log(`new room: ${roomID} generated`);
         socket.emit('send-roomID', roomID);
     })
 })
