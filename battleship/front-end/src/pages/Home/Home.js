@@ -1,18 +1,12 @@
 import '../../assets/css/Home.css';
-import React, { useEffect } from 'react';
+import React from 'react';
 import LogSignOrNot from './components/LogSignOrNot';
 import CreateRoom from './components/CreateRoom';
-import * as io from '../../io-client-handler';
-
-function Home(){
-  const handleGenerateRoom = (socket) =>{
-    
-  }
-
-  useEffect(() => {
-    //io.conn();
-  }, [])
-
+/**
+ * 
+ * @returns Home page
+ */
+export default function Home(){
   return (
     <div id='call' className='Home'>
       <header className='Home-header'>
@@ -26,5 +20,3 @@ function Home(){
     </div>
   );
 }
-
-export default Home;

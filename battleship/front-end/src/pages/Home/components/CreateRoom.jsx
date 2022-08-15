@@ -8,13 +8,19 @@ import '../../../assets/css/Home.css';
 import * as io from '../../../io-client-handler'
 
 
-
+/**
+ * @returns input element for entering roomID and "copy" button
+ */
 function GenerateRoom(){
     const [roomID, setroomID] = useState("");
-    io.socket.on('send-roomID', (arg1) => {
-        setroomID(arg1);
+
+    /* listen for an event when the server sends a roomID */
+    io.socket.on('send-roomID', (arg) => {
+        /* set roomID to arg received from the server */
+        setroomID(arg);
     })
 
+    /* handles the event when "copy" button is clicked */
     const handleCopyRoomID = () => {
         /* Get the text field */
         var copyText = document.getElementById("inputRoomID");
@@ -30,11 +36,11 @@ function GenerateRoom(){
         alert("Copied the text: " + copyText.value);
     }
 
+    /* side effect of "generate room" button clicked*/
     useEffect(() => {
+        /* enters the roomID in the input element */
         document.getElementById("inputRoomID").value = roomID;
     })
-
-    
 
     return(
         <InputGroup className="mb-3">
@@ -50,16 +56,24 @@ function GenerateRoom(){
     )
 }
 
+/**
+ * @returns Modal when "create room" button is clicked
+ */
 export default function CreateRoom() {
+    /* represents the show state of the modal */
     const [show, setShow] = useState(false);
     
+    /* when "generate room" button is clicked */
     const handleGenerateRoom = () =>{
+        /* emit a signal to server to generate a roomID */
         io.socket.emit('generate-roomID');
     }
 
+    /* handles event on "close" button clicked */
     const handleClose = () => setShow(false);
-    const handleShow = () => setShow(true);
 
+    /* handles event on "create room" button clicked on the home page */
+    const handleShow = () => setShow(true);
 
     return (
         <div id='call1' className='Homie'>
