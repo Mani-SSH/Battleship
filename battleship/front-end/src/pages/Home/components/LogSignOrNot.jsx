@@ -12,8 +12,8 @@ class LogSignOrNot extends Component{
     renderButtons(){
         return (
             <div id='log' className='sign'>
-                <button className='logg'>Log In</button>
-                <button className='logg1'>Sign Up</button>
+                <button className='logg' size='lg' bsPrefix='Home'>Log In</button>
+                <button className='logg1' size='lg' bsPrefix='Home'>Sign Up</button>
           </div>
         )
     }
