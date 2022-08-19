@@ -2,6 +2,7 @@ import '../../assets/css/Home.css';
 import React from 'react';
 import LogSignOrNot from './components/LogSignOrNot';
 import CreateRoom from './components/CreateRoom';
+import Info from './components/Info';
 /**
  * 
  * @returns Home page
@@ -17,6 +18,7 @@ export default function Home(){
       </div>
       <LogSignOrNot />
       <CreateRoom />
+      <Info />
     </div>
   );
 }
