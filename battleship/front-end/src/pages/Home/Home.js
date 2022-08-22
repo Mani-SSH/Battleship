@@ -3,6 +3,7 @@ import React from 'react';
 import LogSignOrNot from './components/LogSignOrNot';
 import CreateRoom from './components/CreateRoom';
 import Info from './components/Info';
+import Destroyer from '../../photos/destroyer.png'
 /**
  * 
  * @returns Home page
@@ -28,7 +29,9 @@ export default function Home(){
           <div className='wave1'></div>
           <div className='wave2'></div>
           <div className='submarine'></div>
-          <div className='destroyer'></div>
+          <div className='destroyer'>
+            <img src ={Destroyer} alt=""/>
+          </div>
           <div className='wave3'></div>
           <div className='wave4'></div>
           </div>
