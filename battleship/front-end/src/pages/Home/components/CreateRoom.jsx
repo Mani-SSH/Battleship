@@ -4,8 +4,8 @@ import Modal from 'react-bootstrap/Modal'
 import Form from 'react-bootstrap/Form';
 import InputGroup from 'react-bootstrap/InputGroup';
 import 'bootstrap/dist/css/bootstrap.min.css';
-import '../../../assets/css/Home.css';
 import * as io from '../../../io-client-handler'
+import "../../../assets/css/CreateRoom.sass"
 
 
 /**
@@ -77,9 +77,7 @@ export default function CreateRoom() {
 
     return (
         <div id='call1' className='Homie'>
-            <Button className='button-basic1' size="lg" bsPrefix='Home' variant="success" onClick={handleShow}>
-                Create Room
-            </Button>
+            <Button className='createRoom' size="lg" bsPrefix='Home' variant="success" onClick={handleShow}>Create Room</Button>
 
             <Modal
             show={show}

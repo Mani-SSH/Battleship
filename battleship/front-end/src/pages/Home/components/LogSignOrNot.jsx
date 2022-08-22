@@ -1,4 +1,5 @@
 import React, { Component } from 'react';
+import "../../../assets/css/log.sass"
 
 class LogSignOrNot extends Component{
     state = {
