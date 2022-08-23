@@ -17,15 +17,18 @@ import play from "../../photos/play.png";
 export default function Home() {
   const [started, setStarted] = useState(true);
   const [destroyerStarted, setDestroyerStarted] = useState(false);
+
   useEffect(() => {
     setTimeout(() => {
       setStarted(!started);
     }, 5000);
   }, [started]);
+
   useEffect(() => {
     setStarted(!started);
     setDestroyerStarted(!destroyerStarted);
   }, []);
+  
   return (
     <div className="Home">
       <div className="Header">
