@@ -10,6 +10,7 @@
     "bootstrap-icons": "^1.9.1",
     "module_name": "^1.0.0",
     "react": "^18.2.0",
+    "react-audio-player": "^0.17.0",
     "react-bootstrap": "^2.5.0",
     "react-dom": "^18.2.0",
     "react-modal": "^3.15.1",

@@ -10,6 +10,7 @@ import wave3 from "../../photos/wave3.png";
 import wave4 from "../../photos/wave4.png";
 import submarine from "../../photos/submarine.png";
 import play from "../../photos/play.png";
+import Music from "./components/sound";
 /**
  *
  * @returns Home page
@@ -34,15 +35,14 @@ export default function Home() {
 
       <div className="topButton">
         <LogSignOrNot />
-        <Info />
       </div>
 
       <div className="playButton">
         <img src={play} alt="play" />
       </div>
-
-      <div className="createRoom"><CreateRoom /></div>
-      
+      <div className="iinfo"><Info /></div>
+      <div className="auidoo"><Music /></div>
+      <div className="crRoom"><CreateRoom /></div>
       <div className="background">
         <div className="waves">
           <img src={wave1} alt="wave1" className="wave wave1" />

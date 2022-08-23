@@ -76,7 +76,7 @@ export default function CreateRoom() {
     const handleShow = () => setShow(true);
 
     return (
-        <div id='call1' className='Homie'>
+        <div id='call1'>
             <Button className='createRoom' size="lg" bsPrefix='Home' variant="success" onClick={handleShow}>Create Room</Button>
 
             <Modal
