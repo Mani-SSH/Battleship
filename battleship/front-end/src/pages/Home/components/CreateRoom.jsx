@@ -69,19 +69,29 @@ export default function CreateRoom() {
         io.socket.emit('generate-roomID');
     }
 
+    const handleJoin = () => {
+        const roomID = document.getElementById("inputRoomID").value;
+        io.socket.emit('join-room', roomID);
+    }
+
     /* handles event on "close" button clicked */
     const handleClose = () => setShow(false);
 
     /* handles event on "create room" button clicked on the home page */
     const handleShow = () => setShow(true);
 
+    /* INCOMPLETE */
+    io.socket.on('on-connection-to-room', (msg) => {
+        console.log(msg);
+    })
+
     return (
         <div id='call1' className='Homie'>
-            <Button className='createRoom' size="lg" bsPrefix='Home' variant="success" onClick={handleShow}>Create Room</Button>
+            <Button className='createRoom' size="lg" bsPrefix='Home' variant="success" onClick={ handleShow }>Create Room</Button>
 
             <Modal
             show={show}
-            onHide={handleClose}
+            onHide={ handleClose }
             size="sm"
             centered
             >
@@ -94,7 +104,7 @@ export default function CreateRoom() {
                 </Modal.Body>
 
                 <Modal.Footer>
-                    <Button>Join</Button>
+                    <Button onClick={ handleJoin }>Join</Button>
                     <Button onClick={ handleGenerateRoom }>Generate Room</Button>
                     <Button variant="secondary" onClick={ handleClose }>Close</Button>
                 </Modal.Footer>
