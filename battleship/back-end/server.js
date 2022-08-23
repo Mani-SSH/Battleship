@@ -7,7 +7,7 @@ const room = require("./room");
 
 let rooms = new room.LinkedList;
 
-/* port  */
+/* port */
 let PORT = process.env.PORT||5000;
 
 /* using express */
@@ -31,7 +31,19 @@ io.on('connection', (socket) => {
         console.log(`new room: ${thisRoom.roomID} generated`);
         rooms.add(thisRoom);
         socket.emit('send-roomID', thisRoom.roomID);
-        rooms.display();
+    })
+
+    /* INCOMPLETE */
+    socket.on('join-room', (roomID) => {
+        /* join room */
+        socket.join(roomID);
+
+        /* send message */
+        const msg = socket.id + " joined room: " + roomID;
+        io.sockets.in(roomID).emit('on-connection-to-room', msg);
+        console.log(msg);
+
+        /* add user to room in room list */
     })
 })
 
@@ -39,6 +51,7 @@ io.on('connection', (socket) => {
 const dbUrl = 'mongodb+srv://ReDei:hridaya12345@cluster0.g5srtyf.mongodb.net/test';
 const mongoose = require('mongoose');
 
+/* INCOMPLETE */
 mongoose.connect(dbUrl, (err) => {
     console.log('mongodb connected', err);
 })
