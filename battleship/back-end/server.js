@@ -26,11 +26,11 @@ io.on('connection', (socket) => {
     console.log(`user connected with socket id: ${ socket.id }`);
 
     /* listen to event on a socket to generate roomID */
-    socket.on('generate-roomID', () => {
+    socket.on('generate-roomID', (fn) => {
         var thisRoom = new room.Room;
         console.log(`new room: ${ thisRoom.elements.roomID } generated`);
         rooms.add(thisRoom);
-        socket.emit('send-roomID', thisRoom.elements.roomID);
+        fn(thisRoom.elements.roomID);
     })
 
     /* INCOMPLETE */
