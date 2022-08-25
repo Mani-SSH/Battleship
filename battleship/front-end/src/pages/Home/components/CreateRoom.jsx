@@ -40,7 +40,7 @@ function GenerateRoom(){
     useEffect(() => {
         /* enters the roomID in the input element */
         document.getElementById("inputRoomID").value = roomID;
-    })
+    }, [roomID])
 
     return(
         <InputGroup className="mb-3">

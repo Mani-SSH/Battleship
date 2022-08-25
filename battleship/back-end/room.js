@@ -1,36 +1,39 @@
 /* length of roomID */
 const LENGTH_ROOMID = 6;
 
-class Room{
-   constructor(){
-      this.roomID = this.makeRoomID();
-      this.frequency = 0;
-      this.players = [];
-   }
-
-
-   /**
+/**
     * @returns 6 charactered roomID
     */
-   makeRoomID() {
-      let result           = '';
-      let characters       = 'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789';
-      let charactersLength = characters.length;
-      for ( let i = 0; i < LENGTH_ROOMID; i++ ) {
-         result += characters.charAt(Math.floor(Math.random() * 
-         charactersLength));
-   }
-   return result;
+function makeRoomID() {
+   let result           = '';
+   let characters       = 'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789';
+   let charactersLength = characters.length;
+   for ( let i = 0; i < LENGTH_ROOMID; i++ ) {
+      result += characters.charAt(Math.floor(Math.random() * 
+      charactersLength));
+}
+return result;
+}
+
+
+class Room{
+   constructor(){
+      this.elements = {
+         roomID: makeRoomID(),
+         player_count: 0,
+         players: []
+      }
+      this.next = null;
    }
 
 
    /**
     * takes socket id of user and pushs it to players array
-    * @param {*} sockedID
+    * @param {string} sockedID
     */
    addPlayer(sockedID){
-      this.players.push(sockedID);
-      this.frequency++;
+      this.elements.players.push(sockedID);
+      this.elements.player_count++;
       this.display();
    }
 
@@ -39,26 +42,14 @@ class Room{
     * displays elements of room
     */
    display(){
-      console.log(`Room: ${ this.roomID }`)
-      console.log(this.players);
-      console.log(`Frequency: ${ this.frequency }`);
+      console.log(`Room: ${ this.elements.roomID }`)
+      console.log(this.elements.players);
+      console.log(`Player count: ${ this.elements.player_count }`);
    }
 }
 
 
-
-
-class Node{
-   constructor(element){
-      this.element = element;
-      this.next = null;
-   }
-}
-
-
-
-
-class LinkedList{
+class RoomList{
    constructor(){
       this.head = null;
       this.size = 0;
@@ -67,15 +58,12 @@ class LinkedList{
 
    /**
     * adds element to end of the list
-    * @param {*} element 
+    * @param {Room} room 
     */
-   add(element){
-      /* create new node */
-      let node = new Node(element);
-
+    add(room){
       /* if list is empty add to head */
       if (this.head == null){
-         this.head = node;
+         this.head = room;
       }else{
          /* else traverse to tail and add */
          let temp = this.head;
@@ -83,7 +71,7 @@ class LinkedList{
          {
             temp = temp.next;
          }
-         temp.next = node;
+         temp.next = room;
       }
 
       /* update size of list and display */
@@ -91,6 +79,26 @@ class LinkedList{
       this.display();
    }
 
+
+   /**
+    * INCOMPLETE
+    * adds player to a room
+    * @param {string} roomID 
+    * @param {string} playerID 
+    */
+   addPlayer(roomID, playerID){
+      let temp = this.head;
+      for (let i = 0; i <= this.size || temp != null; i++) {
+         if(temp.elements.roomID === roomID){
+            break;
+         }
+         temp = temp.next;
+      }
+      temp.addPlayer(playerID);
+      this.display();
+   }
+
+   
    /**
     * displays every node in the list
     */
@@ -98,11 +106,12 @@ class LinkedList{
       let temp = this.head;
       while(temp.next)
       {
-         console.log(temp.element);
+         console.log(temp.elements);
          temp = temp.next;
       }
    }
 }
 
-exports.LinkedList = LinkedList;
+
+exports.RoomList = RoomList;
 exports.Room = Room;

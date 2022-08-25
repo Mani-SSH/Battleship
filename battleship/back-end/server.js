@@ -5,7 +5,7 @@ const { Server } = require("socket.io");
 
 const room = require("./room");
 
-let rooms = new room.LinkedList;
+let rooms = new room.RoomList;
 
 /* port */
 let PORT = process.env.PORT||5000;
@@ -23,14 +23,14 @@ httpServer.listen(PORT);
 
 /* listen to event on a socket connection to server */
 io.on('connection', (socket) => {
-    console.log(`user connected with socket id: ${socket.id}`);
+    console.log(`user connected with socket id: ${ socket.id }`);
 
     /* listen to event on a socket to generate roomID */
     socket.on('generate-roomID', () => {
         var thisRoom = new room.Room;
-        console.log(`new room: ${thisRoom.roomID} generated`);
+        console.log(`new room: ${ thisRoom.elements.roomID } generated`);
         rooms.add(thisRoom);
-        socket.emit('send-roomID', thisRoom.roomID);
+        socket.emit('send-roomID', thisRoom.elements.roomID);
     })
 
     /* INCOMPLETE */
@@ -44,6 +44,7 @@ io.on('connection', (socket) => {
         console.log(msg);
 
         /* add user to room in room list */
+        rooms.addPlayer(roomID, socket.id);
     })
 })
 

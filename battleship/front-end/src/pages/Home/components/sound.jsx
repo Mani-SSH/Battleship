@@ -13,9 +13,7 @@ export default function Music()
 
     useEffect(() => {
         playing ? audio.play() : audio.pause();
-    },
-    [playing]
-    );
+    },[]);
 
     useEffect(() => {
     audio.addEventListener('ended', () => setPlaying(false));
