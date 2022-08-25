@@ -20,8 +20,7 @@ function GenerateRoom(){
         setroomID(arg);
     })
 
-    /* handles the event when "copy" button is clicked */
-    const handleCopyRoomID = () => {
+    const handleCopyRoomID = () => {                                // handler for the event when "copy" button is clicked
         /* Get the text field */
         var copyText = document.getElementById("inputRoomID");
 
@@ -38,7 +37,7 @@ function GenerateRoom(){
 
     /* side effect of "generate room" button clicked*/
     useEffect(() => {
-        /* enters the roomID in the input element */
+        /* enter the roomID in the input element */
         document.getElementById("inputRoomID").value = roomID;
     }, [roomID])
 
@@ -60,17 +59,18 @@ function GenerateRoom(){
  * @returns Modal when "create room" button is clicked
  */
 export default function CreateRoom() {
-    /* represents the show state of the modal */
-    const [show, setShow] = useState(false);
+    const [show, setShow] = useState(false);                   //'show' state of the modal
     
-    /* when "generate room" button is clicked */
-    const handleGenerateRoom = () =>{
+    const handleGenerateRoom = () =>{                          // handler for when "generate room" button is clicked
         /* emit a signal to server to generate a roomID */
         io.socket.emit('generate-roomID');
     }
 
-    const handleJoin = () => {
+    const handleJoin = () => {                                 //handler for when the "join" button is clicked
+        /* get the roomID from the input element */
         const roomID = document.getElementById("inputRoomID").value;
+
+        /* emit an event to join the room with given roomID */
         io.socket.emit('join-room', roomID);
     }
 
@@ -87,7 +87,7 @@ export default function CreateRoom() {
 
     return (
         <div id='call1'>
-            <Button className='createRoom' size="lg" bsPrefix='Home' variant="success" onClick={handleShow}>Create Room</Button>
+            <Button className='createRoom' size="lg" bsPrefix="Home" variant="success" onClick={handleShow}>Create Room</Button>
 
             <Modal
             show={show}
@@ -112,3 +112,4 @@ export default function CreateRoom() {
         </div>
     );
 }
+
