@@ -3,13 +3,13 @@ import React, { useEffect, useState } from "react";
 import LogSignOrNot from "./components/LogSignOrNot";
 import CreateRoom from "./components/CreateRoom";
 import Info from "./components/Info";
-import Destroyer from "../../photos/destroyer.png";
-import wave1 from "../../photos/wave1.png";
-import wave2 from "../../photos/wave2.png";
-import wave3 from "../../photos/wave3.png";
-import wave4 from "../../photos/wave4.png";
-import submarine from "../../photos/submarine.png";
-import play from "../../photos/play.png";
+import Destroyer from "../../assets/images/Home/destroyer.png";
+import wave1 from "../../assets/images/Home/wave1.png";
+import wave2 from "../../assets/images/Home/wave2.png";
+import wave3 from "../../assets/images/Home/wave3.png";
+import wave4 from "../../assets/images/Home/wave4.png";
+import submarine from "../../assets/images/Home/submarine.png";
+import play from "../../assets/images/Home/play.png";
 import Music from "./components/sound";
 /**
  *
