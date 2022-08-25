@@ -112,6 +112,5 @@ class RoomList{
    }
 }
 
-
 exports.RoomList = RoomList;
 exports.Room = Room;
