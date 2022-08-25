@@ -2,7 +2,7 @@ import React,{useEffect,useState} from "react";
 import Button from "react-bootstrap/Button";
 import 'bootstrap/dist/css/bootstrap.min.css';
 import '../../../assets/css/audio.sass';
-import background from "../../../audioclips/background.mp3";
+import background from "../../../assets/bgm/Home/background.mp3";
 
 export default function Music()
 {
@@ -13,18 +13,18 @@ export default function Music()
 
     useEffect(() => {
         playing ? audio.play() : audio.pause();
-    },[]);
+    },[playing, audio]);
 
     useEffect(() => {
     audio.addEventListener('ended', () => setPlaying(false));
     return () => {
       audio.removeEventListener('ended', () => setPlaying(false));
     }
-    },[]);
+    },[audio]);
 
         return(
             <div>
-                <Button className="audi" size='md' bsPrefix='Home' onClick={toggle}>{playing?'Pause':'Play'}</Button>
+                <Button className="audi" size='md' bsPrefix="Home" onClick={toggle}>{playing?'Pause':'Play'}</Button>
             </div>
         );
 
