@@ -75,7 +75,7 @@ io.on('connection', (socket) => {
                         console.log(msg);
 
                         if(thisRoom.isFull()){
-                            socket.emit("lobby-full");
+                            socket.to(roomID).emit("lobby-full");
                         }
                     }
                 }

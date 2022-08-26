@@ -155,9 +155,11 @@ export default function CreateRoom() {
             show={ showJoinRoom }
             onHide={ handleCloseJoinRoom }
             size="sm"
+            backdrop="static"
+            keyboard="false"
             centered
             >
-                <Modal.Header closeButton>
+                <Modal.Header>
                     <Modal.Title>Joining room: { roomID }</Modal.Title>
                 </Modal.Header>
 
