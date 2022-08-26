@@ -48,7 +48,7 @@ export default function CreateRoom() {
 
     const handleJoin = () => {                                 //handler for when the "join" button is clicked
         /* emit an event to join the room with given roomID */
-        io.socket.emit('join-room', roomID, (isFound, hasJoined) => {
+        io.socket.emit('join-room', roomID, (isFound, isFull, hasJoined) => {
             if(isFound){
                 /* if player has joined */
                 if(hasJoined){
@@ -57,6 +57,12 @@ export default function CreateRoom() {
 
                     /* open modal "joining room" */
                     setJoin(true);
+
+                    /* if the room gets full upon joining */
+                    if(isFull){
+                        /* means lobby is full and go to next page */
+                        handleGoToNextPage();
+                    }
                 }else{
                     /* close modal "joining room" */
                     handleCloseJoinRoom();
@@ -89,6 +95,16 @@ export default function CreateRoom() {
         reset();
     }
 
+    const handleGoToNextPage = () => {
+        /* close modal "join room" */
+        handleCloseJoinRoom();
+
+        /* send signal to enter "ship placement" page */
+        alert("You have joined");
+
+        /* reset this modal */
+        reset();
+    }
 
     io.socket.off("lobby-full").on("lobby-full", () => {
         console.log("Lobby is full. Now starting...");
@@ -105,14 +121,7 @@ export default function CreateRoom() {
 
     useEffect(() => {
         if (isLobbyFull){
-            /* close modal "join room" */
-            handleCloseJoinRoom();
-
-            /* send signal to enter "ship placement" page */
-            alert("You have joined");
-
-            /* reset this modal */
-
+            handleGoToNextPage();
         }
     }, [isLobbyFull])
 
