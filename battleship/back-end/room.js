@@ -1,5 +1,6 @@
 /* length of roomID */
 const LENGTH_ROOMID = 6;
+const MAX_PLAYER_PER_ROOM = 2;
 
 /**
     * @returns 6 charactered roomID
@@ -26,16 +27,35 @@ class Room{
       this.next = null;
    }
 
+   /**
+    * @returns true if the rooom is full, else false
+    */
+   isFull(){
+      return (this.elements.player_count >= MAX_PLAYER_PER_ROOM)? true: false;
+   }
 
    /**
     * takes socket id of user and pushs it to players array
     * @param {string} sockedID
+    * @returns true if new player has been added successfully, else false
     */
    addPlayer(sockedID){
-      this.elements.players.push(sockedID);
-      this.elements.player_count++;
-      this.display();
+      if(this.isFull()){
+         return false;
+      }else{
+         this.elements.players.push(sockedID);
+         this.elements.player_count++;
+         this.display();
+         return true;
+      }
    }
+
+
+   removePlayer(sockedID){
+      this.elements.players = this.elements.players.filter((value) => {return value != sockedID});
+      this.elements.player_count--;
+   }
+
 
 
    /**
@@ -57,12 +77,20 @@ class RoomList{
 
 
    /**
+    * @returns true if list is empty, else false
+    */
+   isEmpty(){
+      return (this.head == null)? true: false;
+   }
+
+
+   /**
     * adds element to end of the list
     * @param {Room} room 
     */
     add(room){
       /* if list is empty add to head */
-      if (this.head == null){
+      if (this.isEmpty()){
          this.head = room;
       }else{
          /* else traverse to tail and add */
@@ -81,21 +109,27 @@ class RoomList{
 
 
    /**
-    * INCOMPLETE
-    * adds player to a room
-    * @param {string} roomID 
-    * @param {string} playerID 
+    * @param {Room} roomID 
+    * @returns room of the given roomID
     */
-   addPlayer(roomID, playerID){
+   getRoom(roomID){
+      let isFound = false;
       let temp = this.head;
+
+      /* if list is empty */
+      if(this.isEmpty()){
+         return undefined;
+      }
+
+      /* loop to check all the room if it has the given roomID*/
       for (let i = 0; i <= this.size || temp != null; i++) {
-         if(temp.elements.roomID === roomID){
+         if(temp.elements.roomID == roomID){
+            isFound = true;
             break;
          }
          temp = temp.next;
       }
-      temp.addPlayer(playerID);
-      this.display();
+      return (isFound)? temp: undefined;
    }
 
    
@@ -104,11 +138,12 @@ class RoomList{
     */
    display(){
       let temp = this.head;
-      while(temp.next)
+      while(temp)
       {
          console.log(temp.elements);
          temp = temp.next;
       }
+      console.log(`size: ${ this.size }\n`)
    }
 }
 
