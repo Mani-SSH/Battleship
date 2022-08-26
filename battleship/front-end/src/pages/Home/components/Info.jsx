@@ -33,6 +33,9 @@ export default function Info()
                     <li>Manish</li>
                     <li>Shashanka</li>
                     </ul> 
+                    <ul> <h5>SuperVisor</h5>
+                    <li>Amrit Dahal</li>
+                    </ul>
                     </Modal.Body>
                 <Modal.Footer>
                 <Button variant="primary" onClick={handleClose}>
