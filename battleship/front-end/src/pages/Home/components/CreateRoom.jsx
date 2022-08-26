@@ -17,6 +17,7 @@ export default function CreateRoom() {
     const [roomID, setroomID] = useState("");                                  //id of room                         
     const [join, setJoin] = useState(false);                                   //"join" state given by the server
     const [isLobbyFull, setIsLobbyFull] = useState(false);                     //state of lobby
+    const [buttonJoinDisabled, setButtonJoinDisabled] = useState(true);
 
 
     const reset = () => {
@@ -106,11 +107,20 @@ export default function CreateRoom() {
         reset();
     }
 
+
     io.socket.off("lobby-full").on("lobby-full", () => {
         console.log("Lobby is full. Now starting...");
         setIsLobbyFull(true); 
     })
 
+
+    useEffect(() => {
+        if(roomID.length === 6){
+            setButtonJoinDisabled(false);
+        }else{
+            setButtonJoinDisabled(true);
+        }
+    }, [roomID])
 
     useEffect(() => {
         if (join){
@@ -145,7 +155,7 @@ export default function CreateRoom() {
                     placeholder="Enter room no."
                     maxLength={6}
                     value={roomID}
-                    onChange={ (e) => setroomID(e.target.value) }
+                    onChange={ (e) => {setroomID(e.target.value)}}
                     />
                     <Button variant="outline-secondary" id="button-copy-roomID" onClick={ handleCopyRoomID }>
                     Copy
@@ -154,7 +164,7 @@ export default function CreateRoom() {
                 </Modal.Body>
 
                 <Modal.Footer>
-                    <Button onClick={ handleJoin }>Join</Button>
+                    <Button onClick={ handleJoin } disabled={ buttonJoinDisabled }>Join</Button>
                     <Button onClick={ handleGenerateRoom }>Generate Room</Button>
                     <Button variant="secondary" onClick={ handleCloseCreateRoom }>Close</Button>
                 </Modal.Footer>
