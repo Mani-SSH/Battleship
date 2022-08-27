@@ -6,6 +6,7 @@ import InputGroup from 'react-bootstrap/InputGroup';
 import 'bootstrap/dist/css/bootstrap.min.css';
 import * as io from '../../../io-client-handler'
 import "../../../assets/css/CreateRoom.sass"
+import { Navigate } from 'react-router-dom';
 
 
 /**
@@ -18,7 +19,13 @@ export default function CreateRoom() {
     const [join, setJoin] = useState(false);                                   //"join" state given by the server
     const [isLobbyFull, setIsLobbyFull] = useState(false);                     //state of lobby
     const [buttonJoinDisabled, setButtonJoinDisabled] = useState(true);
+    const [goToBody,setGoToBody] =useState(false);
 
+    function Nav() {
+    if (goToBody) {
+        return <Navigate to="/body"/>
+    }
+    }
 
     const reset = () => {
         setShowCreateRoom(false);
@@ -101,7 +108,7 @@ export default function CreateRoom() {
         handleCloseJoinRoom();
 
         /* send signal to enter "ship placement" page */
-        alert("You have joined");
+        Nav();
 
         /* reset this modal */
         reset();
@@ -130,10 +137,11 @@ export default function CreateRoom() {
 
 
     useEffect(() => {
-        if (isLobbyFull){
+        if (isLobbyFull && goToBody){
             handleGoToNextPage();
         }
-    }, [isLobbyFull])
+    }, [isLobbyFull,goToBody])
+
 
     return (
         <div id='call1'>
