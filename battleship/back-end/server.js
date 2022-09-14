@@ -36,9 +36,21 @@ io.on('connection', (socket) => {
 
     /* listen to event on a socket to generate roomID */
     socket.on('generate-roomID', (fn) => {
+        /* create new room */
         var thisRoom = new room.Room;
         console.log(`\nnew room: ${ thisRoom.elements.roomID } generated\n`);
+
+        /* add room to the list */
         rooms.add(thisRoom);
+
+        /* remove room after 10 min of inactivity */
+        setTimeout(() => {
+            if(thisRoom.elements.player_count == 0){
+                rooms.remove(thisRoom.elements.roomID);
+                console.log(`Room removed due to inactivity: ${ thisRoom.elements.roomID }` )
+            }
+        }, 600000)
+
         fn(thisRoom.elements.roomID);
     })
 
@@ -77,6 +89,7 @@ io.on('connection', (socket) => {
 
                         isFull = thisRoom.isFull();
 
+                        /* if room gets full emit a message to another user */
                         if(isFull){
                             socket.to(roomID).emit("lobby-full");
                         }

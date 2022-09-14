@@ -69,7 +69,8 @@ class Room{
 }
 
 
-class RoomList{
+
+class RoomList{  
    constructor(){
       this.head = null;
       this.size = 0;
@@ -88,7 +89,7 @@ class RoomList{
     * adds element to end of the list
     * @param {Room} room 
     */
-    add(room){
+   add(room){
       /* if list is empty add to head */
       if (this.isEmpty()){
          this.head = room;
@@ -109,8 +110,8 @@ class RoomList{
 
 
    /**
-    * @param {Room} roomID 
-    * @returns room of the given roomID
+    * @param {string} roomID 
+    * @returns {Room} room of the given roomID or undefined if room not found
     */
    getRoom(roomID){
       let isFound = false;
@@ -144,6 +145,35 @@ class RoomList{
          temp = temp.next;
       }
       console.log(`size: ${ this.size }\n`)
+   }
+
+
+   /**
+    * removes room with the given roomID from the list
+    * @param {string} roomID 
+    * @returns {boolean} true if the removal is successful, else false
+    */
+   remove(roomID){
+      let roomToRemove = this.getRoom(roomID);
+
+      /* check if room is not found */
+      if(roomToRemove == undefined){
+         return false;
+      }
+
+      /* check if room is in the head */
+      if(roomToRemove == this.head){
+         this.head = this.head.next;
+      }else{
+         /* if not in head */
+         let predecessor = this.head;
+         while(predecessor.next.elements.roomID != roomID){
+            predecessor = predecessor.next;
+         }
+         predecessor.next = predecessor.next.next;
+      }
+      this.size--;
+      return true;
    }
 }
 

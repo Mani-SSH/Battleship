@@ -22,9 +22,9 @@ export default function CreateRoom() {
     const [goToBody,setGoToBody] =useState(false);
 
     function Nav() {
-    if (goToBody) {
-        return <Navigate to="/body"/>
-    }
+        if (goToBody) {
+            return <Navigate to="/body"/>
+        }
     }
 
     const reset = () => {
@@ -110,6 +110,8 @@ export default function CreateRoom() {
         /* send signal to enter "ship placement" page */
         Nav();
 
+        setGoToBody(true);
+
         /* reset this modal */
         reset();
     }
@@ -140,7 +142,7 @@ export default function CreateRoom() {
         if (isLobbyFull && goToBody){
             handleGoToNextPage();
         }
-    }, [isLobbyFull,goToBody])
+    }, [isLobbyFull, goToBody])
 
 
     return (
