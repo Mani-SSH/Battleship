@@ -6,7 +6,7 @@ import InputGroup from 'react-bootstrap/InputGroup';
 import 'bootstrap/dist/css/bootstrap.min.css';
 import * as io from '../../../io-client-handler'
 import "../../../assets/css/CreateRoom.sass"
-import { Navigate } from 'react-router-dom';
+import { useNavigate } from 'react-router-dom';
 
 
 /**
@@ -20,10 +20,14 @@ export default function CreateRoom() {
     const [isLobbyFull, setIsLobbyFull] = useState(false);                     //state of lobby
     const [buttonJoinDisabled, setButtonJoinDisabled] = useState(true);
     const [goToBody,setGoToBody] =useState(false);
+    const navigate= useNavigate();
 
     function Nav() {
         if (goToBody) {
-            return <Navigate to="/body"/>
+            // console.log("entered");
+            navigate("/body");
+        }else{
+            // console.log("Not entered");
         }
     }
 
@@ -107,10 +111,9 @@ export default function CreateRoom() {
         /* close modal "join room" */
         handleCloseJoinRoom();
 
+        setGoToBody(true);
         /* send signal to enter "ship placement" page */
         Nav();
-
-        setGoToBody(true);
 
         /* reset this modal */
         reset();

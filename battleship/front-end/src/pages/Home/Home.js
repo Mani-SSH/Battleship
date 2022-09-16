@@ -56,8 +56,7 @@ export default function Home() {
         <div className={!started ? "submarine" : "submarine active"}>
           <img src={submarine} alt="" className="Destroyer" />
         </div>
-        <div
-          className={
+        <div className={
             destroyerStarted ? "destroyer" : "destroyer destroyeractive"
           }
         >
