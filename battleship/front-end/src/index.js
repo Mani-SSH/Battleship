@@ -2,7 +2,7 @@ import React from 'react';
 import ReactDOM from 'react-dom/client';
 import './assets/css/index.css';
 import Home from './pages/Home/Home';
-import Body from './pages/Home/Body';
+import Placement from './pages/Placement/Placement';
 import { BrowserRouter, Routes, Route } from "react-router-dom";
 
 export default function App() {
@@ -10,10 +10,9 @@ export default function App() {
     <div className='App'>
       <BrowserRouter>
         <Routes>
-          <Route path='/' element={<Home/>} />
-          <Route path="body" element={<Body/>} />
+          <Route path='/' element={ <Home/> } />
+          <Route path="placement" element={ <Placement/> } />
         </Routes>
-
       </BrowserRouter>
     </div>
   );

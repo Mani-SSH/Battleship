@@ -22,7 +22,6 @@ export default function CreateRoom() {
     const [showJoinRoom, setShowJoinRoom] = useState(false);                   //'show' state of the modal "Joining Room"
     const [roomID, setroomID] = useState("");                                  //id of room                         
     const [join, setJoin] = useState(false);                                   //"join" state given by the server
-    const [buttonJoinDisabled, setButtonJoinDisabled] = useState(true);
     const navigate = useNavigate();
 
 
@@ -90,7 +89,7 @@ export default function CreateRoom() {
         handleCloseJoinRoom();
         
         /* send signal to enter "ship placement" page */
-        navigate("/body");
+        navigate("/placement");
 
         /* reset this modal */
         reset();
@@ -102,14 +101,6 @@ export default function CreateRoom() {
         handleGoToNextPage();
     })
 
-
-    useEffect(() => {
-        if(roomID.length === 6){
-            setButtonJoinDisabled(false);
-        }else{
-            setButtonJoinDisabled(true);
-        }
-    }, [roomID])
 
     useEffect(() => {
         if (join){
@@ -140,12 +131,15 @@ export default function CreateRoom() {
                     value={roomID}
                     onChange={ (e) => { setroomID(e.target.value) } }
                     />
-                    <CopyButton roomID={ roomID }/>
+                    <ButtonCopy roomID={ roomID }/>
                 </InputGroup>
                 </Modal.Body>
 
                 <Modal.Footer>
-                    <Button onClick={ handleJoin } disabled={ buttonJoinDisabled }>Join</Button>
+                    <ButtonJoin
+                    roomID={ roomID }
+                    onClick={ handleJoin }
+                    />
                     <Button onClick={ handleGenerateRoom }>Generate Room</Button>
                     <Button variant="secondary" onClick={ handleCloseCreateRoom }>Close</Button>
                 </Modal.Footer>
@@ -167,7 +161,7 @@ export default function CreateRoom() {
  * @param {object} props 
  * @returns copy button
  */
-function CopyButton(props){
+function ButtonCopy(props){
     const handleCopyRoomID = () => {                                // handler for the event when "copy" button is clicked
         /* Copy the text inside the text field */
         navigator.clipboard.writeText(props.roomID);
@@ -180,5 +174,22 @@ function CopyButton(props){
         <Button variant="outline-secondary" id="button-copy-roomID" onClick={ handleCopyRoomID }>
         Copy
         </Button>
+    )
+}
+
+
+function ButtonJoin(props){
+    const [buttonJoinDisabled, setButtonJoinDisabled] = useState(true);
+
+    useEffect(() => {
+        if(props.roomID.length === 6){
+            setButtonJoinDisabled(false);
+        }else{
+            setButtonJoinDisabled(true);
+        }
+    }, [props.roomID])
+
+    return(
+        <Button onClick={ props.onClick } disabled={ buttonJoinDisabled }>Join</Button>
     )
 }

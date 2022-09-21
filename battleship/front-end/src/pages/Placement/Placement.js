@@ -1,11 +1,11 @@
 import "../../assets/css/Body.sass";
-import React,{useState} from "react";
-import {Navigate} from 'react-router-dom';
+import React,{ useState } from "react";
+import { Navigate } from 'react-router-dom';
 
 /**
  * @returns Body page
  */
- export default function Body() {
+ export default function Placement() {
 
     const [goToHome,setgoToHome]= useState(false);
 
@@ -20,7 +20,7 @@ import {Navigate} from 'react-router-dom';
             </div>
             <button className="back" onClick={() => {
                 setgoToHome(true);
-                }}> Back</button>
+            }}>Back</button>
         </div>
     );
  }
