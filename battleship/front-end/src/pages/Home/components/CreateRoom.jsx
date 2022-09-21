@@ -1,12 +1,17 @@
 import React, { useEffect, useState } from 'react';
-import Button from 'react-bootstrap/Button'
-import Modal from 'react-bootstrap/Modal'
+import { useNavigate } from 'react-router-dom';
+
+import Button from 'react-bootstrap/Button';
+import Modal from 'react-bootstrap/Modal';
 import Form from 'react-bootstrap/Form';
 import InputGroup from 'react-bootstrap/InputGroup';
 import 'bootstrap/dist/css/bootstrap.min.css';
+
+import JoinRoom from './JoinRoom';
+
 import * as io from '../../../io-client-handler'
+
 import "../../../assets/css/CreateRoom.sass"
-import { useNavigate } from 'react-router-dom';
 
 
 /**
@@ -158,27 +163,12 @@ export default function CreateRoom() {
                 </Modal.Footer>
             </Modal>
 
-            <Modal
+            <JoinRoom
             show={ showJoinRoom }
+            roomID={ roomID }
             onHide={ handleCloseJoinRoom }
-            size="sm"
-            backdrop="static"
-            keyboard="false"
-            centered
-            >
-                <Modal.Header>
-                    <Modal.Title>Joining room: { roomID }</Modal.Title>
-                </Modal.Header>
-
-                <Modal.Body>
-                    <h3>Waiting for opponent...</h3>
-                </Modal.Body>
-
-                <Modal.Footer>
-                    <Button variant="secondary" onClick={ handleCancel }>Cancel</Button>
-                </Modal.Footer>
-
-            </Modal>
+            onCancel={ handleCancel }
+            />
         </div>
     );
 }

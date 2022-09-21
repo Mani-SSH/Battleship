@@ -43,13 +43,13 @@ io.on('connection', (socket) => {
         /* add room to the list */
         rooms.add(thisRoom);
 
-        /* remove room after 10 min of inactivity */
-        setTimeout(() => {
+        /* remove room if inactivite by checking every 5 min */
+        setInterval(() => {
             if(thisRoom.elements.player_count == 0){
                 rooms.remove(thisRoom.elements.roomID);
                 console.log(`Room removed due to inactivity: ${ thisRoom.elements.roomID }` )
             }
-        }, 600000)
+        }, 300000)
 
         fn(thisRoom.elements.roomID);
     })
