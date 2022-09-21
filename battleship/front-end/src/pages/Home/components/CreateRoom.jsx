@@ -17,26 +17,15 @@ export default function CreateRoom() {
     const [showJoinRoom, setShowJoinRoom] = useState(false);                   //'show' state of the modal "Joining Room"
     const [roomID, setroomID] = useState("");                                  //id of room                         
     const [join, setJoin] = useState(false);                                   //"join" state given by the server
-    const [isLobbyFull, setIsLobbyFull] = useState(false);                     //state of lobby
     const [buttonJoinDisabled, setButtonJoinDisabled] = useState(true);
-    const [goToBody,setGoToBody] =useState(false);
-    const navigate= useNavigate();
+    const navigate = useNavigate();
 
-    function Nav() {
-        if (goToBody) {
-            // console.log("entered");
-            navigate("/body");
-        }else{
-            // console.log("Not entered");
-        }
-    }
 
     const reset = () => {
         setShowCreateRoom(false);
         setShowJoinRoom(false);
         setroomID("");
         setJoin(false);
-        setIsLobbyFull(false);
     }
 
 
@@ -60,7 +49,7 @@ export default function CreateRoom() {
 
     const handleJoin = () => {                                 //handler for when the "join" button is clicked
         /* emit an event to join the room with given roomID */
-        io.socket.emit('join-room', roomID, (isFound, isFull, hasJoined) => {
+        io.socket.emit('join-room', roomID, (isFound, hasJoined) => {
             if(isFound){
                 /* if player has joined */
                 if(hasJoined){
@@ -69,12 +58,6 @@ export default function CreateRoom() {
 
                     /* open modal "joining room" */
                     setJoin(true);
-
-                    /* if the room gets full upon joining */
-                    if(isFull){
-                        /* means lobby is full and go to next page */
-                        handleGoToNextPage();
-                    }
                 }else{
                     /* close modal "joining room" */
                     handleCloseJoinRoom();
@@ -110,10 +93,9 @@ export default function CreateRoom() {
     const handleGoToNextPage = () => {
         /* close modal "join room" */
         handleCloseJoinRoom();
-
-        setGoToBody(true);
+        
         /* send signal to enter "ship placement" page */
-        Nav();
+        navigate("/body");
 
         /* reset this modal */
         reset();
@@ -122,7 +104,7 @@ export default function CreateRoom() {
 
     io.socket.off("lobby-full").on("lobby-full", () => {
         console.log("Lobby is full. Now starting...");
-        setIsLobbyFull(true); 
+        handleGoToNextPage();
     })
 
 
@@ -139,13 +121,6 @@ export default function CreateRoom() {
             handleShowJoinRoom();
         }
     }, [join])
-
-
-    useEffect(() => {
-        if (isLobbyFull && goToBody){
-            handleGoToNextPage();
-        }
-    }, [isLobbyFull, goToBody])
 
 
     return (

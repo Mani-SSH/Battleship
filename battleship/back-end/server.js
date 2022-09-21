@@ -58,7 +58,6 @@ io.on('connection', (socket) => {
     socket.on('join-room', (roomID, fn) => {
         let hasJoined = false;                  //state of player if joined
         let isFound = false;                    //state of room if found
-        let isFull = false;
 
         /* if room list is not empty */
         if(!rooms.isEmpty()){
@@ -87,17 +86,15 @@ io.on('connection', (socket) => {
                         const msg = socket.id + " joined room: " + roomID;
                         console.log(msg);
 
-                        isFull = thisRoom.isFull();
-
                         /* if room gets full emit a message to another user */
-                        if(isFull){
-                            socket.to(roomID).emit("lobby-full");
+                        if(thisRoom.isFull()){
+                            io.sockets.to(roomID).emit("lobby-full")
                         }
                     }
                 }
             }
         }
-        fn(isFound, isFull, hasJoined);
+        fn(isFound, hasJoined);
     })
 
     socket.on("leave-room", (roomID) => {
