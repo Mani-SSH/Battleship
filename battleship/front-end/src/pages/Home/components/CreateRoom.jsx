@@ -32,16 +32,6 @@ export default function CreateRoom() {
         setroomID("");
         setJoin(false);
     }
-
-
-    const handleCopyRoomID = () => {                                // handler for the event when "copy" button is clicked
-        /* Copy the text inside the text field */
-        navigator.clipboard.writeText(roomID);
-
-        /* Alert the copied text */
-        alert("Copied the text: " + roomID);
-    }
-    
     
     const handleGenerateRoom = () =>{                          // handler for when "generate room" button is clicked
         /* emit a signal to server to generate a roomID */
@@ -148,11 +138,9 @@ export default function CreateRoom() {
                     placeholder="Enter room no."
                     maxLength={6}
                     value={roomID}
-                    onChange={ (e) => {setroomID(e.target.value)}}
+                    onChange={ (e) => { setroomID(e.target.value) } }
                     />
-                    <Button variant="outline-secondary" id="button-copy-roomID" onClick={ handleCopyRoomID }>
-                    Copy
-                    </Button>
+                    <CopyButton roomID={ roomID }/>
                 </InputGroup>
                 </Modal.Body>
 
@@ -171,4 +159,26 @@ export default function CreateRoom() {
             />
         </div>
     );
+}
+
+
+/**
+ * react function which makes a copy button
+ * @param {object} props 
+ * @returns copy button
+ */
+function CopyButton(props){
+    const handleCopyRoomID = () => {                                // handler for the event when "copy" button is clicked
+        /* Copy the text inside the text field */
+        navigator.clipboard.writeText(props.roomID);
+
+        /* Alert the copied text */
+        alert("Copied the text: " + props.roomID);
+    }
+
+    return(
+        <Button variant="outline-secondary" id="button-copy-roomID" onClick={ handleCopyRoomID }>
+        Copy
+        </Button>
+    )
 }
