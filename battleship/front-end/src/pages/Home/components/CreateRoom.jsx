@@ -24,6 +24,8 @@ export default function CreateRoom() {
     const [showOpponentFound, setShowOpponentFound] = useState(false);         //"show" state of the modal "Opponent Found"
     const [roomID, setroomID] = useState("");                                  //id of room                         
     const [join, setJoin] = useState(false);                                   //"join" state given by the server
+    const [player, setPlayer] = useState("");                                //id of player 1
+    const [opponent, setOpponent] = useState("");                                //id of player 2
     const navigate = useNavigate();
 
 
@@ -107,8 +109,14 @@ export default function CreateRoom() {
 
 
     /* if "lobby-full" signal received from server, go to next page */
-    io.socket.off("lobby-full").on("lobby-full", () => {
+    io.socket.off("lobby-full").on("lobby-full", (player1, player2) => {
         console.log("Lobby is full. Now starting...");
+
+        /* get id of both players */
+        setPlayer(player);
+        setOpponent(player2);
+
+        /* show modal "Opponent Found" */
         handleShowOpponentFound();
     })
 
@@ -169,6 +177,9 @@ export default function CreateRoom() {
             isCustom
             show={ showOpponentFound }
             onHide={ handleCloseOpponentFound }
+            player={ player }
+            player2={ player2 }
+            onReady={ handleGoToNextPage }
             />
         </div>
     );

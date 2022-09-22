@@ -4,6 +4,13 @@ import { useEffect, useState } from 'react';
 import * as io from "../../../io-client-handler";
 
 export default function OpponentFound(props){
+    const [clicked, setClicked] = useState(false);
+
+    const handleReadyClicked = () => {
+        setClicked(true);
+        io.socket.emit("player-ready");
+    }
+
     return(
         <Modal
         show={ props.show }
@@ -16,30 +23,18 @@ export default function OpponentFound(props){
                 <Modal.Title>Opponent Found</Modal.Title>
             </Modal.Header>
             <Modal.Body>
-                <ButtonReady />
+                { (clicked)? <PlayerReady player1={ props.player1 } player2={ props.player2 }/> : <Button onClick={ handleReadyClicked }>Ready</Button> }
             </Modal.Body>
         </Modal>
     )
 }
 
 
-function ButtonReady(){
-    const [clicked, setClicked] = useState(false);
-
-    const handleClick = () => {
-        setClicked(true);
-        io.socket.emit("player-ready");
+function PlayerReady(props){
+    const player1 = {
+        id: props.player1,
+        
     }
-
-    return(
-        <div>
-            { (clicked)? <PlayerReady /> : <Button onClick={ handleClick }>Ready</Button> }
-        </div>
-    )
-}
-
-
-function PlayerReady(){
     return(
         <div>
             <h1>Player 1: </h1>

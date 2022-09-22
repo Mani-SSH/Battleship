@@ -11,11 +11,15 @@ import wave4 from "../../assets/images/Home/wave4.png";
 import submarine from "../../assets/images/Home/submarine.png";
 import play from "../../assets/images/Home/play.png";
 import Music from "./components/sound";
+import Player from "../../player";
+import * as io from "../../io-client-handler"
 /**
  *
  * @returns Home page
  */
 export default function Home() {
+  const [isLoggedIn, setisLoggedIn] = useState(false);
+  const [player, setPlayer] = useState(new Player);
   const [started, setStarted] = useState(true);
   const [destroyerStarted, setDestroyerStarted] = useState(false);
 
@@ -26,8 +30,15 @@ export default function Home() {
   }, [started]);
 
   useEffect(() => {
+    /* start animation */
     setStarted(!started);
     setDestroyerStarted(!destroyerStarted);
+
+    /* get player info */
+    io.socket.emit("get-player", (player) => {
+      setPlayer(player);
+      console.log(player);
+    });
   }, []);
   
   return (
@@ -37,7 +48,7 @@ export default function Home() {
       </div>
 
       <div className="topButton">
-        <LogSignOrNot />
+        <LogSignOrNot isLoggedIn={ isLoggedIn }/>
       </div>
 
       <div className="playButton">

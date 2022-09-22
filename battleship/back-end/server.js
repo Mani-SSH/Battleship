@@ -89,7 +89,7 @@ io.on('connection', (socket) => {
 
                         /* if room gets full emit a message to another user */
                         if(thisRoom.isFull()){
-                            io.sockets.to(roomID).emit("lobby-full")
+                            io.sockets.to(roomID).emit("lobby-full", thisRoom.elements.players[0], thisRoom.elements.players[1]);
                         }
                     }
                 }
