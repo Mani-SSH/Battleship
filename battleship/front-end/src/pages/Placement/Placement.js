@@ -10,7 +10,7 @@ import { useLocation, useNavigate } from 'react-router-dom';
     const location = useLocation();
     const navigate = useNavigate();
     const [roomID, setRoomID] = useState("");
-    
+
     function onLoad(){
         try{
             setRoomID(location.state.roomID);
@@ -18,10 +18,10 @@ import { useLocation, useNavigate } from 'react-router-dom';
             navigate("/");
         }
     }
-
+    
     useEffect(() => {
         onLoad();
-    })
+    }, [])
 
 
     useEffect(() => {

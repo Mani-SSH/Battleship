@@ -123,7 +123,7 @@ class RoomList{
       }
 
       /* loop to check all the room if it has the given roomID*/
-      for (let i = 0; i <= this.size || temp != null; i++) {
+      for (let i = 1; i <= this.size || temp != null; i++) {
          if(temp.elements.roomID == roomID){
             isFound = true;
             break;
