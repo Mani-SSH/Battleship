@@ -18,17 +18,17 @@ import { useLocation, useNavigate } from 'react-router-dom';
             navigate("/");
         }
     }
-    
+
     useEffect(() => {
         onLoad();
-    }, [])
+    }, []) // eslint-disable-line react-hooks/exhaustive-deps
 
 
     useEffect(() => {
         if(goToHome) {
             navigate("/");
         }
-    }, [goToHome])
+    }, [goToHome]) // eslint-disable-line react-hooks/exhaustive-deps
 
     return (
         <div className="Body">

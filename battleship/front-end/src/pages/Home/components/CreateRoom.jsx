@@ -8,6 +8,7 @@ import InputGroup from 'react-bootstrap/InputGroup';
 import 'bootstrap/dist/css/bootstrap.min.css';
 
 import JoinRoom from './JoinRoom';
+import OpponentFound from './OpponentFound';
 
 import * as io from '../../../io-client-handler'
 
@@ -20,6 +21,7 @@ import "../../../assets/css/CreateRoom.sass"
 export default function CreateRoom() {
     const [showCreateRoom, setShowCreateRoom] = useState(false);               //'show' state of the modal
     const [showJoinRoom, setShowJoinRoom] = useState(false);                   //'show' state of the modal "Joining Room"
+    const [showOpponentFound, setShowOpponentFound] = useState(false);         //"show" state of the modal "Opponent Found"
     const [roomID, setroomID] = useState("");                                  //id of room                         
     const [join, setJoin] = useState(false);                                   //"join" state given by the server
     const navigate = useNavigate();
@@ -31,6 +33,7 @@ export default function CreateRoom() {
         setShowJoinRoom(false);
         setroomID("");
         setJoin(false);
+        setShowOpponentFound(false);
     }
     
     const handleGenerateRoom = () =>{                          // handler for when "generate room" button is clicked
@@ -79,6 +82,10 @@ export default function CreateRoom() {
     /* handles event on "join" button clicked on the home page */
     const handleShowJoinRoom = () => setShowJoinRoom(true);
 
+    const handleShowOpponentFound = () => setShowOpponentFound(true);
+
+    const handleCloseOpponentFound = () => setShowOpponentFound(false);
+
     /* handles event on "cancel" button pressed on the "join room" modal */
     const handleCancel = () => {
         io.socket.emit("leave-room", roomID);
@@ -102,7 +109,7 @@ export default function CreateRoom() {
     /* if "lobby-full" signal received from server, go to next page */
     io.socket.off("lobby-full").on("lobby-full", () => {
         console.log("Lobby is full. Now starting...");
-        handleGoToNextPage();
+        handleShowOpponentFound();
     })
 
 
@@ -151,10 +158,17 @@ export default function CreateRoom() {
             </Modal>
 
             <JoinRoom
+            isCustom
             show={ showJoinRoom }
             roomID={ roomID }
             onHide={ handleCloseJoinRoom }
             onCancel={ handleCancel }
+            />
+
+            <OpponentFound
+            isCustom
+            show={ showOpponentFound }
+            onHide={ handleCloseOpponentFound }
             />
         </div>
     );
