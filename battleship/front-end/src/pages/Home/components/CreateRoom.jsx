@@ -25,6 +25,7 @@ export default function CreateRoom() {
     const navigate = useNavigate();
 
 
+    /* resets the modal */
     const reset = () => {
         setShowCreateRoom(false);
         setShowJoinRoom(false);
@@ -84,24 +85,28 @@ export default function CreateRoom() {
         reset();
     }
 
+
+    /* handles event to go to next page */
     const handleGoToNextPage = () => {
         /* close modal "join room" */
         handleCloseJoinRoom();
         
-        /* send signal to enter "ship placement" page */
-        navigate("/placement");
+        /* send signal to enter "ship placement" page with roomID*/
+        navigate("/placement", { state: { roomID } });
 
         /* reset this modal */
         reset();
     }
 
 
+    /* if "lobby-full" signal received from server, go to next page */
     io.socket.off("lobby-full").on("lobby-full", () => {
         console.log("Lobby is full. Now starting...");
         handleGoToNextPage();
     })
 
 
+    /* shows join room */
     useEffect(() => {
         if (join){
             handleShowJoinRoom();
@@ -131,7 +136,7 @@ export default function CreateRoom() {
                     value={roomID}
                     onChange={ (e) => { setroomID(e.target.value) } }
                     />
-                    <ButtonCopy roomID={ roomID }/>
+                    <ButtonCopy roomID={ roomID } />
                 </InputGroup>
                 </Modal.Body>
 
@@ -157,8 +162,8 @@ export default function CreateRoom() {
 
 
 /**
- * react function which makes a copy button
- * @param {object} props 
+ * react function which makes copy button in create room modal
+ * @param {property} props 
  * @returns copy button
  */
 function ButtonCopy(props){
@@ -178,10 +183,18 @@ function ButtonCopy(props){
 }
 
 
+/**
+ * react function which makes join button in create room modal
+ * @param {property} props 
+ * @returns join button
+ */
 function ButtonJoin(props){
     const [buttonJoinDisabled, setButtonJoinDisabled] = useState(true);
 
+
+    /* disables and enables join button */
     useEffect(() => {
+        /* if length of roomID is equal to 6, enable join button, else disable */
         if(props.roomID.length === 6){
             setButtonJoinDisabled(false);
         }else{

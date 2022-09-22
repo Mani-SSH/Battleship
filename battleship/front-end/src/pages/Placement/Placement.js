@@ -1,26 +1,42 @@
 import "../../assets/css/Body.sass";
-import React,{ useState } from "react";
-import { Navigate } from 'react-router-dom';
+import React,{ useEffect, useState } from "react";
+import { useLocation, useNavigate } from 'react-router-dom';
 
 /**
  * @returns Body page
  */
  export default function Placement() {
-
-    const [goToHome,setgoToHome]= useState(false);
-
-    if(goToHome) {
-        return <Navigate to="/" />;
+    const [goToHome, setgoToHome] = useState(false);
+    const location = useLocation();
+    const navigate = useNavigate();
+    const [roomID, setRoomID] = useState("");
+    
+    function onLoad(){
+        try{
+            setRoomID(location.state.roomID);
+        }catch(e){
+            navigate("/");
+        }
     }
+
+    useEffect(() => {
+        onLoad();
+    })
+
+
+    useEffect(() => {
+        if(goToHome) {
+            navigate("/");
+        }
+    }, [goToHome])
 
     return (
         <div className="Body">
             <div className="Header1">
                 <h1>Plan Your Ships</h1>
+                <h5>RoomID: { roomID }</h5>
             </div>
-            <button className="back" onClick={() => {
-                setgoToHome(true);
-            }}>Back</button>
+            <button className="back" onClick={ () => setgoToHome(true) }>Back</button>
         </div>
     );
  }
