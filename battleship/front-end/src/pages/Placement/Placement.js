@@ -34,7 +34,9 @@ import { useLocation, useNavigate } from 'react-router-dom';
         <div className="Body">
             <div className="Header1">
                 <h1>Plan Your Ships</h1>
-                <h5>RoomID: { roomID }</h5>
+            </div>
+            <div className="Header2">
+             <h5>RoomID: { roomID }</h5>
             </div>
             <button className="back" onClick={ () => setgoToHome(true) }>Back</button>
         </div>
