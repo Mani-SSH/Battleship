@@ -178,7 +178,7 @@ export default function CreateRoom() {
             show={ showOpponentFound }
             onHide={ handleCloseOpponentFound }
             player={ player }
-            player2={ player2 }
+            player2={ opponent }
             onReady={ handleGoToNextPage }
             />
         </div>
