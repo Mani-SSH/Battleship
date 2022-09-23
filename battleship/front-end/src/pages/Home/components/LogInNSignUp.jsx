@@ -81,14 +81,14 @@ function LogIn(props){
                     placeholder="Username"
                     value={username}
                     onChange={ (e) => { setUsername(e.target.value) } }
-                    maxlength={ 14 }
+                    maxLength={ 14 }
                     />
                     <InputGroup.Text>#</InputGroup.Text>
                     <Form.Control
                     placeholder="Tag"
                     value={tag}
                     onChange={ (e) => { setTag(e.target.value) } }
-                    maxlength={ 4 }
+                    maxLength={ 4 }
                     />
                 </InputGroup>
 
@@ -98,7 +98,7 @@ function LogIn(props){
                     type={ (showPassword)? "text" : "password"}
                     value={password}
                     onChange={ (e) => { setPassword(e.target.value) } }
-                    maxlenght={ 20 }
+                    maxLenght={ 20 }
                     />
                 </InputGroup>
                 
@@ -135,12 +135,12 @@ function ButtonLogIn(props){
     /* enables and disables "Log In" button */
     useEffect(() => {
         /* if username and password section is not empty and hash section is full, enable the button, else disable */
-        if(props.password.length === 0 || props.username.length === 0 || props.hash.length !== 4){
+        if(props.password.length === 0 || props.username.length === 0 || props.tag.length !== 4){
             setDisabled(true);
         }else{
             setDisabled(false);
         }
-    }, [props.password, props.username, props.hash])
+    }, [props.password, props.username, props.tag])
 
     return(
         <Button
@@ -191,39 +191,35 @@ function SignUp(props){
                     placeholder="Username"
                     value={username}
                     onChange={ (e) => { setUsername(e.target.value) } }
-                    maxlength={ 14 }
+                    maxLength={ 14 }
                     />
                     <InputGroup.Text>#</InputGroup.Text>
                     <Form.Control
                     placeholder="Tag"
                     value={tag}
                     onChange={ (e) => { setTag(e.target.value) } }
-                    maxlength={ 4 }
+                    maxLength={ 4 }
                     />
                 </InputGroup>
-
                 <InputGroup className="mb-3">
                     <Form.Control
                     placeholder="Password"
                     type={ (showPassword)? "text" : "password"}
                     value={password}
                     onChange={ (e) => { setPassword(e.target.value) } }
-                    maxlenght={ 20 }
+                    maxLenght={ 20 }
                     />
                 </InputGroup>
-
                 <InputGroup className="mb-3">
                     <Form.Control
                     placeholder="Confirm password"
                     type={ (showPassword)? "text" : "password"}
                     value={confirmPassword}
                     onChange={ (e) => { setConfirmPassword(e.target.value) } }
-                    maxlenght={ 20 }
+                    maxLenght={ 20 }
                     />
                 </InputGroup>
-
                 <Form.Label visuallyHidden={ hideWarning }>Passwords don't match</Form.Label>
-
                 <Form.Check
                 type="switch"
                 label="Show password"
@@ -252,12 +248,12 @@ function ButtonSignUp(props){
     /* enables and disables "Log In" button */
     useEffect(() => {
         /* if username and password section is not empty and hash section is full, enable the button, else disable */
-        if(props.password.length === 0 || props.confirmPassword.length === 0 || props.username.length === 0 || props.hash.length !== 4 || props.password !== props.confirmPassword){
+        if(props.password.length === 0 || props.confirmPassword.length === 0 || props.username.length === 0 || props.tag.length !== 4 || props.password !== props.confirmPassword){
             setDisabled(true);
         }else{
             setDisabled(false);
         }
-    }, [props.password, props.username, props.hash, props.confirmPassword])
+    }, [props.password, props.username, props.tag, props.confirmPassword])
 
     return(
         <Button
