@@ -1,6 +1,7 @@
 import "../../assets/css/Body.sass";
 import React,{ useEffect, useState } from "react";
 import { useLocation, useNavigate } from 'react-router-dom';
+import Flex from "./components/flex";
 
 /**
  * @returns Body page
@@ -38,6 +39,7 @@ import { useLocation, useNavigate } from 'react-router-dom';
             <div className="Header2">
              <h5>RoomID: { roomID }</h5>
             </div>
+            <div className="flexie"><Flex /></div>
             <button className="back" onClick={ () => setgoToHome(true) }>Back</button>
         </div>
     );
