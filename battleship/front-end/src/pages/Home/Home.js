@@ -20,7 +20,7 @@ import * as io from "../../io-client-handler"
  */
 export default function Home() {
   const [isLoggedIn, setIsLoggedIn] = useState(false);
-  const [player, setPlayer] = useState(new Player);
+  const [player, setPlayer] = useState(new Player());
 
   const handleLogIn = () => setIsLoggedIn(true);
 
@@ -87,7 +87,7 @@ function Ships(){
     /* start animation */
     setStarted(!started);
     setDestroyerStarted(!destroyerStarted);
-  }, []);
+  }, []); // eslint-disable-line react-hooks/exhaustive-deps
 
   return(
     <>

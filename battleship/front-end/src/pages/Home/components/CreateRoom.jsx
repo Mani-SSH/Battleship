@@ -24,8 +24,8 @@ export default function CreateRoom() {
     const [showOpponentFound, setShowOpponentFound] = useState(false);         //"show" state of the modal "Opponent Found"
     const [roomID, setroomID] = useState("");                                  //id of room                         
     const [join, setJoin] = useState(false);                                   //"join" state given by the server
-    const [player, setPlayer] = useState("");                                //id of player 1
-    const [opponent, setOpponent] = useState("");                                //id of player 2
+    const [player, setPlayer] = useState("");                                  //id of player 1
+    const [opponent, setOpponent] = useState("");                              //id of player 2
     const navigate = useNavigate();
 
 
@@ -215,7 +215,6 @@ function ButtonCopy(props){
  */
 function ButtonJoin(props){
     const [buttonJoinDisabled, setButtonJoinDisabled] = useState(true);
-
 
     /* disables and enables join button */
     useEffect(() => {

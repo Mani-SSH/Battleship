@@ -34,6 +34,13 @@ mongoose.connect(dbUrl, (err) => {
 io.on('connection', (socket) => {
     console.log(`user connected with socket id: ${ socket.id }`);
 
+    /* INCOMPLETE */
+    /* listen to login request */
+    socket.on("request-login", (username, tag, password, fn) => {
+
+
+    })
+
     /* listen to event on a socket to generate roomID */
     socket.on('generate-roomID', (fn) => {
         /* create new room */
