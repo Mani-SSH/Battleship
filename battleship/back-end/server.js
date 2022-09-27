@@ -5,6 +5,8 @@ const { Server } = require("socket.io");
 
 const room = require("./room");
 
+const Mongoose_concat = require('./Mongoose');
+
 let rooms = new room.RoomList;
 
 /* port */
@@ -20,15 +22,6 @@ const io = new Server(httpServer,{
 });
 
 httpServer.listen(PORT);
-
-/* mongoDB connection */
-const dbUrl = 'mongodb+srv://ReDei:hridaya12345@cluster0.g5srtyf.mongodb.net/test';
-const mongoose = require('mongoose');
-
-/* INCOMPLETE */
-mongoose.connect(dbUrl, (err) => {
-    console.log('mongodb connected', err);
-})
 
 /* listen to event on a socket connection to server */
 io.on('connection', (socket) => {
@@ -111,3 +104,5 @@ io.on('connection', (socket) => {
         thisRoom.display();
     })
 })
+
+Mongoose_concat("manish","123","password");
