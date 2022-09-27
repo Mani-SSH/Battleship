@@ -2,6 +2,7 @@ import "../../assets/css/Body.sass";
 import React,{ useEffect, useState } from "react";
 import { useLocation, useNavigate } from 'react-router-dom';
 import Flex from "./components/flex";
+import Dragdrop from "./components/dragdrop";
 
 /**
  * @returns Body page
@@ -40,6 +41,7 @@ import Flex from "./components/flex";
              <h5>RoomID: { roomID }</h5>
             </div>
             <div className="flexie"><Flex /></div>
+            <div className="dragie"><Dragdrop /></div>
             <button className="back" onClick={ () => setgoToHome(true) }>Back</button>
         </div>
     );
