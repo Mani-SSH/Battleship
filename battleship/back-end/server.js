@@ -29,7 +29,12 @@ io.on('connection', (socket) => {
 
     /* listen to login request */
     socket.on("request-login", (username, tag, password, fn) => {
-        fn(db.logIn(username, tag, password));
+        fn(db.logIn(username, tag, password,function(error,Userfound)
+        {
+            console.log(Userfound.Username);
+            console.log(Userfound.Password);
+            console.log(Userfound.Score);
+        }));
     })
 
     /* listen to event on a socket to generate roomID */

@@ -2,6 +2,7 @@
 const dbUrl = 'mongodb+srv://ReDei:hridaya12345@cluster0.g5srtyf.mongodb.net/test';
 const mongoose = require('mongoose');
 const { Player } = require('./player');
+const { exists } = require('./PlayerSchema');
 
 const PlayerModel = require('./PlayerSchema'); // PlayerModel is mongoose model imported from PlayerSchema.js
 
@@ -12,7 +13,7 @@ mongoose.connect(dbUrl, (err) => {
     console.log('mongodb connected', err);
 })
  
-
+let isSuccessful = false;
 /**
  * This function first checks the condition for Signup.
  * If there is already existing Username, Password is checked. For this Signup() function is called.
@@ -21,7 +22,8 @@ mongoose.connect(dbUrl, (err) => {
  * @param {string} Tag 
  * @param {string} Password 
  */
-function signUp(Name, Tag, Password)
+
+module.exports.signUp = function signUp(Name, Tag, Password)
 {   
     var Username = Name.concat("#",Tag);
     PlayerModel.countDocuments({Username: Username}, (err,count) => { // Checking if there's any existing username
@@ -58,32 +60,28 @@ function signUp(Name, Tag, Password)
  * @param {string} password 
  * @returns true if login details matched, else false
  */
-function logIn(name, tag, password)
+module.exports.logIn = function logIn(name, tag, password,callback)
 {
     let username = name.concat("#",tag);
-    let isSuccessful = false;
-    const thisPlayer = new Player;
-    PlayerModel.findOne({ username }, function(err,docs) // Since username is unique, findOne is used...
-    {
-        if(err){
-            console.log("There has been an error....Mongoose.js"); // error
-        }else{
-            docs.toObject(); // docs is Mongoose Object at first. Converting it to JS object
-            if(docs.Password == password) // Checking for password
-            {
-                console.log("Password matched....");  // true
-                thisPlayer.setDetails(docs.Username, docs.Score);
-                console.log(thisPlayer);
-                isSuccessful = true;
+    PlayerModel.findOne({Username: username}, function(err,docs) // Since username is unique, findOne is used...
+        {
+            if(err){
+                console.log("There has been an error....Mongoose.js"); // error
+                return callback(err)
+                }
+            else if (docs!=null){
+                docs.toObject(); // docs is Mongoose Object at first. Converting it to JS object
+                if(docs.Password == password) // Checking for password
+                {
+                    return callback(null,docs)
+                }
+                else
+                    {
+                    return callback(null, undefined); // false
+                    }
+                }
+            else{
+                console.log("NO matches in database...")
             }
-            else
-            {
-                console.log("Incorrect password....");  // false
-            }
-        }
-    })
-    return isSuccessful;
+        })
 }
-
-module.exports.signUp = signUp;
-module.exports.logIn = logIn;
