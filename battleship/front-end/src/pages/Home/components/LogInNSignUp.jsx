@@ -56,10 +56,15 @@ function LogIn(props){
     /* handles event on "button clicked" */
     const handleLogInClicked = () => {
         /* emit a request to server to log in with given credentials */
-        io.socket.emit("request-login", username, tag, password, (isSuccessful) => {
-            console.log(isSuccessful);
+        io.socket.emit("request-login", username, tag, password, (err, user) => {
+            /* if any error occured */
+            if(err){
+                alert("Some error occured: ", err);
+                return;
+            }
+
             /* if login is not successful, alert the user */
-            if(!isSuccessful){
+            if(user == undefined){
                 alert("UserID or password is incorrect.");
             }else{
                 props.setIsLoggedIn(true);

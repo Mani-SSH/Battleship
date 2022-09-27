@@ -29,12 +29,16 @@ io.on('connection', (socket) => {
 
     /* listen to login request */
     socket.on("request-login", (username, tag, password, fn) => {
-        fn(db.logIn(username, tag, password,function(error,Userfound)
-        {
-            console.log(Userfound.Username);
-            console.log(Userfound.Password);
-            console.log(Userfound.Score);
-        }));
+        db.logIn(username, tag, password, (error, user) => {
+            /* if any error occurs or if password is wrong i.e. user is undefined */
+            if(error){
+                fn(error);
+                return;
+            }
+            
+            /* return user through callback */
+            fn(null, user);
+        });
     })
 
     /* listen to event on a socket to generate roomID */
