@@ -5,6 +5,8 @@ const { Player } = require('./player');
 
 const PlayerModel = require('./PlayerSchema'); // PlayerModel is mongoose model imported from PlayerSchema.js
 
+
+
 /* Connectiing mongoose server to Database */
 mongoose.connect(dbUrl, (err) => {
     console.log('mongodb connected', err);
@@ -51,24 +53,27 @@ function signUp(Name, Tag, Password)
 
 /**
  * checks if account with matching login details is in database
- * @param {string} Name 
- * @param {string} Tag 
- * @param {string} Password 
+ * @param {string} name 
+ * @param {string} tag 
+ * @param {string} password 
  * @returns true if login details matched, else false
  */
-function logIn(Name, Tag, Password)
+function logIn(name, tag, password)
 {
-    let Username = Name.concat("#",Tag);
+    let username = name.concat("#",tag);
     let isSuccessful = false;
-    PlayerModel.findOne({Username: Username}, function(err,docs) // Since username is unique, findOne is used...
+    const thisPlayer = new Player;
+    PlayerModel.findOne({ username }, function(err,docs) // Since username is unique, findOne is used...
     {
         if(err){
             console.log("There has been an error....Mongoose.js"); // error
         }else{
             docs.toObject(); // docs is Mongoose Object at first. Converting it to JS object
-            if(docs.Password == Password) // Checking for password
+            if(docs.Password == password) // Checking for password
             {
                 console.log("Password matched....");  // true
+                thisPlayer.setDetails(docs.Username, docs.Score);
+                console.log(thisPlayer);
                 isSuccessful = true;
             }
             else
