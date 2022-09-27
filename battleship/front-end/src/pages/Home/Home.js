@@ -32,7 +32,11 @@ export default function Home() {
     });
   }, [])
 
-  
+  useEffect(() => {
+    if(isLoggedIn){
+      console.log("player has logged in.")
+    }
+  }, [isLoggedIn])
   
   return (
     <div className="Home">
@@ -42,7 +46,7 @@ export default function Home() {
 
       <div className="topButton">
       <div id='log' className='sign'>
-        { (isLoggedIn)? <UserInfo />: <LogInNSignUp onLogIn={ handleLogIn } /> }
+        { (isLoggedIn)? <UserInfo />: <LogInNSignUp setIsLoggedIn={ setIsLoggedIn } /> }
       </div>
       </div>
 

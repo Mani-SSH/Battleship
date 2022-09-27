@@ -9,7 +9,7 @@ import "../../../assets/css/log.sass"
 
 import * as io from "../../../io-client-handler"
 
-export default function LogInNSignUp()
+export default function LogInNSignUp(props)
 {
     const [showLogIn, setShowLogIn] = useState(false);
     const [showSignUp, setShowSignUp] = useState(false);
@@ -29,6 +29,7 @@ export default function LogInNSignUp()
             <LogIn 
             show={ showLogIn }
             onHide={ handleCloseLogIn }
+            setIsLoggedIn={ props.setIsLoggedIn }
             />
             <SignUp
             show={ showSignUp }
@@ -56,9 +57,12 @@ function LogIn(props){
     const handleLogInClicked = () => {
         /* emit a request to server to log in with given credentials */
         io.socket.emit("request-login", username, tag, password, (isSuccessful) => {
+            console.log(isSuccessful);
             /* if login is not successful, alert the user */
             if(!isSuccessful){
                 alert("UserID or password is incorrect.");
+            }else{
+                props.setIsLoggedIn(true);
             }
         })
     }
@@ -130,7 +134,7 @@ function LogIn(props){
  * @returns Log In button
  */
 function ButtonLogIn(props){
-    const [isDisabled, setDisabled ] = useState(false);         //state of "Log In" button
+    const [ isDisabled, setDisabled ] = useState(false);         //state of "Log In" button
 
     /* enables and disables "Log In" button */
     useEffect(() => {
@@ -163,7 +167,7 @@ function SignUp(props){
     const handleToggleShowPassword = () => setShowPassword(!showPassword);
 
     const handleSignUpClicked = () => {
-
+        io.socket.emit("request-signup", username, tag, password);
     }
 
     useEffect(() => {

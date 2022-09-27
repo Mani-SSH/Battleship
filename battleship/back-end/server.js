@@ -3,13 +3,11 @@ const express = require('express');
 const { createServer } = require("http");
 const { Server } = require("socket.io");
 
-const room = require("./room");
+const { Room, RoomList } = require("./room");
 
-const Mongoose_func= require('./Mongoose');
-const Mongoose_logIn = Mongoose_func.logIn;
-const Mongoose_signUp = Mongoose_func.signUp; 
+const db = require('./mongoose-handler');
 
-let rooms = new room.RoomList;
+let rooms = new RoomList;
 
 /* port */
 let PORT = process.env.PORT||5000;
@@ -29,17 +27,15 @@ httpServer.listen(PORT);
 io.on('connection', (socket) => {
     console.log(`user connected with socket id: ${ socket.id }`);
 
-    /* INCOMPLETE */
     /* listen to login request */
     socket.on("request-login", (username, tag, password, fn) => {
-
-
+        fn(db.logIn(username, tag, password));
     })
 
     /* listen to event on a socket to generate roomID */
     socket.on('generate-roomID', (fn) => {
         /* create new room */
-        var thisRoom = new room.Room;
+        var thisRoom = new Room;
         console.log(`\nnew room: ${ thisRoom.elements.roomID } generated\n`);
 
         /* add room to the list */
@@ -106,5 +102,3 @@ io.on('connection', (socket) => {
         thisRoom.display();
     })
 })
-
-Mongoose_signUp("hridaya","123","omaewa mou shinderu");
