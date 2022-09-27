@@ -10,33 +10,24 @@ mongoose.connect(dbUrl, (err) => {
     console.log('mongodb connected', err);
 })
  
-/* function to concat the usernames*/
-function Mongoose_concat(name,tag,password)
-{
-    var Username = name.concat("#",tag);
-    SignUp(Username,password);
-}
-
-
 /*
 This function first checks the condition for Signup.
 If there is already existing Username, Password is checked. For this Signup() function is called.
 If there isn't any, Username and Password will be added to DB with default score 0
 */
-function SignUp(Username, Password)
-{
+function signUp(Name, Tag, Password)
+{   
+    var Username = Name.concat("#",Tag);
     PlayerModel.countDocuments({Username: Username},function(err,count) // Checking if there's any existing username
     {
         if(count>0) // condition for existing username
         {
         console.log("Username already exits....");
-        console.log("checking for password.....");
-        LogIn(Username,Password); // LogIn function is called....
         }
     else
     {
-        ImportInfo(Username,Password); // async function is called
-        async function ImportInfo(Username,Password) // for storing data, async function is needed.
+        importInfo(Username,Password); // async function is called
+        async function importInfo(Username,Password) // for storing data, async function is needed.
         {
             try{
                 const Usermodel = PlayerModel(); // creating an object of Model
@@ -54,8 +45,9 @@ function SignUp(Username, Password)
 })
 }
 
-function LogIn(Username,Password)  // called from SignUp()
+function logIn(Name, Tag, Password)  // called from SignUp()
 {
+    var Username = Name.concat("#",Tag);
     PlayerModel.findOne({Username: Username}, function(err,docs) // Since username is unique, findOne is used...
     {
         if(err)
@@ -77,4 +69,5 @@ function LogIn(Username,Password)  // called from SignUp()
     })
 }
 
-module.exports = Mongoose_concat;
+module.exports.signUp = signUp;
+module.exports.logIn = logIn;

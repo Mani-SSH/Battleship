@@ -5,7 +5,9 @@ const { Server } = require("socket.io");
 
 const room = require("./room");
 
-const Mongoose_concat = require('./Mongoose');
+const Mongoose_func= require('./Mongoose');
+const Mongoose_logIn = Mongoose_func.logIn;
+const Mongoose_signUp = Mongoose_func.signUp; 
 
 let rooms = new room.RoomList;
 
@@ -105,4 +107,4 @@ io.on('connection', (socket) => {
     })
 })
 
-Mongoose_concat("manish","123","password");
+Mongoose_signUp("hridaya","123","omaewa mou shinderu");
