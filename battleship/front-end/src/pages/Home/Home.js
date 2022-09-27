@@ -19,24 +19,8 @@ import * as io from "../../io-client-handler"
  * @returns Home page
  */
 export default function Home() {
-  const [isLoggedIn, setIsLoggedIn] = useState(false);
   const [player, setPlayer] = useState(new Player());
-
-  const handleLogIn = () => setIsLoggedIn(true);
-
-  useEffect(() => {
-     /* get player info */
-     io.socket.emit("get-player", (player) => {
-      setPlayer(player);
-      console.log(player);
-    });
-  }, [])
-
-  useEffect(() => {
-    if(isLoggedIn){
-      console.log("player has logged in.")
-    }
-  }, [isLoggedIn])
+  const [isLoggedIn, setIsLoggedIn] = useState(false);
   
   return (
     <div className="Home">
@@ -46,7 +30,7 @@ export default function Home() {
 
       <div className="topButton">
       <div id='log' className='sign'>
-        { (isLoggedIn)? <UserInfo />: <LogInNSignUp setIsLoggedIn={ setIsLoggedIn } /> }
+        { (isLoggedIn)? <UserInfo player={ player } />: <LogInNSignUp setPlayer={ setPlayer } setIsLoggedIn={ setIsLoggedIn } /> }
       </div>
       </div>
 

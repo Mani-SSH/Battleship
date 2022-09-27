@@ -29,11 +29,14 @@ export default function LogInNSignUp(props)
             <LogIn 
             show={ showLogIn }
             onHide={ handleCloseLogIn }
+            setPlayer={ props.setPlayer }
             setIsLoggedIn={ props.setIsLoggedIn }
             />
             <SignUp
             show={ showSignUp }
             onHide={ handleCloseSignUp }
+            setPlayer={ props.setPlayer }
+            setIsLoggedIn={ props.setIsLoggedIn }
             />
         </>
     )
@@ -64,9 +67,11 @@ function LogIn(props){
             }
 
             /* if login is not successful, alert the user */
+            // eslint-disable-next-line
             if(user == undefined){
                 alert("UserID or password is incorrect.");
             }else{
+                props.setPlayer(user);
                 props.setIsLoggedIn(true);
             }
         })
