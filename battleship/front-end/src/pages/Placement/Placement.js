@@ -20,17 +20,17 @@ import Dragdrop from "./components/dragdrop";
             navigate("/");
         }
     }
-    
+
     useEffect(() => {
         onLoad();
-    }, [])
+    }, []) // eslint-disable-line react-hooks/exhaustive-deps
 
 
     useEffect(() => {
         if(goToHome) {
             navigate("/");
         }
-    }, [goToHome])
+    }, [goToHome]) // eslint-disable-line react-hooks/exhaustive-deps
 
     return (
         <div className="Body">
