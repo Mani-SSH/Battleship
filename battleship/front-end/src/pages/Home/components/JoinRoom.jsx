@@ -3,7 +3,6 @@ import Modal from 'react-bootstrap/Modal';
 import Spinner from 'react-bootstrap/Spinner';
 
 export default function JoinRoom(props){
-
     return(
         <Modal
         show={ props.show }

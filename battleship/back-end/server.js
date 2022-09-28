@@ -145,8 +145,6 @@ io.on('connection', (socket) => {
         thisRoom.readyPlayer();
 
         socket.to(roomID).emit("oppponent-ready");
-
-        console.log("A player is ready...");
     })
 
     socket.on("leave-room", (roomID) => {

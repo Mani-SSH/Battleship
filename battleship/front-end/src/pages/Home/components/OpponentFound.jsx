@@ -1,12 +1,17 @@
 import Modal from 'react-bootstrap/Modal';
 import Button from 'react-bootstrap/Button';
 import Spinner from 'react-bootstrap/Spinner';
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import * as io from "../../../io-client-handler";
 
 export default function OpponentFound(props){
     const [ready, setReady] = useState(false);
     const [opponentReady, setOpponentReady] = useState(false);
+
+    const reset = () => {
+        setReady(false)
+        setOpponentReady(false)
+    }
 
     const handleReadyClicked = () => {
         setReady(true);
@@ -14,15 +19,26 @@ export default function OpponentFound(props){
     }
 
     io.socket.off("oppponent-ready").on("oppponent-ready", () => {
-        console.log("Opponent is ready...");
-        setOpponentReady(true);
+        console.log("Opponent is ready...")
+        setOpponentReady(true)
     })
+
+    /* when both players ready go to next page */
+    useEffect(() => {
+        if(ready && opponentReady){
+            setTimeout(() => {
+                props.handleGoToNextPage()
+                reset()
+            }, 3000);
+            
+        }
+    }, [ready, opponentReady]) // eslint-disable-line react-hooks/exhaustive-deps
 
     return(
         <Modal
         show={ props.show }
         onHide={ props.onHide }
-        size="sm"
+        size="md"
         backdrop="static"
         keyboard="false"
         centered>

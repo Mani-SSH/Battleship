@@ -29,6 +29,8 @@ export default function CreateRoom(props) {
     const navigate = useNavigate();
 
 
+    
+
     /* resets the modal */
     const reset = () => {
         setShowCreateRoom(false);
@@ -114,8 +116,6 @@ export default function CreateRoom(props) {
     io.socket.off("lobby-full").on("lobby-full", () => {
         console.log("Lobby is full. Now starting...");
 
-        const playerID = (props.isLoggedIn)? props.playerID: io.socket.id;
-
         io.socket.emit("get-opponentID", roomID, playerID, (playerID, opponentID) => {
             setPlayerID(playerID);
             setOpponentID(opponentID);
@@ -128,6 +128,13 @@ export default function CreateRoom(props) {
         handleShowOpponentFound();
     })
 
+    useEffect(() => {
+        if(props.isLoggedIn){
+            setPlayerID(props.playerID)
+        }else{
+            setPlayerID(io.socket.id)
+        }
+    }, [props.isLoggedIn]) // eslint-disable-line react-hooks/exhaustive-deps
 
     /* shows join room */
     useEffect(() => {
@@ -189,7 +196,7 @@ export default function CreateRoom(props) {
             roomID={ roomID }
             playerID={ playerID }
             opponentID={ opponentID }
-            onReady={ handleGoToNextPage }
+            handleGoToNextPage={ handleGoToNextPage }
             />
         </div>
     );
