@@ -3,7 +3,7 @@ const express = require('express');
 const { createServer } = require("http");
 const { Server } = require("socket.io");
 
-const { Room, RoomList } = require("./room");
+const { Room, RoomList } = require("./classes/room");
 
 const db = require('./mongoose-handler');
 
