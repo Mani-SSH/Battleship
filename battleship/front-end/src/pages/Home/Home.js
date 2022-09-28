@@ -13,7 +13,7 @@ import submarine from "../../assets/images/Home/submarine.png";
 import play from "../../assets/images/Home/play.png";
 import Music from "./components/sound";
 import Player from "../../player";
-import * as io from "../../io-client-handler"
+
 /**
  *
  * @returns Home page
@@ -39,7 +39,7 @@ export default function Home() {
       </div>
       <div className="iinfo"><Info /></div>
       <div className="auidoo"><Music /></div>
-      <div className="crRoom"><CreateRoom /></div>
+      <div className="crRoom"><CreateRoom playerID={ player.id } isLoggedIn={ isLoggedIn }/></div>
       <div className="background">
         <Waves />
         <Ships />

@@ -18,14 +18,14 @@ import "../../../assets/css/CreateRoom.sass"
 /**
  * @returns Modal when "create room" button is clicked
  */
-export default function CreateRoom() {
+export default function CreateRoom(props) {
     const [showCreateRoom, setShowCreateRoom] = useState(false);               //'show' state of the modal
     const [showJoinRoom, setShowJoinRoom] = useState(false);                   //'show' state of the modal "Joining Room"
     const [showOpponentFound, setShowOpponentFound] = useState(false);         //"show" state of the modal "Opponent Found"
     const [roomID, setroomID] = useState("");                                  //id of room                         
     const [join, setJoin] = useState(false);                                   //"join" state given by the server
-    const [player, setPlayer] = useState("");                                  //id of player 1
-    const [opponent, setOpponent] = useState("");                              //id of player 2
+    const [opponentID, setOpponentID] = useState("");                          //id of opponent
+    const [playerID, setPlayerID] = useState("");
     const navigate = useNavigate();
 
 
@@ -48,8 +48,10 @@ export default function CreateRoom() {
 
 
     const handleJoin = () => {                                 //handler for when the "join" button is clicked
+        setPlayerID(props.playerID)
+
         /* emit an event to join the room with given roomID */
-        io.socket.emit('join-room', roomID, (isFound, hasJoined) => {
+        io.socket.emit('join-room', roomID, props.isLoggedIn, playerID, (isFound, hasJoined) => {
             if(isFound){
                 /* if player has joined */
                 if(hasJoined){
@@ -109,12 +111,18 @@ export default function CreateRoom() {
 
 
     /* if "lobby-full" signal received from server, go to next page */
-    io.socket.off("lobby-full").on("lobby-full", (player1, player2) => {
+    io.socket.off("lobby-full").on("lobby-full", () => {
         console.log("Lobby is full. Now starting...");
 
-        /* get id of both players */
-        setPlayer(player);
-        setOpponent(player2);
+        const playerID = (props.isLoggedIn)? props.playerID: io.socket.id;
+
+        io.socket.emit("get-opponentID", roomID, playerID, (playerID, opponentID) => {
+            setPlayerID(playerID);
+            setOpponentID(opponentID);
+        });
+
+        /* close modal "Join Room" */
+        handleCloseJoinRoom();
 
         /* show modal "Opponent Found" */
         handleShowOpponentFound();
@@ -175,10 +183,12 @@ export default function CreateRoom() {
 
             <OpponentFound
             isCustom
+            isLoggedIn={ props.isLoggedIn }
             show={ showOpponentFound }
             onHide={ handleCloseOpponentFound }
-            player={ player }
-            player2={ opponent }
+            roomID={ roomID }
+            playerID={ playerID }
+            opponentID={ opponentID }
             onReady={ handleGoToNextPage }
             />
         </div>

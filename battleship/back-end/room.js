@@ -22,28 +22,33 @@ class Room{
       this.elements = {
          roomID: makeRoomID(),
          player_count: 0,
-         players: []
+         players: [],
+         ready_count: 0
       }
       this.next = null;
    }
 
    /**
-    * @returns true if the rooom is full, else false
+    * @returns true if the room is full, else false
     */
    isFull(){
-      return (this.elements.player_count >= MAX_PLAYER_PER_ROOM)? true: false;
+      return (this.elements.player_count >= MAX_PLAYER_PER_ROOM);
+   }
+
+   isReady(){
+      return (this.elements.ready_count == 2);
    }
 
    /**
     * takes socket id of user and pushs it to players array
-    * @param {string} sockedID
+    * @param {string} userID
     * @returns true if new player has been added successfully, else false
     */
-   addPlayer(sockedID){
+   addPlayer(userID){
       if(this.isFull()){
          return false;
       }else{
-         this.elements.players.push(sockedID);
+         this.elements.players.push(userID);
          this.elements.player_count++;
          this.display();
          return true;
@@ -51,12 +56,15 @@ class Room{
    }
 
 
-   removePlayer(sockedID){
-      this.elements.players = this.elements.players.filter((value) => {return value != sockedID});
+   removePlayer(userID){
+      this.elements.players = this.elements.players.filter((value) => {return value != userID});
       this.elements.player_count--;
    }
 
 
+   readyPlayer(){
+      this.elements.ready_count++;
+   }
 
    /**
     * displays elements of room

@@ -1,15 +1,22 @@
 import Modal from 'react-bootstrap/Modal';
 import Button from 'react-bootstrap/Button';
-import { useEffect, useState } from 'react';
+import Spinner from 'react-bootstrap/Spinner';
+import { useState } from 'react';
 import * as io from "../../../io-client-handler";
 
 export default function OpponentFound(props){
-    const [clicked, setClicked] = useState(false);
+    const [ready, setReady] = useState(false);
+    const [opponentReady, setOpponentReady] = useState(false);
 
     const handleReadyClicked = () => {
-        setClicked(true);
-        io.socket.emit("player-ready");
+        setReady(true);
+        io.socket.emit("player-ready", props.roomID);
     }
+
+    io.socket.off("oppponent-ready").on("oppponent-ready", () => {
+        console.log("Opponent is ready...");
+        setOpponentReady(true);
+    })
 
     return(
         <Modal
@@ -23,7 +30,16 @@ export default function OpponentFound(props){
                 <Modal.Title>Opponent Found</Modal.Title>
             </Modal.Header>
             <Modal.Body>
-                { (clicked)? <PlayerReady player1={ props.player1 } player2={ props.player2 }/> : <Button onClick={ handleReadyClicked }>Ready</Button> }
+                { 
+                    (ready)? 
+                    <PlayerReady 
+                    playerID={ props.playerID } 
+                    opponentID={ props.opponentID }
+                    playerReady={ ready }
+                    opponentReady={ opponentReady }
+                    /> :
+                    <Button onClick={ handleReadyClicked }>Ready</Button>
+                }
             </Modal.Body>
         </Modal>
     )
@@ -31,14 +47,10 @@ export default function OpponentFound(props){
 
 
 function PlayerReady(props){
-    const player1 = {
-        id: props.player1,
-        
-    }
     return(
         <div>
-            <h1>Player 1: </h1>
-            <h1>Player 2: </h1>
+            <h1>{ props.playerID }  { (props.playerReady)? <>Ready</> : <Spinner /> }</h1>
+            <h1>{ props.opponentID }    { (props.opponentReady)? <>Ready</> : <Spinner /> }</h1>
         </div>
     )
 }

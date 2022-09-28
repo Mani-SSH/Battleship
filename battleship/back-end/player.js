@@ -8,6 +8,7 @@ class Player{
         this.name = name;
         this.tag = tag;
         this.score = score;
+        this.id = this.name.concat('#', this.tag);
     }
 
     /**
@@ -19,6 +20,7 @@ class Player{
         this.name = UserID.slice(0, (UserID.length - 5));
         this.tag = UserID.slice((UserID.length - 4), UserID.length )
         this.score = score;
+        this.id = this.name.concat('#', this.tag);
     }
 }
 

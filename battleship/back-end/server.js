@@ -28,21 +28,21 @@ io.on('connection', (socket) => {
     console.log(`user connected with socket id: ${ socket.id }`);
 
     /* listen to login request */
-    socket.on("request-login", (username, tag, password, fn) => {
+    socket.on("request-login", (username, tag, password, giveUserDetails) => {
         db.logIn(username, tag, password, (error, user) => {
             /* if any error occurs or if password is wrong i.e. user is undefined */
             if(error){
-                fn(error);
+                giveUserDetails(error);
                 return;
             }
             
             /* return user through callback */
-            fn(null, user);
+            giveUserDetails(null, user);
         });
     })
 
     /* listen to event on a socket to generate roomID */
-    socket.on('generate-roomID', (fn) => {
+    socket.on('generate-roomID', (giveRoomID) => {
         /* create new room */
         var thisRoom = new Room;
         console.log(`\nnew room: ${ thisRoom.elements.roomID } generated\n`);
@@ -57,52 +57,96 @@ io.on('connection', (socket) => {
                 console.log(`Room removed due to inactivity: ${ thisRoom.elements.roomID }`);
                 clearInterval(removeInactiveRoom);
             }
-        }, 30000)
+        }, 300000)
 
-        fn(thisRoom.elements.roomID);
+        giveRoomID(thisRoom.elements.roomID);
     })
 
     /* INCOMPLETE */
-    socket.on('join-room', (roomID, fn) => {
+    socket.on('join-room', (roomID, isLoggedIn, playerID, fn) => {
         let hasJoined = false;                  //state of player if joined
         let isFound = false;                    //state of room if found
 
-        /* if room list is not empty */
-        if(!rooms.isEmpty()){
-            /* get room of the given roomID */
-            let thisRoom = rooms.getRoom(roomID);
-
-            /* check if room was found */
-            if(thisRoom != undefined){
-                /* set isFound true */
-                isFound = true;
-
-                /* check if room is full */
-                if (thisRoom.isFull()){
-                    /* player cannot join */
-                    hasJoined = false;
-                }else{
-                    /* add user to room in room list */
-                    if(thisRoom.addPlayer(socket.id)){
-                        /* player can join */
-                        hasJoined = true;
-
-                        /* join room */
-                        socket.join(roomID);
-
-                        /* send message */
-                        const msg = socket.id + " joined room: " + roomID;
-                        console.log(msg);
-
-                        /* if room gets full emit a message to another user */
-                        if(thisRoom.isFull()){
-                            io.sockets.to(roomID).emit("lobby-full", thisRoom.elements.players[0], thisRoom.elements.players[1]);
-                        }
-                    }
-                }
-            }
+        /* if room list is empty */
+        if(rooms.isEmpty()){
+            fn(isFound, hasJoined)
+            return;
         }
-        fn(isFound, hasJoined);
+
+        /* get room of the given roomID */
+        let thisRoom = rooms.getRoom(roomID);
+
+        /* if room is not found */
+        if(thisRoom == undefined){
+            fn(isFound, hasJoined);
+            return;
+        }
+
+        isFound = true;
+
+        /* if room is full */
+        if (thisRoom.isFull()){
+            fn(isFound, hasJoined);
+            return;
+        }
+
+        const id = (isLoggedIn)? playerID: socket.id;
+
+        /* add user to room in room list */
+        if(thisRoom.addPlayer(id)){
+            /* player can join */
+            hasJoined = true;
+
+            /* join room */
+            socket.join(roomID);
+
+            /* send message */
+            const msg = id + " joined room: " + roomID;
+            console.log(msg);
+
+            fn(isFound, hasJoined);
+        }
+
+        /* if room gets full emit a message to another user */
+        if(thisRoom.isFull()){
+            io.sockets.to(roomID).emit("lobby-full");            
+        }
+    })
+
+    socket.on("get-opponentID", (roomID, playerID, giveID) => {
+        const thisRoom = rooms.getRoom(roomID);
+
+        let playerID1 = thisRoom.elements.players[0];
+        let playerID2 = thisRoom.elements.players[1];
+
+        /* if playing through socket id, assign them guest names */
+        if(playerID1.length == 20){
+            playerID1 = "Guest1";
+        }
+
+        if(playerID2.length == 20){
+            playerID2 = "Guest2";
+        }
+
+        /* get id of opponent */
+        let opponentID = "";
+        if(playerID == thisRoom.elements.players[0]){
+            opponentID = playerID2;
+            playerID = playerID1;
+        }else{
+            opponentID = playerID1;
+            playerID = playerID2;
+        }
+        giveID(playerID, opponentID);
+    })
+
+    socket.on("player-ready", (roomID) => {
+        const thisRoom = rooms.getRoom(roomID);
+        thisRoom.readyPlayer();
+
+        socket.to(roomID).emit("oppponent-ready");
+
+        console.log("A player is ready...");
     })
 
     socket.on("leave-room", (roomID) => {
