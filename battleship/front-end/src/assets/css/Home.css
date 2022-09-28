@@ -1,0 +1,206 @@
+/* section{
+  background-color: #002A69;
+  width: 100%;
+  height: 100vh;
+}
+
+
+
+.Home-header h1{
+  font-family: "Rockwell";
+  font-weight: bolder;
+  text-align: center;
+  position: relative;
+  font-size: 70px;
+  top: 90px;
+  color: white;
+}
+
+.topButton{
+  position:absolute;
+  display: inline-flex;
+  left: 70%;
+  top: 20px;
+}
+
+.waves
+{
+  width: 100vw;
+}
+
+.wave1
+{
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  width: 100%;
+  height: 60vh;
+  background: url(C:\Users\Dell\Desktop\Battleship\Battleship\battleship\front-end\src\photos\wave1.png);
+}
+
+.wave2
+{
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  width: 100%;
+  height: 40vh;
+  background: url(C:\Users\Dell\Desktop\Battleship\Battleship\battleship\front-end\src\photos\wave2.png);
+}
+
+.wave3
+{
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  width: 100%;
+  height: 20vh;
+  background: url(C:\Users\Dell\Desktop\Battleship\Battleship\battleship\front-end\src\photos\wave3.png);
+}
+
+.wave4
+{
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  width: 100%;
+  height: 10vh;
+  background: url(C:\Users\Dell\Desktop\Battleship\Battleship\battleship\front-end\src\photos\Path 432.png);
+}
+
+.submarine
+{
+  position: absolute;
+  bottom: 100px;
+  left: 0;
+  
+  background: url(C:\Users\Dell\Desktop\Battleship\Battleship\battleship\front-end\src\photos\submarine.png);
+}
+
+.button-basic{
+  width: 270px;
+  text-align: center;
+  text-transform: uppercase;
+  font-weight: 700;
+  cursor: pointer;
+  background-color: black;
+  border: 2px solid #00d7c3;
+  border-radius: 20px;
+  -webkit-transition: all .15s ease-in-out;
+  transition: all .15s ease-in-out;
+  color: #00d7c3;
+	display: inline-block;
+  margin-bottom: 20px;
+  position: relative;
+  top: 200px;
+  left: 50%;
+  -ms-transform: translate(-50%, -50%);
+  transform: translate(-50%, -50%);
+  padding: 10px;
+  font-size: 30px;
+}
+.button-basic:hover
+{
+  box-shadow: 0 0 5px 0 #00d7c3 inset, 0 0 10px 1px #00d7c3;
+  border: 2px solid #00d7c3;
+}
+.button-basic1{
+	width: 280px;
+  text-align: center;
+  text-transform: uppercase;
+  font-weight: 500;
+  cursor: pointer;
+  background-color: rgb(17, 9, 90);
+  border: 2px solid #17c3cf;
+  border-radius: 20px;
+  -webkit-transition: all .15s ease-in-out;
+  transition: all .15s ease-in-out;
+  color: #e0bbcc;
+	display: inline-block;
+  position: relative;
+  top: 200px;
+  left: 50%;
+  -ms-transform: translate(-50%, -50%);
+  transform: translate(-50%, -50%);
+  padding: 5px;
+  font-size: 25px;
+}
+.button-basic1:hover
+{
+  box-shadow: 0 0 5px 0 #00d7c3 inset, 0 0 10px 1px #ba222c;
+  border: 2px solid #e90699;
+}
+
+.logg
+{
+  width: 130px;
+  text-align: center;
+  text-transform: uppercase;
+  font-weight: 400;
+  cursor: pointer;
+  background-color: #3ACB6A;
+  border: 2px solid #100a59;
+  border-radius: 10px;
+  -webkit-transition: all .15s ease-in-out;
+  transition: all .15s ease-in-out;
+  color: #f7f7f7;
+  padding: 5px;
+  font-size: 15px;
+}
+.logg:hover
+{
+  box-shadow: 5px 5px 0 rgb(24, 27, 25);
+  transform: translate(-4px,-4px);
+}
+
+.logg1
+{
+  width: 130px;
+  text-align: center;
+  text-transform: uppercase;
+  font-weight: 400;
+  cursor: pointer;
+  background-color: white;
+  border: 2px solid #100a59;
+  border-radius: 10px;
+  -webkit-transition: all .15s ease-in-out;
+  transition: all .15s ease-in-out;
+  color:black;
+  padding: 5px;
+  font-size: 15px;
+}
+.logg1:hover
+{
+  box-shadow: 5px 5px 0 rgb(24, 27, 25);
+  transform: translate(-4px,-4px);
+}
+
+
+.button-info{
+  width: 130px;
+  text-align: center;
+  text-transform: uppercase;
+  font-weight: 400;
+  cursor: pointer;
+  background-color: white;
+  border: 2px solid #100a59;
+  border-radius: 10px;
+  -webkit-transition: all .15s ease-in-out;
+  transition: all .15s ease-in-out;
+  color:black;
+  padding: 5px;
+  font-size: 15px;
+
+}
+.button-info:hover
+{
+  box-shadow: 5px 5px 0 rgb(24, 27, 25);
+  transform: translate(-4px,-4px);
+}
+.button-info:focus-visible{
+  outline-offset: 1px;
+}
+
+
+
+ */
