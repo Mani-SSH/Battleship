@@ -143,8 +143,13 @@ io.on('connection', (socket) => {
     socket.on("player-ready", (roomID) => {
         const thisRoom = rooms.getRoom(roomID);
         thisRoom.readyPlayer();
-
         socket.to(roomID).emit("oppponent-ready");
+    })
+
+    socket.on("remove-players", (roomID) => {
+        const thisRoom = rooms.getRoom(roomID)
+        thisRoom.removePlayers()
+        thisRoom.display()
     })
 
     socket.on("leave-room", (roomID) => {

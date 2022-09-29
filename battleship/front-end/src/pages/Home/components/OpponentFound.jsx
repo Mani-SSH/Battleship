@@ -16,6 +16,12 @@ export default function OpponentFound({show, onHide, roomID, playerID, opponentI
         io.socket.emit("player-ready", roomID);
     }
 
+    const handleOnCountdownEnd = () => {
+        console.log("Both players didn't join. Removing from room")
+        io.socket.emit("remove-players", roomID);
+        onCountdownEnd();
+    }
+
     io.socket.off("oppponent-ready").on("oppponent-ready", () => {
         console.log("Opponent is ready...")
         setOpponentReady(true)
@@ -33,7 +39,7 @@ export default function OpponentFound({show, onHide, roomID, playerID, opponentI
                 <Modal.Title>Opponent Found</Modal.Title>
             </Modal.Header>
             <Modal.Body>
-                <h3>{!(ready && opponentReady)? <Countdown counter={ 10 } onEnd={ onCountdownEnd } /> : <></> }</h3>
+                <h3>{!(ready && opponentReady)? <Countdown counter={ 10 } onEnd={ handleOnCountdownEnd } /> : <></> }</h3>
                 { 
                     (ready)? 
                     <PlayerReady 

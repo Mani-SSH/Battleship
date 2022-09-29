@@ -62,6 +62,12 @@ class Room{
    }
 
 
+   removePlayers(){
+      this.elements.count = 0
+      this.elements.players = []
+   }
+
+
    readyPlayer(){
       this.elements.ready_count++;
    }
