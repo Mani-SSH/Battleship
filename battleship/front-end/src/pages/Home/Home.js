@@ -46,7 +46,7 @@ export default function Home() {
         </div>
         <div className="iinfo"><Info /></div>
         <div className="auidoo"><Music /></div>
-        <div className="crRoom"><CreateRoom playerID={ player.id } isLoggedIn={ isLoggedIn }/></div>
+        <div className="crRoom"><CreateRoom /></div>
       </LoggedInUpdateContext.Provider>
       </LoggedInContext.Provider>
       </PlayerUpdateContext.Provider>

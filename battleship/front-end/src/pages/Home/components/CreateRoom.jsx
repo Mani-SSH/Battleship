@@ -19,7 +19,7 @@ import { LoggedInContext, PlayerContext } from '../Home';
 /**
  * @returns Modal when "create room" button is clicked
  */
-export default function CreateRoom(props) {
+export default function CreateRoom() {
     const [showCreateRoom, setShowCreateRoom] = useState(false);               //'show' state of the modal
     const [showJoinRoom, setShowJoinRoom] = useState(false);                   //'show' state of the modal "Joining Room"
     const [showOpponentFound, setShowOpponentFound] = useState(false);         //"show" state of the modal "Opponent Found"
@@ -51,10 +51,10 @@ export default function CreateRoom(props) {
 
 
     const handleJoin = () => {                                 //handler for when the "join" button is clicked
-        setPlayerID(props.playerID)
+        setPlayerID(player.id)
 
         /* emit an event to join the room with given roomID */
-        io.socket.emit('join-room', roomID, props.isLoggedIn, playerID, (isFound, hasJoined) => {
+        io.socket.emit('join-room', roomID, isLoggedIn, playerID, (isFound, hasJoined) => {
             if(isFound){
                 /* if player has joined */
                 if(hasJoined){
