@@ -197,6 +197,7 @@ export default function CreateRoom(props) {
             playerID={ playerID }
             opponentID={ opponentID }
             handleGoToNextPage={ handleGoToNextPage }
+            onCountdownEnd={ reset }
             />
         </div>
     );
