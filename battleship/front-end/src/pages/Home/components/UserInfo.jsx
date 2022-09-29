@@ -1,12 +1,16 @@
-export default function UserInfo(props)
+import { useContext } from "react"
+import { PlayerContext } from "../Home"
+
+export default function UserInfo()
 {
+    const player = useContext(PlayerContext);
     return(
         <div>
-        <h3>Name: { props.player.name }</h3>
+        <h3>Name: { player.name }</h3>
         <br/>
-        <h4>UID: { props.player.name.concat("#", props.player.tag) }</h4>
+        <h4>UID: { player.name.concat("#", player.tag) }</h4>
         <br/>
-        <h3>Score: { props.player.score }</h3>
+        <h3>Score: { player.score }</h3>
         </div>
     )
 }

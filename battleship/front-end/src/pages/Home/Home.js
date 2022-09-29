@@ -14,8 +14,12 @@ import play from "../../assets/images/Home/play.png";
 import Music from "./components/sound";
 import Player from "../../player";
 
+export const PlayerContext = React.createContext()
+export const PlayerUpdateContext = React.createContext()
+export const LoggedInContext = React.createContext()
+export const LoggedInUpdateContext = React.createContext()
+
 /**
- *
  * @returns Home page
  */
 export default function Home() {
@@ -27,19 +31,26 @@ export default function Home() {
       <div className="Header">
         <h1>BATTLESHIP</h1>
       </div>
+      <PlayerContext.Provider value={ player }> 
+      <PlayerUpdateContext.Provider value={ setPlayer }>
+      <LoggedInContext.Provider value={ isLoggedIn }>
+      <LoggedInUpdateContext.Provider value={ setIsLoggedIn }>
+        <div className="topButton">
+        <div id='log' className='sign'>
+          { (isLoggedIn)? <UserInfo/>: <LogInNSignUp/> }
+        </div>
+        </div>
 
-      <div className="topButton">
-      <div id='log' className='sign'>
-        { (isLoggedIn)? <UserInfo player={ player } />: <LogInNSignUp setPlayer={ setPlayer } setIsLoggedIn={ setIsLoggedIn } /> }
-      </div>
-      </div>
-
-      <div className="playButton">
-        <img src={play} alt="play" />
-      </div>
-      <div className="iinfo"><Info /></div>
-      <div className="auidoo"><Music /></div>
-      <div className="crRoom"><CreateRoom playerID={ player.id } isLoggedIn={ isLoggedIn }/></div>
+        <div className="playButton">
+          <img src={play} alt="play" />
+        </div>
+        <div className="iinfo"><Info /></div>
+        <div className="auidoo"><Music /></div>
+        <div className="crRoom"><CreateRoom playerID={ player.id } isLoggedIn={ isLoggedIn }/></div>
+      </LoggedInUpdateContext.Provider>
+      </LoggedInContext.Provider>
+      </PlayerUpdateContext.Provider>
+      </PlayerContext.Provider> 
       <div className="background">
         <Waves />
         <Ships />

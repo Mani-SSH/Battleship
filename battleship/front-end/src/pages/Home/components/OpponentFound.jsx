@@ -4,13 +4,16 @@ import Spinner from 'react-bootstrap/Spinner';
 import { useEffect, useState } from 'react';
 import * as io from "../../../io-client-handler";
 
-export default function OpponentFound(props){
+/**
+ * Oppponent found modal
+ */
+export default function OpponentFound({show, onHide, roomID, playerID, opponentID, handleGoToNextPage, onCountdownEnd}){
     const [ready, setReady] = useState(false);
     const [opponentReady, setOpponentReady] = useState(false);
 
     const handleReadyClicked = () => {
         setReady(true);
-        io.socket.emit("player-ready", props.roomID);
+        io.socket.emit("player-ready", roomID);
     }
 
     io.socket.off("oppponent-ready").on("oppponent-ready", () => {
@@ -20,8 +23,8 @@ export default function OpponentFound(props){
 
     return(
         <Modal
-        show={ props.show }
-        onHide={ props.onHide }
+        show={ show }
+        onHide={ onHide }
         size="md"
         backdrop="static"
         keyboard="false"
@@ -30,20 +33,17 @@ export default function OpponentFound(props){
                 <Modal.Title>Opponent Found</Modal.Title>
             </Modal.Header>
             <Modal.Body>
+                <h3><Countdown counter={ 10 } onEnd={ onCountdownEnd } /></h3>
                 { 
                     (ready)? 
                     <PlayerReady 
-                    playerID={ props.playerID } 
-                    opponentID={ props.opponentID }
+                    playerID={ playerID } 
+                    opponentID={ opponentID }
                     playerReady={ ready }
                     opponentReady={ opponentReady }
-                    handleGoToNextPage={ props.handleGoToNextPage }
+                    handleGoToNextPage={ handleGoToNextPage }
                     /> :
-                    <>
-                        <h3><Countdown count={ 10 } onEnd={ props.onCountdownEnd } /></h3>
-                        <br/>
-                        <Button onClick={ handleReadyClicked }>Ready</Button>
-                    </>
+                    <Button onClick={ handleReadyClicked }>Ready</Button>
                 }
             </Modal.Body>
         </Modal>
@@ -51,19 +51,19 @@ export default function OpponentFound(props){
 }
 
 
-function PlayerReady(props){
+function PlayerReady({playerID, opponentID, playerReady, opponentReady, handleGoToNextPage}){
     return(
         <div>
-            <h1>{ props.playerID }  { (props.playerReady)? <>Ready</> : <Spinner /> }</h1>
-            <h1>{ props.opponentID }    { (props.opponentReady)? <>Ready</> : <Spinner /> }</h1>
-            <h1>{ (props.playerReady && props.opponentReady)? <>Starting on <Countdown count={ 3 } onEnd={ props.handleGoToNextPage }/>...</>:<></> }</h1>
+            <h1>{ playerID }  { (playerReady)? <>Ready</> : <Spinner /> }</h1>
+            <h1>{ opponentID }    { (opponentReady)? <>Ready</> : <Spinner /> }</h1>
+            <h1>{ (playerReady && opponentReady)? <>Starting on <Countdown counter={ 3 } onEnd={ handleGoToNextPage }/>...</>:<></> }</h1>
         </div>
     )
 }
 
 
-function Countdown(props){
-    const [count, setCount] = useState(props.count)
+function Countdown({counter, onEnd}){
+    const [count, setCount] = useState(counter)
     
     useEffect(() => {
         const interval = setInterval(() => setCount(count => count - 1), 1000)
@@ -72,7 +72,7 @@ function Countdown(props){
 
     useEffect(() => {
         if(count === 0){
-            props.onEnd();
+            onEnd();
         }
     }, [count]) // eslint-disable-line react-hooks/exhaustive-deps
 

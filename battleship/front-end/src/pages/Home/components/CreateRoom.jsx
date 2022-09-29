@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react';
+import React, { useContext, useEffect, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 
 import Button from 'react-bootstrap/Button';
@@ -13,6 +13,7 @@ import OpponentFound from './OpponentFound';
 import * as io from '../../../io-client-handler'
 
 import "../../../assets/css/CreateRoom.sass"
+import { LoggedInContext, PlayerContext } from '../Home';
 
 
 /**
@@ -28,8 +29,8 @@ export default function CreateRoom(props) {
     const [playerID, setPlayerID] = useState("");
     const navigate = useNavigate();
 
-
-    
+    const isLoggedIn = useContext(LoggedInContext)
+    const player = useContext(PlayerContext)
 
     /* resets the modal */
     const reset = () => {
@@ -129,12 +130,12 @@ export default function CreateRoom(props) {
     })
 
     useEffect(() => {
-        if(props.isLoggedIn){
-            setPlayerID(props.playerID)
+        if(isLoggedIn){
+            setPlayerID(player.id)
         }else{
             setPlayerID(io.socket.id)
         }
-    }, [props.isLoggedIn]) // eslint-disable-line react-hooks/exhaustive-deps
+    }, [isLoggedIn]) // eslint-disable-line react-hooks/exhaustive-deps
 
     /* shows join room */
     useEffect(() => {
@@ -189,8 +190,6 @@ export default function CreateRoom(props) {
             />
 
             <OpponentFound
-            isCustom
-            isLoggedIn={ props.isLoggedIn }
             show={ showOpponentFound }
             onHide={ handleCloseOpponentFound }
             roomID={ roomID }
