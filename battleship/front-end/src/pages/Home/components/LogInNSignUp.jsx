@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react';
+import React, { useContext, useEffect, useState } from 'react';
 
 import Modal from 'react-bootstrap/Modal';
 import Form from 'react-bootstrap/Form';
@@ -8,6 +8,8 @@ import InputGroup from 'react-bootstrap/InputGroup';
 import "../../../assets/css/log.sass"
 
 import * as io from "../../../io-client-handler"
+
+import { PlayerUpdateContext } from '../Home';
 
 export default function LogInNSignUp(props)
 {
@@ -29,7 +31,6 @@ export default function LogInNSignUp(props)
             <LogIn 
             show={ showLogIn }
             onHide={ handleCloseLogIn }
-            setPlayer={ props.setPlayer }
             setIsLoggedIn={ props.setIsLoggedIn }
             />
             <SignUp
@@ -49,6 +50,7 @@ export default function LogInNSignUp(props)
  * @returns Log In modal
  */
 function LogIn(props){
+    const setPlayer = useContext(PlayerUpdateContext);
     const [username, setUsername] = useState("");
     const [password, setPassword] = useState("");
     const [tag, setTag] = useState("");
@@ -71,7 +73,7 @@ function LogIn(props){
             if(user == undefined){
                 alert("UserID or password is incorrect.");
             }else{
-                props.setPlayer(user);
+                setPlayer(user);
                 props.setIsLoggedIn(true);
             }
         })
