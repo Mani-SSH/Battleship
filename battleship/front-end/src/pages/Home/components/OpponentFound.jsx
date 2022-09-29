@@ -33,7 +33,7 @@ export default function OpponentFound({show, onHide, roomID, playerID, opponentI
                 <Modal.Title>Opponent Found</Modal.Title>
             </Modal.Header>
             <Modal.Body>
-                <h3><Countdown counter={ 10 } onEnd={ onCountdownEnd } /></h3>
+                <h3>{!(ready && opponentReady)? <Countdown counter={ 10 } onEnd={ onCountdownEnd } /> : <></> }</h3>
                 { 
                     (ready)? 
                     <PlayerReady 
