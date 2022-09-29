@@ -9,9 +9,9 @@ import "../../../assets/css/log.sass"
 
 import * as io from "../../../io-client-handler"
 
-import { PlayerUpdateContext } from '../Home';
+import { LoggedInUpdateContext, PlayerUpdateContext } from '../Home';
 
-export default function LogInNSignUp(props)
+export default function LogInNSignUp()
 {
     const [showLogIn, setShowLogIn] = useState(false);
     const [showSignUp, setShowSignUp] = useState(false);
@@ -31,13 +31,10 @@ export default function LogInNSignUp(props)
             <LogIn 
             show={ showLogIn }
             onHide={ handleCloseLogIn }
-            setIsLoggedIn={ props.setIsLoggedIn }
             />
             <SignUp
             show={ showSignUp }
             onHide={ handleCloseSignUp }
-            setPlayer={ props.setPlayer }
-            setIsLoggedIn={ props.setIsLoggedIn }
             />
         </>
     )
@@ -51,6 +48,8 @@ export default function LogInNSignUp(props)
  */
 function LogIn(props){
     const setPlayer = useContext(PlayerUpdateContext);
+    const setIsLoggedIn = useContext(LoggedInUpdateContext);
+
     const [username, setUsername] = useState("");
     const [password, setPassword] = useState("");
     const [tag, setTag] = useState("");
@@ -74,7 +73,7 @@ function LogIn(props){
                 alert("UserID or password is incorrect.");
             }else{
                 setPlayer(user);
-                props.setIsLoggedIn(true);
+                setIsLoggedIn(true);
             }
         })
     }
@@ -170,6 +169,8 @@ function ButtonLogIn(props){
 
 function SignUp(props){
     const setPlayer = useContext(PlayerUpdateContext)
+    const setIsLoggedIn = useContext(LoggedInUpdateContext)
+
     const [username, setUsername] = useState("");
     const [password, setPassword] = useState("");
     const [confirmPassword, setConfirmPassword] = useState("");
