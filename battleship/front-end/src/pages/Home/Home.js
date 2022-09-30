@@ -35,10 +35,8 @@ export default function Home() {
       <PlayerUpdateContext.Provider value={ setPlayer }>
       <LoggedInContext.Provider value={ isLoggedIn }>
       <LoggedInUpdateContext.Provider value={ setIsLoggedIn }>
-        <div className="topButton">
-        <div id='log' className='sign'>
-          { (isLoggedIn)? <UserInfo/>: <LogInNSignUp/> }
-        </div>
+        <div id='log' className="topButton">
+          { (isLoggedIn)? <UserInfo />: <LogInNSignUp /> }
         </div>
 
         <div className="playButton">
