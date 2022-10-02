@@ -23,13 +23,14 @@ mongoose.connect(dbUrl, (err) => {
  * @param {string} Password 
  */
 
-module.exports.signUp = function signUp(Name, Tag, Password)
+module.exports.signUp = function signUp(Name, Tag, Password,callback)
 {   
     var Username = Name.concat("#",Tag);
     PlayerModel.countDocuments({Username: Username}, (err,count) => { // Checking if there's any existing username
             if(count>0) // condition for existing username
             {
             console.log("Username already exits....");
+            callback(null,true);
             }
         else
         {
@@ -41,7 +42,8 @@ module.exports.signUp = function signUp(Name, Tag, Password)
                     Usermodel.Username = Username; // filing the data
                     Usermodel.Password = Password; // filling the data
                     await Usermodel.save();         // calling save() method, to save the data
-                    console.log(Usermodel);         // printing the new data 
+                    console.log(Usermodel);         // printing the new data
+                    callback(null,false);
                 }
                 catch(e)
                 {

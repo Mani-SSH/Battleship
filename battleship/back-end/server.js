@@ -41,6 +41,13 @@ io.on('connection', (socket) => {
         });
     })
 
+    socket.on("request-signup",(username,tag,password,checkSameAccount) =>{
+        db.signUp(username,tag,password,(error,SameAccount)=>{
+            console.log(SameAccount);
+        checkSameAccount(null,SameAccount);
+        });
+        })
+
     /* listen to event on a socket to generate roomID */
     socket.on('generate-roomID', (giveRoomID) => {
         /* create new room */
