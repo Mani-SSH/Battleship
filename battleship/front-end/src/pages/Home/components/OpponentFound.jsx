@@ -49,7 +49,7 @@ export default function OpponentFound({show, onHide, roomID, playerID, opponentI
                     opponentReady={ opponentReady }
                     handleGoToNextPage={ handleGoToNextPage }
                     /> :
-                    <Button onClick={ handleReadyClicked }>Ready</Button>
+                    <Button variant='primary' onClick={ handleReadyClicked }>Ready</Button>
                 }
             </Modal.Body>
         </Modal>
