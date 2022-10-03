@@ -91,7 +91,7 @@ function ShipDrag({ shipType }){
                 setShip(<img src={ S4 } alt="covertte" />)
                 break
             case ShipTypes.CARRIER:
-                setShip(<img src={ S1 } alt="carrier" />)
+                setShip(<img src={ S5 } alt="carrier" />)
                 break
             default:
                 setShip(<></>)
