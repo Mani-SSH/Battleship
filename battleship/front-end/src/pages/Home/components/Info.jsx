@@ -3,6 +3,7 @@ import Modal from "react-bootstrap/Modal";
 import Button from "react-bootstrap/Button";
 import 'bootstrap/dist/css/bootstrap.min.css';
 import '../../../assets/css/info.sass';
+import {HiOutlineInformationCircle} from "react-icons/hi";
 
 export default function Info()
 {
@@ -15,16 +16,16 @@ export default function Info()
     <div className="infoBack">
         <button className="button-info" size='lg' bsPrefix='Home' variant="success" onClick={handleShow}>
             Information</button>
-        <Modal
+        <Modal className="info-modal"
             show={show}
             onHide={handleClose}
             size="sm"
             centered
             >
-                <Modal.Header closeButton>
-                    <Modal.Title>App Information</Modal.Title>
+                <Modal.Header className="info-header" closeButton>
+                    <Modal.Title className="info-title">App Information <HiOutlineInformationCircle className="info-icon"/></Modal.Title>
                 </Modal.Header>
-                <Modal.Body>
+                <Modal.Body className="info-body">
                     <p>Battleship is a war-themed board game for two players in which the opponents 
                     try to guess the location of their opponent's warships and sink them.</p>
                     <ul > <h5>Developers</h5>
@@ -37,7 +38,7 @@ export default function Info()
                     <li>Amrit Dahal</li>
                     </ul>
                     </Modal.Body>
-                <Modal.Footer>
+                <Modal.Footer className="info-footer">
                 <Button variant="primary" onClick={handleClose}>
                     Close
                 </Button>
