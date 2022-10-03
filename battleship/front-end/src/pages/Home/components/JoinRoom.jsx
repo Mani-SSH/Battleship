@@ -1,6 +1,5 @@
 import Button from 'react-bootstrap/Button';
 import Modal from 'react-bootstrap/Modal';
-import Spinner from 'react-bootstrap/Spinner';
 
 export default function JoinRoom(props){
     return(
@@ -16,12 +15,15 @@ export default function JoinRoom(props){
             </Modal.Header>
 
             <Modal.Body>
-                <h3>Waiting for opponent...</h3>
-                <Spinner animation="grow" />;
+                <h2>Waiting for opponent...</h2>
+                <div className='spinner-border text-success m-2' role="status">
+                    <span className='sr-only'></span>
+                </div>
+                <div>Loading...</div>
             </Modal.Body>
 
             <Modal.Footer>
-                <Button variant="secondary" onClick={ props.onCancel }>Cancel</Button>
+                <Button variant="primary" onClick={ props.onCancel }>Cancel</Button>
             </Modal.Footer>
 
         </Modal>
