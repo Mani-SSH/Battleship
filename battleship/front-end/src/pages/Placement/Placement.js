@@ -1,8 +1,13 @@
 import "../../assets/css/Body.sass";
+
 import React,{ useEffect, useState } from "react";
 import { useLocation, useNavigate } from 'react-router-dom';
+
+import { HTML5Backend } from "react-dnd-html5-backend";
+import { DndProvider } from "react-dnd";
+
 import Flex from "./components/flex";
-import Dragdrop from "./components/dragdrop";
+import ShipList from "./components/ShipList";
 
 /**
  * @returns Body page
@@ -13,17 +18,17 @@ import Dragdrop from "./components/dragdrop";
     const navigate = useNavigate();
     const [roomID, setRoomID] = useState("");
 
-    function onLoad(){
-        try{
-            setRoomID(location.state.roomID);
-        }catch(e){
-            navigate("/");
-        }
-    }
+    // function onLoad(){
+    //     try{
+    //         setRoomID(location.state.roomID);
+    //     }catch(e){
+    //         navigate("/");
+    //     }
+    // }
 
-    useEffect(() => {
-        onLoad();
-    }, []) // eslint-disable-line react-hooks/exhaustive-deps
+    // useEffect(() => {
+    //     onLoad();
+    // }, []) // eslint-disable-line react-hooks/exhaustive-deps
 
 
     useEffect(() => {
@@ -40,8 +45,10 @@ import Dragdrop from "./components/dragdrop";
             <div className="Header2">
              <h5>RoomID: { roomID }</h5>
             </div>
-            <div className="flexie"><Flex /></div>
-            <div className="dragie"><Dragdrop /></div>
+            <DndProvider backend={ HTML5Backend }>
+                <div className="flexie"><Flex /></div>
+                <div className="dragie"><ShipList /></div>
+            </DndProvider>
             <button className="back" onClick={ () => setgoToHome(true) }>Back</button>
         </div>
     );
