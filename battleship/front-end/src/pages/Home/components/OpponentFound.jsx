@@ -1,8 +1,13 @@
 import Modal from 'react-bootstrap/Modal';
 import Button from 'react-bootstrap/Button';
 import Spinner from 'react-bootstrap/Spinner';
-import { useEffect, useState } from 'react';
+
+import { useState } from 'react';
+
 import * as io from "../../../io-client-handler";
+
+import Countdown from '../../../features/Countdown';
+
 
 /**
  * Oppponent found modal
@@ -64,25 +69,5 @@ function PlayerReady({playerID, opponentID, playerReady, opponentReady, handleGo
             <h1>{ opponentID }    { (opponentReady)? <>Ready</> : <Spinner /> }</h1>
             <h1>{ (playerReady && opponentReady)? <>Starting on <Countdown counter={ 3 } onEnd={ handleGoToNextPage }/>...</>:<></> }</h1>
         </div>
-    )
-}
-
-
-function Countdown({counter, onEnd}){
-    const [count, setCount] = useState(counter)
-    
-    useEffect(() => {
-        const interval = setInterval(() => setCount(count => count - 1), 1000)
-        return () => clearInterval(interval)
-    }, []) // eslint-disable-line react-hooks/exhaustive-deps
-
-    useEffect(() => {
-        if(count === 0){
-            onEnd();
-        }
-    }, [count]) // eslint-disable-line react-hooks/exhaustive-deps
-
-    return(
-        <>{ count }</>
     )
 }

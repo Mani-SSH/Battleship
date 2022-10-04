@@ -1,6 +1,6 @@
 import "../../assets/css/Body.sass";
 
-import React,{ useEffect, useState } from "react";
+import React,{ useContext, useEffect, useState } from "react";
 import { useLocation, useNavigate } from 'react-router-dom';
 
 import { HTML5Backend } from "react-dnd-html5-backend";
@@ -8,15 +8,52 @@ import { DndProvider } from "react-dnd";
 
 import Flex from "./components/flex";
 import ShipList from "./components/ShipList";
+import Countdown from "../../features/Countdown";
+
+import * as io from "../../io-client-handler"
+import Button from "react-bootstrap/Button";
+
+export const CoordinatesContext = React.createContext()
+export const CoordinatesUpdateContext = React.createContext()
+export const LockContext = React.createContext()
 
 /**
  * @returns Body page
  */
  export default function Placement() {
-    const [goToHome, setgoToHome] = useState(false);
     const location = useLocation();
     const navigate = useNavigate();
+
     const [roomID, setRoomID] = useState("");
+    const [lock, setLock] = useState(false);
+    const [coordinates, setCoordinates] = useState({
+        submarine: [],
+        destroyer: [],
+        frigate: [],
+        covette: [],
+        carrier: []
+    })
+
+    const handleGoHome = () => navigate("/")
+
+    const handleCounterEnd = () => {
+        /* remove both players from roomID */
+        io.socket.emit("remove-players", roomID)
+
+        /* alert the players */
+        alert("One or both players did not place all their ships in time.")
+
+        /* go to home page */
+        navigate("/")
+    }
+
+    const handleReady = () => {
+        /* lock any action */
+        setLock(true)
+
+        /* emit signal to server */
+        io.socket.emit("send-ship-coordinates", coordinates)
+    }
 
     // function onLoad(){
     //     try{
@@ -31,25 +68,56 @@ import ShipList from "./components/ShipList";
     // }, []) // eslint-disable-line react-hooks/exhaustive-deps
 
 
-    useEffect(() => {
-        if(goToHome) {
-            navigate("/");
-        }
-    }, [goToHome]) // eslint-disable-line react-hooks/exhaustive-deps
-
     return (
         <div className="Body">
             <div className="Header1">
                 <h1>Plan Your Ships</h1>
             </div>
-            <div className="Header2">
-             <h5>RoomID: { roomID }</h5>
-            </div>
-            <DndProvider backend={ HTML5Backend }>
-                <div className="flexie"><Flex /></div>
-                <div className="dragie"><ShipList /></div>
-            </DndProvider>
-            <button className="back" onClick={ () => setgoToHome(true) }>Back</button>
+
+            <CoordinatesContext.Provider value={ coordinates }>
+            <CoordinatesUpdateContext.Provider value={ setCoordinates }>
+            <LockContext.Provider value={ lock }>
+                <div className="Header2">
+                    {/* <h1><Countdown counter={ 90 } onEnd={ handleCounterEnd } /></h1> */}
+                </div>
+
+                <DndProvider backend={ HTML5Backend }>
+                    <div className="flexie"><Flex /></div>
+                    <div className="dragie"><ShipList /></div>
+                </DndProvider>
+
+                {/* <Button className="back" onClick={ handleGoHome }>Back</Button> */}
+                <ButtonReady coordinates={ coordinates } onClick={ handleReady }/>
+            </LockContext.Provider>
+            </CoordinatesUpdateContext.Provider>
+            </CoordinatesContext.Provider>
         </div>
     );
+ }
+
+
+ function ButtonReady({ coordinates, onClick }){
+    const lock = useContext(LockContext)
+
+    const [disable, setDisable] = useState(true)
+
+    const handleClicked = () => {
+        onClick()
+    }
+
+    useEffect(() => {
+        if(!lock){
+            if(coordinates.carrier.length === 0 || coordinates.covette.length === 0 || coordinates.destroyer.length === 0 || coordinates.frigate.length === 0 || coordinates.submarine.length === 0){
+                setDisable(true)
+            }else{
+                setDisable(false)
+            }
+        }else{
+            setDisable(true)
+        }
+    }, [coordinates, lock])
+
+    return(
+        <Button className="back" disabled={ disable } onClick={ handleClicked }>Ready</Button>
+    )
  }

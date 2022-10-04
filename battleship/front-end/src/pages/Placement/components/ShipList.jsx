@@ -11,13 +11,7 @@ import S5 from "../../../assets/images/Home/aircraft_carrier.png";
 
 import "../../../assets/css/dragdrop.sass";
 
-const ShipTypes = {
-    SUBMARINE: "submarine",
-    FRIGATE: "frigate",
-    DESTROYER: "destroyer",
-    CORVETTE: "corvette",
-    CARRIER: "carrier"
-}
+import { ShipTypes } from '../../../data/shiptypes';
 
 const shipList = [
     {
