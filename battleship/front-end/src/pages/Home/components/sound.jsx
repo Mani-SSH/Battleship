@@ -1,5 +1,4 @@
 import React,{useEffect,useState} from "react";
-import Button from "react-bootstrap/Button";
 import 'bootstrap/dist/css/bootstrap.min.css';
 import '../../../assets/css/audio.sass';
 import background from "../../../assets/bgm/Home/background.mp3";
@@ -27,7 +26,7 @@ export default function Music()
 
         return(
             <div>
-                {playing? <MdMusicOff className="audi" size='md' bsPrefix="Home" onClick={ toggle }/> : <MdMusicNote className="audi" size='md' bsPrefix="Home" onClick={ toggle }/> }
+                {playing? <MdMusicNote className="audi" size='md' bsPrefix="Home" onClick={ toggle }/> : <MdMusicOff className="audi" size='md' bsPrefix="Home" onClick={ toggle }/> }
             </div>
         );
 

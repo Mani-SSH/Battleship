@@ -19,6 +19,5 @@ export default function Flex()
     }
     return(
         <div className="flex-container">{board}</div>
-        
     );
 }

@@ -150,6 +150,7 @@ io.on('connection', (socket) => {
     socket.on("player-ready", (roomID) => {
         const thisRoom = rooms.getRoom(roomID);
         thisRoom.readyPlayer();
+        thisRoom.display();
         socket.to(roomID).emit("oppponent-ready");
     })
 

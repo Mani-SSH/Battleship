@@ -1,13 +1,13 @@
 .button-info
 
-  width: 130px
-  height: 35px
+  width: max-content
+  height: 45px
   text-align: center
   text-transform: uppercase
   font-weight: 400
   cursor: pointer
   background-color: #043a16
-  border: 2px solid #100a59
+  border: 2px solid #0c0749
   border-radius: 10px
   -webkit-transition: all .15s ease-in-out
   transition: all .15s ease-in-out
@@ -19,3 +19,29 @@
 
   box-shadow: 5px 5px 0 rgb(24, 27, 25)
   transform: translate(-4px,-4px)
+
+.info-modal
+  backdrop-filter: blur(5px)
+
+  .info-header
+    background-color: #b5f4bf
+    font-family: cursive
+
+  .info-title
+    color: #051c41
+
+  .info-icon
+    font-size: 2rem
+    margin-bottom: 0.2rem
+
+  .info-body
+    background-color: #9fd6df
+    & h5
+      font-size: 1.4rem
+      font-family: cursive
+      color: #051c41
+
+  .info-footer
+    background: #cae8ce
+    position: relative
+    justify-content: center

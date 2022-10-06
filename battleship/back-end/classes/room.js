@@ -125,7 +125,7 @@ class RoomList{
 
    /**
     * @param {string} roomID 
-    * @returns {Room} room of the given roomID or undefined if room not found
+    * @returns {Room | undefined} room of the given roomID or undefined if room not found
     */
    getRoom(roomID){
       let isFound = false;
