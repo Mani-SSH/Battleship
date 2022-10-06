@@ -9,21 +9,53 @@ import { ShipList } from '../../../data/shiplist';
 
 
 export default function Ships(){
-    const [ ship, setShip ] = useState()
+    const [ shipID, setShipID ] = useState()
 
     return(
         <>
             <div>
-                <Button onClick={() => setShip(ShipList.SUBMARINE) }>Submarine</Button>
-                <Button onClick={() => setShip(ShipList.FRIGATE) }>Frigate</Button>
-                <Button onClick={() => setShip(ShipList.DESTROYER) }>Destroyer</Button>
-                <Button onClick={() => setShip(ShipList.CORVETTE) }>Corvette</Button>
-                <Button onClick={() => setShip(ShipList.CARRIER) }>Carrier</Button>
+                <Button onClick={() => setShipID(ShipList.SUBMARINE.id) }>Submarine</Button>
+                <Button onClick={() => setShipID(ShipList.FRIGATE.id) }>Frigate</Button>
+                <Button onClick={() => setShipID(ShipList.DESTROYER.id) }>Destroyer</Button>
+                <Button onClick={() => setShipID(ShipList.CORVETTE.id) }>Corvette</Button>
+                <Button onClick={() => setShipID(ShipList.CARRIER.id) }>Carrier</Button>
             </div>
-            <ShipDrag ship={ ship }/>
+            <RenderShip shipID={ shipID } />
         </>
     )
 }
+
+function RenderShip({ shipID }){
+    const [render, setRender] = useState(<></>)
+
+    useEffect(() => {
+        switch (shipID){
+            case ShipList.SUBMARINE.id:
+                setRender(<ShipDrag ship={ ShipList.SUBMARINE }/>)
+                break
+            case ShipList.FRIGATE.id:
+                setRender(<ShipDrag ship={ ShipList.FRIGATE }/>)
+                break
+            case ShipList.DESTROYER.id:
+                setRender(<ShipDrag ship={ ShipList.DESTROYER }/>)
+                break
+            case ShipList.CORVETTE.id:
+                setRender(<ShipDrag ship={ ShipList.CORVETTE }/>)
+                break
+            case ShipList.CARRIER.id:
+                setRender(<ShipDrag ship={ ShipList.CARRIER }/>)
+                break
+            default:
+                setRender(<></>)
+                console.log("nothing rendered")
+                break
+        }
+        console.log(shipID)
+    }, [shipID])
+    return(
+       <>{ render }</>
+    )
+} 
 
 function ShipDrag({ ship }){
     const [{isDragging}, drag] = useDrag(() => ({
@@ -37,9 +69,9 @@ function ShipDrag({ ship }){
         },
         type: "ship",
         collect: monitor => ({
-            isDragging: !!monitor.isDragging(),
-        option: { dropEff: "move" }
-        })
+            isDragging: !!monitor.isDragging()
+        }),
+        end: (item) => console.log(item)
     }))
 
     return(
@@ -57,8 +89,3 @@ function ShipDrag({ ship }){
         </div>
     )
 }
-
-ShipDrag.defaultProps = {
-    ship: ShipList.SUBMARINE
-}
-
