@@ -106,7 +106,7 @@ export default function CreateRoom() {
         handleCloseJoinRoom();
         
         /* send signal to enter "ship placement" page with roomID*/
-        navigate("/placement", { state: { roomID } });
+        navigate("/placement", { state: { roomID, socketID: io.socket.id } });
 
         /* reset this modal */
         reset();

@@ -57,17 +57,21 @@ export const LockContext = React.createContext()
         io.socket.emit("send-ship-coordinates", coordinates)
     }
 
-    // function onLoad(){
-    //     try{
-    //         setRoomID(location.state.roomID);
-    //     }catch(e){
-    //         navigate("/");
-    //     }
-    // }
+    function onLoad(){
+        try{
+            if(location.state.socketID !== io.socket.id){
+                throw console.error("Page reloaded");
+            }
 
-    // useEffect(() => {
-    //     onLoad();
-    // }, []) // eslint-disable-line react-hooks/exhaustive-deps
+            setRoomID(location.state.roomID);
+        }catch(e){
+            navigate("/");
+        }
+    }
+
+    useEffect(() => {
+        onLoad();
+    }, []) // eslint-disable-line react-hooks/exhaustive-deps
 
 
     return (
