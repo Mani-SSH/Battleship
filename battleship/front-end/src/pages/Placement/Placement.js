@@ -7,7 +7,7 @@ import { HTML5Backend } from "react-dnd-html5-backend";
 import { DndProvider } from "react-dnd";
 
 import Flex from "./components/flex";
-import ShipList from "./components/ShipList";
+import Ships from "./components/Ships";
 import Countdown from "../../features/Countdown";
 
 import * as io from "../../io-client-handler"
@@ -85,7 +85,7 @@ export const LockContext = React.createContext()
 
                 <DndProvider backend={ HTML5Backend }>
                     <div className="flexie"><Flex /></div>
-                    <div className="dragie"><ShipList /></div>
+                    <div className="dragie"><Ships /></div>
                 </DndProvider>
 
                 {/* <Button className="back" onClick={ handleGoHome }>Back</Button> */}

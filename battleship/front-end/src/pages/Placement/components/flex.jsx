@@ -13,11 +13,19 @@ export default function Flex()
         for(let i=0;i<horizontalAxis.length;i++)
         {
             board.push(
-                <div className="tiles"></div>
+                <Square />
             );
         }
     }
     return(
         <div className="flex-container">{board}</div>
     );
+}
+
+function Square(){
+    
+
+    return(
+        <div className="tiles"></div>
+    )
 }
