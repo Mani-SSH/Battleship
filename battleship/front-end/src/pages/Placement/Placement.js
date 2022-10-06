@@ -47,9 +47,11 @@ export const LockContext = React.createContext()
         navigate("/")
     }
 
+
     const handleReady = () => {
         /* lock any action */
         setLock(true)
+
 
         /* emit signal to server */
         io.socket.emit("send-ship-coordinates", coordinates)

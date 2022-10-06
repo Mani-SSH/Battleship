@@ -177,11 +177,14 @@ function SignUp(props){
     const [tag, setTag] = useState("");
     const [showPassword, setShowPassword] = useState(false);
     const [hideWarning, setHideWarning] = useState(false);
+    const [playerExistsWarning,setplayerExistsWarning] = useState(false);
 
     const handleToggleShowPassword = () => setShowPassword(!showPassword);
 
     const handleSignUpClicked = () => {
-        io.socket.emit("request-signup", username, tag, password);
+        io.socket.emit("request-signup", username, tag, password, (err,alreadyExists)=>{
+            setplayerExistsWarning(alreadyExists);
+        });
     }
 
     useEffect(() => {
@@ -204,6 +207,8 @@ function SignUp(props){
 
             <Modal.Body>
             <Form.Label>UserID</Form.Label>
+            <br/>
+                <Form.Label visuallyHidden={ !playerExistsWarning }>Username Already Exists</Form.Label>
                 <InputGroup className="mb-3">
                     <Form.Control
                     placeholder="Username"
@@ -218,6 +223,7 @@ function SignUp(props){
                     onChange={ (e) => { setTag(e.target.value) } }
                     maxLength={ 4 }
                     />
+                    
                 </InputGroup>
                 <InputGroup className="mb-3">
                     <Form.Control
@@ -277,6 +283,6 @@ function ButtonSignUp(props){
         <Button
         onClick={ props.onClick }
         disabled={ isDisabled }
-        >Log In</Button>
+        >Sign In</Button>
     )
 }
