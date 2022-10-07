@@ -6,10 +6,8 @@ import { CoordinatesContext, CoordinatesUpdateContext } from "../Placement";
 
 import Ships from "./Ships";
 
-const addShipToBoard = (ship, x, y) => {
-    console.log(`${ship.id} added to ${x}, ${y}`)
-}
- 
+
+
 export default function Board()
 {
     let board =[];
@@ -25,12 +23,17 @@ export default function Board()
             console.log(dropped_xy)
             console.log(item)
             console.log(currentXY)
+            const addShipToBoard = (ship, x, y) => {
+                console.log(`${ship.id} added to ${x}, ${y}`)
+            }
             addShipToBoard(item, currentXY.x, currentXY.y)
         },
+         
         collect: (monitor) => ({
             isOver: !!monitor.isOver(),
         })
-    }))
+
+    }),[currentXY])
 
     
 

@@ -9,6 +9,7 @@ export default function Ships(){
     return(
         <>
             <ShipDrag ship={ ShipList.SUBMARINE }/>
+            <br/>
             <ShipDrag ship={ ShipList.FRIGATE }/>
             <ShipDrag ship={ ShipList.DESTROYER }/>
             <ShipDrag ship={ ShipList.CORVETTE }/>
