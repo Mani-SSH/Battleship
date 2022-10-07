@@ -27,7 +27,7 @@ export function ShipPreview({ ship }) {
 
     return(
         <>
-            { (ship)? <img src={ ship.thumb } alt={ ship.id }/> : <></> }
+            <div>{ (ship)? <img src={ ship.thumb } alt={ ship.id }/> : <></> }</div>
             <Button>Rotate</Button>
             <Button>Place Ship</Button>
         </>

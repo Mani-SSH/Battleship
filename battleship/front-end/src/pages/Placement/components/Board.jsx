@@ -1,4 +1,4 @@
-import React, { useContext, useState } from "react";
+import React, { useContext, useEffect, useState } from "react";
 
 import "../../../assets/css/flex.sass";
 import { CoordinatesContext, CoordinatesUpdateContext } from "../Placement";
@@ -31,10 +31,15 @@ export default function Board()
         {
 
             board.push(
-                <Square x={ j } y={ i } getXY={ getXY } key={j*10 + i}/>
+                <Square x={ j } y={ i } setXY={ setCurrentXY } key={j*10 + i}/>
             );
         }
     }
+
+    useEffect(() => {
+        console.log(currentXY)
+    }, [currentXY])
+
     return(
         <>
             <Ships setShip={ setShip }/>
@@ -46,9 +51,9 @@ export default function Board()
 }
 
 
-function Square({ x, y, getXY }){
+function Square({ x, y, setXY }){
     const handleHover = () => {
-        getXY(x, y)
+        setXY({x, y})
     }
 
     return(
