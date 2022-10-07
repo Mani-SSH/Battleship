@@ -3,14 +3,12 @@ import "../../assets/css/Body.sass";
 import React,{ useContext, useEffect, useState } from "react";
 import { useLocation, useNavigate } from 'react-router-dom';
 
-import { HTML5Backend } from "react-dnd-html5-backend";
-import { DndProvider } from "react-dnd";
-
 import Board from "./components/Board";
 import Countdown from "../../features/Countdown";
 
 import * as io from "../../io-client-handler"
 import Button from "react-bootstrap/Button";
+import Ships from "./components/Ships";
 
 export const CoordinatesContext = React.createContext()
 export const CoordinatesUpdateContext = React.createContext()
@@ -82,9 +80,7 @@ export const LockContext = React.createContext()
                     {/* <h1><Countdown counter={ 90 } onEnd={ handleCounterEnd } /></h1> */}
                 </div>
 
-                <DndProvider backend={ HTML5Backend }>
-                    <div className="flexie"><Board /></div>
-                </DndProvider>
+                <div className="flexie"><Board /></div>
 
                 {/* <Button className="back" onClick={ handleGoHome }>Back</Button> */}
                 <ButtonReady coordinates={ coordinates } onClick={ handleReady }/>

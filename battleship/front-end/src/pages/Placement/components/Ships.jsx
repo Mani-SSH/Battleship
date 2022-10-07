@@ -1,47 +1,35 @@
-import { useDrag } from 'react-dnd'
-
 import "../../../assets/css/dragdrop.sass";
 
+import Button from "react-bootstrap/Button"
+
 import { ShipList } from '../../../data/shiplist';
+import { useEffect, useState } from "react";
 
 
-export default function Ships(){
+export function Ships({ setShip }){
     return(
-        <>
-            <ShipDrag ship={ ShipList.SUBMARINE }/>
-            <br/>
-            <ShipDrag ship={ ShipList.FRIGATE }/>
-            <ShipDrag ship={ ShipList.DESTROYER }/>
-            <ShipDrag ship={ ShipList.CORVETTE }/>
-            <ShipDrag ship={ ShipList.CARRIER }/>
-        </>
+        <div>
+            <Button onClick={() => setShip(ShipList.SUBMARINE)}>Submarine</Button>
+            <Button onClick={() => setShip(ShipList.FRIGATE)}>Frigate</Button>
+            <Button onClick={() => setShip(ShipList.DESTROYER)}>Destroyer</Button>
+            <Button onClick={() => setShip(ShipList.CORVETTE)}>Coverette</Button>
+            <Button onClick={() => setShip(ShipList.CARRIER)}>Carrier</Button>
+        </div>
     )
 }
 
-function ShipDrag({ ship }){
-    const [{isDragging}, drag] = useDrag(() => ({
-        item: {
-            ship
-        },
-        type: ship.type,
-        collect: monitor => ({
-            isDragging: !!monitor.isDragging()
-        }),
-    }))
+export function ShipPreview({ ship }) {
+    // const [thumb, setThumb] = useState()
+
+    // useEffect(() => {
+    //     (ship)? setThumb(ship.thumb) : setThumb(null);
+    // }, [ship])
 
     return(
-        <div
-        className="ships-img"
-        ref={drag}
-        style={{
-            opacity: isDragging ? 0.5 : 1,
-            fontSize: 25,
-            fontWeight: 'bold',
-            cursor: 'move',
-        }}
-        
-        >
-        <img src={ ship.thumb } alt={ ship.id } />
-        </div>
+        <>
+            { (ship)? <img src={ ship.thumb } alt={ ship.id }/> : <></> }
+            <Button>Rotate</Button>
+            <Button>Place Ship</Button>
+        </>
     )
 }
