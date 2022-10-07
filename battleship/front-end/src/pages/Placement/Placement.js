@@ -6,7 +6,7 @@ import { useLocation, useNavigate } from 'react-router-dom';
 import { HTML5Backend } from "react-dnd-html5-backend";
 import { DndProvider } from "react-dnd";
 
-import Flex from "./components/flex";
+import Board from "./components/Board";
 import Ships from "./components/Ships";
 import Countdown from "../../features/Countdown";
 
@@ -84,7 +84,7 @@ export const LockContext = React.createContext()
                 </div>
 
                 <DndProvider backend={ HTML5Backend }>
-                    <div className="flexie"><Flex /></div>
+                    <div className="flexie"><Board /></div>
                     <div className="dragie"><Ships /></div>
                 </DndProvider>
 

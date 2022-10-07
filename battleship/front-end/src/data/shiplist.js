@@ -9,35 +9,30 @@ export const ShipList = {
         id: "submarine",
         type: "ship",
         thumb: S1,
-        length: 2,
-        coordinates: []
+        length: 2
     },
     FRIGATE: {
         id: "frigate",
         type: "ship",
         thumb: S2,
-        length: 2,
-        coordinates: []
+        length: 2
     },
     DESTROYER: {
         id: "destroyer",
         type: "ship",
         thumb: S3,
-        lenght: 3,
-        coordinates: []
+        lenght: 3
     },
     CORVETTE: {
         id: "coverette",
         type: "ship",
         thumb: S4,
-        length: 3,
-        coordinates: []
+        length: 3
     },
     CARRIER: {
         id: "carrier",
         type: "ship",
         thumb: S5,
-        length: 4,
-        coordinates: []
+        length: 4
     }
 }
