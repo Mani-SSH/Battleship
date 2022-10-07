@@ -1,54 +1,67 @@
-import React, { useContext } from "react";
+import React, { useContext, useState } from "react";
 import { useDrop } from "react-dnd";
 
 import "../../../assets/css/flex.sass";
 import { CoordinatesContext, CoordinatesUpdateContext } from "../Placement";
 
+import Ships from "./Ships";
 
-const verticalAxis = ["1", "2", "3", "4", "5", "6", "7", "8", "9"];
-const horizontalAxis = ["a", "b", "c", "d", "e", "f", "g", "h", "i"];
+const addShipToBoard = (ship, x, y) => {
+    console.log(`${ship.id} added to ${x}, ${y}`)
+}
  
 export default function Board()
 {
     let board =[];
 
+    const [currentXY, setCurrentXY] = useState({x: 0, y: 0})
+
     const coordinates = useContext(CoordinatesContext)
     const setCoordinates = useContext(CoordinatesUpdateContext)
-
-    const addShipToBoard = (ship) => {
-
-    }
-
     const [{ isOver }, drop] = useDrop(() => ({
         accept: "ship",
         drop: (item, monitor) => {
             const dropped_xy = monitor.getClientOffset()
             console.log(dropped_xy)
-            addShipToBoard(item)
+            console.log(item)
+            console.log(currentXY)
+            addShipToBoard(item, currentXY.x, currentXY.y)
         },
         collect: (monitor) => ({
             isOver: !!monitor.isOver(),
         })
     }))
 
-    for(let j=verticalAxis.length-1;j>=0;j--)
+    
+
+    const getXY = (x, y) => {
+        setCurrentXY({x, y})
+    }
+
+    for(let j=1; j <= 9; j++)
     {
-        for(let i=0;i<horizontalAxis.length;i++)
+        for(let i = 1; i <= 9; i++)
         {
+
             board.push(
-                <Square />
+                <Square x={ j } y={ i } getXY={ getXY }/>
             );
         }
     }
     return(
-        <div className="flex-container" ref={ drop }>{board}</div>
+        <>
+            <div className="flex-container" ref={ drop }>{board}</div>
+            <div className="dragie"><Ships currentXY={ currentXY }/></div>
+        </>
     );
 }
 
-function Square(){
-    
+function Square({ x, y, getXY }){
+    const handleHover = () => {
+        getXY(x, y)
+    }
 
     return(
-        <div className="tiles"></div>
+        <div className="tiles" key={ x*10 + y } onMouseOver={ handleHover }></div>
     )
 }

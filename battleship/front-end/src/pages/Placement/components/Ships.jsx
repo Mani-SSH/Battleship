@@ -21,17 +21,11 @@ function ShipDrag({ ship }){
     const [{isDragging}, drag] = useDrag(() => ({
         item: {
             ship
-            // id: ship.id,
-            // thumb,
-            // length,
-            // coordinates,
-            // type
         },
         type: ship.type,
         collect: monitor => ({
             isDragging: !!monitor.isDragging()
         }),
-        end: (item) => console.log(item)
     }))
 
     return(
