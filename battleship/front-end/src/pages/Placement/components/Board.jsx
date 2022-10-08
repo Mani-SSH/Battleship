@@ -1,13 +1,11 @@
 import React, { useContext, useEffect, useState } from "react";
 
 import "../../../assets/css/flex.sass";
-import { ShipList } from "../../../data/shiplist";
 import { CoordinatesContext, CoordinatesUpdateContext } from "../Placement";
 
 import { Ships, ShipPreview} from "./Ships";
 
-const xyIntoPosition = (x, y) => ((x - 1) * 10 + (y - 1 * x))
-
+//const xyIntoPosition = (x, y) => ((x - 1) * 10 + (y - 1 * x))
 
 export default function Board()
 {
@@ -15,6 +13,7 @@ export default function Board()
     
     const [currentXY, setCurrentXY] = useState({x: 0, y: 0})
     const [ship, setShip] = useState()
+    const [hoverXYs, setHoverXYs] = useState([])
 
     const coordinates = useContext(CoordinatesContext)
     const setCoordinates = useContext(CoordinatesUpdateContext)
@@ -25,7 +24,7 @@ export default function Board()
         {
 
             board.push(
-                <Square x={ j } y={ i } setXY={ setCurrentXY } key={j*10 + i} ship={ ship }/>
+                <Square x={ j } y={ i } setXY={ setCurrentXY } key={j*10 + i} ship={ ship } hoverXYs={ hoverXYs }/>
             );
         }
     }
@@ -34,19 +33,18 @@ export default function Board()
      * @param {number} x 
      * @param {number} y 
      * @param {number} length 
-     * @returns array of squares adjacent to square in (x, y)
+     * @returns array of XYs adjacent to square in (x, y)
      */
-    const getAdjacentSquares = (x, y, length) => {
-        const squares = []
+    const getAdjacentXYs = (x, y, length) => {
+        const adjacentXYs = []
 
         /* for horizontal ship */
         for(let i = 0; i < length; i++){
-            let position = xyIntoPosition(x, y - i)
-            squares.push(board[position])
-            console.log(position)
+            adjacentXYs.push([x, y - i])
         }
 
-        return squares
+        // console.log(adjacentXYs)
+        return adjacentXYs
     }
 
 
@@ -59,11 +57,14 @@ export default function Board()
     /* on hover while ship is clicked */
     useEffect(() => {
         if(ship){
-            const { length } = ship
-            const { x, y } = currentXY
-            const squares = getAdjacentSquares(x, y, length)
-
-            /* add conditions for square to highlight */
+            if(!(currentXY.x === 0 && currentXY.y === 0)){
+                const { length } = ship
+                const { x, y } = currentXY
+                let adjacentXYs = getAdjacentXYs(x, y, length)
+                // console.log(adjacentXYs)
+                setHoverXYs(adjacentXYs)
+                console.log(hoverXYs)
+            }
         }
     }, [ship, currentXY])
 
@@ -83,14 +84,25 @@ export default function Board()
 }
 
 
-function Square({ x, y, setXY, ship }){
+function Square({ x, y, setXY, ship, hoverXYs }){
+    const [colour, setColour] = useState("white")
+
     const handleHover = () => {
         if(ship){
             setXY({x, y})
         }
     }
 
+    useState(() => {
+        hoverXYs.forEach(element => {
+            if(element[0] === x && element[1] === y){
+                setColour("green")
+            }
+        });
+        console.log("changing")
+    }, [hoverXYs])
+
     return(
-        <div className="tiles" key={ x*10 + y } onMouseEnter={ handleHover }></div>
+        <div className="tiles" onMouseEnter={ handleHover }><h6>{colour}</h6></div>
     )
 }

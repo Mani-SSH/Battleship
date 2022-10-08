@@ -21,7 +21,7 @@ export const ShipList = {
         id: "destroyer",
         type: "ship",
         thumb: S3,
-        lenght: 3
+        length: 3
     },
     CORVETTE: {
         id: "coverette",

@@ -3,7 +3,6 @@ import "../../../assets/css/dragdrop.sass";
 import Button from "react-bootstrap/Button"
 
 import { ShipList } from '../../../data/shiplist';
-import { useEffect, useState } from "react";
 
 
 export function Ships({ setShip }){
@@ -19,12 +18,6 @@ export function Ships({ setShip }){
 }
 
 export function ShipPreview({ ship }) {
-    // const [thumb, setThumb] = useState()
-
-    // useEffect(() => {
-    //     (ship)? setThumb(ship.thumb) : setThumb(null);
-    // }, [ship])
-
     return(
         <>
             <div className='preview'>
