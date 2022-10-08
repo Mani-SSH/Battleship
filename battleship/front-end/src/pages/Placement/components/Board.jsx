@@ -69,8 +69,14 @@ export default function Board()
 
     return(
         <>
-            <Ships setShip={ setShip }/>
-            <ShipPreview ship={ ship }/>
+            <div className='shipBtnContainer'>
+                <div className='shipBtn'>
+                    <Ships setShip={ setShip }/>
+                </div>
+                <div className="shipPreview">
+                    <ShipPreview ship={ ship }/>
+                </div>
+            </div>
             <div className="flex-container">{board}</div>
         </>
     );
