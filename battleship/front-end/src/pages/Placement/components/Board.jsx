@@ -8,11 +8,18 @@ import { Ships, ShipPreview} from "./Ships";
 
 //const xyIntoPosition = (x, y) => ((x - 1) * 10 + (y - 1 * x))
 
+class Coordinate{
+    constructor(x = 0, y = 0){
+        this.x = x
+        this.y = y
+    }
+}
+
 export default function Board()
 {
     let board =[];
     
-    const [currentXY, setCurrentXY] = useState({x: 0, y: 0})
+    const [currentXY, setCurrentXY] = useState({x:0, y: 0})
     const [clickedXY, setClickedXY] = useState({x: 0, y: 0})
     const [ship, setShip] = useState()
     const [hoverXYs, setHoverXYs] = useState([])
@@ -85,6 +92,7 @@ export default function Board()
                 let adjacentXYs = getAdjacentXYs(x, y, length)
                 // console.log(adjacentXYs)
                 setShipCordinates(adjacentXYs)
+
                 console.log(`The ship is rotated ${rotateShip} times`)
                 console.log(`${x},${y} was clicked`)
                 console.log(shipCordinates)
@@ -118,7 +126,7 @@ function Square({ x, y, setXY, setClicked, ship, hoverXYs }){
 
     const handleHover = () => {
         if(ship){
-         //   setXY({x, y})
+           setXY({x, y})
         }
     }
 
@@ -127,16 +135,19 @@ function Square({ x, y, setXY, setClicked, ship, hoverXYs }){
             setClicked({x,y})
         }
     }
-    useState(() => {
-        hoverXYs.forEach(element => {
-            if(element[0] === x && element[1] === y){
+
+    useEffect(() => {
+        for(let i = 0; i < hoverXYs.length; i++){
+            if(hoverXYs[i][0] === x && hoverXYs[i][1] === y){
                 setColour("green")
+                break
+            }else{
+                setColour("white")
             }
-        });
-        console.log("changing")
+        }
     }, [hoverXYs])
 
     return(
-        <div className="tiles" onMouseEnter={ handleHover } onMouseDown = { handleClick }><h6>{colour}</h6></div>
+        <div className="tiles" onMouseOver={ handleHover } onMouseDown = { handleClick }><h6>{colour}</h6></div>
     )
 }
