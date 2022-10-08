@@ -1,4 +1,5 @@
 import React, { useContext, useEffect, useState } from "react";
+import Button from "react-bootstrap/Button"
 
 import "../../../assets/css/flex.sass";
 import { CoordinatesContext, CoordinatesUpdateContext } from "../Placement";
@@ -12,8 +13,11 @@ export default function Board()
     let board =[];
     
     const [currentXY, setCurrentXY] = useState({x: 0, y: 0})
+    const [clickedXY, setClickedXY] = useState({x: 0, y: 0})
     const [ship, setShip] = useState()
     const [hoverXYs, setHoverXYs] = useState([])
+    const [shipCordinates, setShipCordinates] = useState([])
+    const [rotateShip,setRotation] = useState(0)
 
     const coordinates = useContext(CoordinatesContext)
     const setCoordinates = useContext(CoordinatesUpdateContext)
@@ -24,7 +28,7 @@ export default function Board()
         {
 
             board.push(
-                <Square x={ j } y={ i } setXY={ setCurrentXY } key={j*10 + i} ship={ ship } hoverXYs={ hoverXYs }/>
+                <Square x={ j } y={ i } setXY={ setCurrentXY } setClicked = { setClickedXY} key={j*10 + i} ship={ ship } hoverXYs={ hoverXYs }/>
             );
         }
     }
@@ -40,7 +44,12 @@ export default function Board()
 
         /* for horizontal ship */
         for(let i = 0; i < length; i++){
-            adjacentXYs.push([x, y - i])
+            if((y-i)<=0)
+            {
+                console.log("Out of scope")
+                break;
+            }
+                adjacentXYs.push([x, y - i])
         }
 
         // console.log(adjacentXYs)
@@ -49,9 +58,9 @@ export default function Board()
 
 
     /* REMOVE LATER */
-    useEffect(() => {
-        console.log(currentXY)
-    }, [currentXY])
+    // useEffect(() => {
+    //     console.log(currentXY)
+    // }, [currentXY])
 
 
     /* on hover while ship is clicked */
@@ -68,6 +77,24 @@ export default function Board()
         }
     }, [ship, currentXY])
 
+    useEffect(() => {
+        if(ship){
+            if(!(clickedXY.x === 0 && clickedXY.y === 0)){
+                const { length } = ship
+                const { x, y } = clickedXY
+                let adjacentXYs = getAdjacentXYs(x, y, length)
+                // console.log(adjacentXYs)
+                setShipCordinates(adjacentXYs)
+                console.log(`The ship is rotated ${rotateShip} times`)
+                console.log(`${x},${y} was clicked`)
+                console.log(shipCordinates)
+            }
+        }
+    }, [ship, clickedXY])
+
+    
+
+
     return(
         <>
             <div className='shipBtnContainer'>
@@ -78,21 +105,28 @@ export default function Board()
                     <ShipPreview ship={ ship }/>
                 </div>
             </div>
+            <Button onClick = {()=>{(rotateShip < 4) ? setRotation(rotateShip + 1) : setRotation(0)}}>Rotate</Button>
+            <Button>Place Ship</Button>
             <div className="flex-container">{board}</div>
         </>
     );
 }
 
 
-function Square({ x, y, setXY, ship, hoverXYs }){
+function Square({ x, y, setXY, setClicked, ship, hoverXYs }){
     const [colour, setColour] = useState("white")
 
     const handleHover = () => {
         if(ship){
-            setXY({x, y})
+         //   setXY({x, y})
         }
     }
 
+    const handleClick = () => {
+        if (ship){
+            setClicked({x,y})
+        }
+    }
     useState(() => {
         hoverXYs.forEach(element => {
             if(element[0] === x && element[1] === y){
@@ -103,6 +137,6 @@ function Square({ x, y, setXY, ship, hoverXYs }){
     }, [hoverXYs])
 
     return(
-        <div className="tiles" onMouseEnter={ handleHover }><h6>{colour}</h6></div>
+        <div className="tiles" onMouseEnter={ handleHover } onMouseDown = { handleClick }><h6>{colour}</h6></div>
     )
 }

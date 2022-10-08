@@ -23,8 +23,6 @@ export function ShipPreview({ ship }) {
             <div className='preview'>
                 <div>{ (ship)? <img src={ ship.thumb } alt={ ship.id }/> : <></> }</div>
             </div>
-            <Button>Rotate</Button>
-            <Button>Place Ship</Button>
         </>
     )
 }
