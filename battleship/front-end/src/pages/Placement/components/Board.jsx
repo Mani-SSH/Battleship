@@ -8,23 +8,20 @@ import { Ships, ShipPreview} from "./Ships";
 
 //const xyIntoPosition = (x, y) => ((x - 1) * 10 + (y - 1 * x))
 
-class Coordinate{
-    constructor(x = 0, y = 0){
-        this.x = x
-        this.y = y
-    }
-}
-
 export default function Board()
 {
     let board =[];
     
-    const [currentXY, setCurrentXY] = useState({x:0, y: 0})
-    const [clickedXY, setClickedXY] = useState({x: 0, y: 0})
     const [ship, setShip] = useState()
+
+    const [currentXY, setCurrentXY] = useState({x:0, y: 0})
     const [hoverXYs, setHoverXYs] = useState([])
+    const [clickedXY, setClickedXY] = useState({x: 0, y: 0})
     const [shipCordinates, setShipCordinates] = useState([])
+
     const [rotateShip,setRotation] = useState(0)
+
+    const [resetHighlight, setResetHighlight] = useState(false)
 
     const coordinates = useContext(CoordinatesContext)
     const setCoordinates = useContext(CoordinatesUpdateContext)
@@ -35,9 +32,24 @@ export default function Board()
         {
 
             board.push(
-                <Square x={ j } y={ i } setXY={ setCurrentXY } setClicked = { setClickedXY} key={j*10 + i} ship={ ship } hoverXYs={ hoverXYs }/>
+                <Square
+                x={ j }
+                y={ i }
+                setXY={ setCurrentXY }
+                setClicked = { setClickedXY}
+                key={j*10 + i}
+                ship={ ship }
+                hoverXYs={ hoverXYs }
+                resetHighlight={ resetHighlight }
+                />
             );
         }
+    }
+
+    const handleMouseLeaveBoard = () => {
+        setResetHighlight(true)
+        setCurrentXY({x:0, y:0})
+        setHoverXYs([])
     }
 
     /**
@@ -113,15 +125,21 @@ export default function Board()
                     <ShipPreview ship={ ship }/>
                 </div>
             </div>
+
             <Button onClick = {()=>{(rotateShip < 4) ? setRotation(rotateShip + 1) : setRotation(0)}}>Rotate</Button>
             <Button>Place Ship</Button>
-            <div className="flex-container">{board}</div>
+
+            <div
+            className="flex-container"
+            onMouseLeave={ handleMouseLeaveBoard }
+            onMouseEnter={() => setResetHighlight(false)}
+            >{board}</div>
         </>
     );
 }
 
 
-function Square({ x, y, setXY, setClicked, ship, hoverXYs }){
+function Square({ x, y, setXY, setClicked, ship, hoverXYs, resetHighlight }){
     const [colour, setColour] = useState("white")
 
     const handleHover = () => {
@@ -146,6 +164,12 @@ function Square({ x, y, setXY, setClicked, ship, hoverXYs }){
             }
         }
     }, [hoverXYs])
+
+    useEffect(() => {
+        if(resetHighlight){
+            setColour("white")
+        }
+    }, [resetHighlight])
 
     return(
         <div className="tiles" onMouseOver={ handleHover } onMouseDown = { handleClick }><h6>{colour}</h6></div>
