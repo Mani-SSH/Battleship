@@ -17,7 +17,7 @@ import { Ships, ShipPreview} from "./Ships";
 const checkValid = (coordinates) => {
     /* if any coordinate is out of board, return false */
     for(let i = 0; i < coordinates.length; i++){
-        if(coordinates[i][0] < 1 || coordinates[i][1] < 1){
+        if(coordinates[i][0] < 1 || coordinates[i][1] < 1 || coordinates[i][0] > 9 || coordinates[i][1] > 9){
             return false
         }
     }
@@ -79,7 +79,7 @@ export default function Board()
     const [currentXY, setCurrentXY] = useState({x:0, y: 0}) // coordinates of current cell pointed on board
     const [hoverXYs, setHoverXYs] = useState([]) // coordinates of adjacent cells where ship is placed
 
-    const [rotateShip,setRotation] = useState(0)
+    const [rotateShip, setRotation] = useState(0)
 
     const [valid, setValid] = useState(true) // if the adjacent cells are valid
 
@@ -106,10 +106,13 @@ export default function Board()
                 setCoordinates({ ...coordinates, submarine: [...hoverXYs] })
                 break
             default:
-
                 console.log("ship not clicked")
                 break
         }
+        setShip(undefined)
+        setHoverXYs([])
+        setRotation(0)
+        setResetHighlight(true)
     }
 
 

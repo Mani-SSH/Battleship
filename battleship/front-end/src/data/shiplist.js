@@ -24,7 +24,7 @@ export const ShipList = {
         length: 3
     },
     CORVETTE: {
-        id: "coverette",
+        id: "corvette",
         type: "ship",
         thumb: S4,
         length: 3

@@ -3,17 +3,46 @@ import "../../../assets/css/dragdrop.sass";
 import Button from "react-bootstrap/Button"
 
 import { ShipList } from '../../../data/shiplist';
+import { CoordinatesContext } from "../Placement";
 
+import { useContext, useEffect, useState } from "react";
 
 export function Ships({ setShip }){
+    let ships = []
+
+    Object.keys(ShipList).forEach((ship) => {
+        ships.push(<ButtonShip 
+            onClick={ () => setShip(ShipList[ship]) }
+            ship={ ShipList[ship] }
+        />)
+    })
+
     return(
         <div>
-            <Button onClick={() => setShip(ShipList.SUBMARINE)} className='ship_button'>Submarine</Button>
-            <Button onClick={() => setShip(ShipList.FRIGATE)} className='ship_button'>Frigate</Button>
-            <Button onClick={() => setShip(ShipList.DESTROYER)} className='ship_button'>Destroyer</Button>
-            <Button onClick={() => setShip(ShipList.CORVETTE)} className='ship_button'>Coverette</Button>
-            <Button onClick={() => setShip(ShipList.CARRIER)} className='ship_button'>Carrier</Button>
+            { ships }
         </div>
+    )
+}
+
+function ButtonShip({ onClick, ship }){
+    const coordinates = useContext(CoordinatesContext)
+    const [disable, setDisable] = useState(false)
+
+    useEffect(() => {
+        console.log(coordinates[ship.id].length)
+        if(coordinates[ship.id].length !== 0){
+            setDisable(true)
+        }else{
+            setDisable(false)
+        }
+    }, [coordinates[ship.id]]) // eslint-disable-line react-hooks/exhaustive-deps
+
+    return(
+        <Button 
+        onClick={ onClick } 
+        className='ship_button'
+        disabled={ disable }
+        >{ ship.id }</Button>
     )
 }
 

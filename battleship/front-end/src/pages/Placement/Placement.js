@@ -103,7 +103,7 @@ export const LockContext = React.createContext()
 
     useEffect(() => {
         if(!lock){
-            if(coordinates.carrier.length === 0 || coordinates.covette.length === 0 || coordinates.destroyer.length === 0 || coordinates.frigate.length === 0 || coordinates.submarine.length === 0){
+            if(coordinates.carrier.length === 0 || coordinates.corvette.length === 0 || coordinates.destroyer.length === 0 || coordinates.frigate.length === 0 || coordinates.submarine.length === 0){
                 setDisable(true)
             }else{
                 setDisable(false)
