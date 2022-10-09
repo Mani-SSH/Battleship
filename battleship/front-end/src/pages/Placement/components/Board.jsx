@@ -2,6 +2,7 @@ import React, { useContext, useEffect, useState } from "react";
 import Button from "react-bootstrap/Button"
 
 import "../../../assets/css/flex.sass";
+import { ShipList } from "../../../data/shiplist";
 import { CoordinatesContext, CoordinatesUpdateContext } from "../Placement";
 
 import { Ships, ShipPreview} from "./Ships";
@@ -67,40 +68,7 @@ const getAdjacentXYs = (x, y, length, rotateShip) => {
     return adjacentXYs
 }
 
-const getFinalTiles = (x, y, length,rotateShip) => {
-    const finalTiles = []
-    console.log(rotateShip);
 
-    /* for horizontal ship */
-    for(let i = 0; i < length; i++){
-        switch (rotateShip) {
-            case 0:
-                finalTiles.push([x, y - i])                
-                break;
-            
-            case 1:
-                finalTiles.push([x + i, y])
-                break;
-
-            case 2: 
-                finalTiles.push([x, y + i])
-                break;
-
-            case 3: 
-                finalTiles.push([x - i, y])
-                break;
-            case 4: 
-                finalTiles.push([x, y - i])                
-                break;
-
-            default:
-                break;
-        }
-    }
-
-    // console.log(adjacentXYs)
-    return finalTiles
-}
 
 export default function Board()
 {
@@ -110,8 +78,6 @@ export default function Board()
 
     const [currentXY, setCurrentXY] = useState({x:0, y: 0}) // coordinates of current cell pointed on board
     const [hoverXYs, setHoverXYs] = useState([]) // coordinates of adjacent cells where ship is placed
-    const [clickedXY, setClickedXY] = useState({x: 0, y: 0}) // coordinates of clicked cell
-    const [shipCordinates, setShipCordinates] = useState([])
 
     const [rotateShip,setRotation] = useState(0)
 
@@ -122,18 +88,43 @@ export default function Board()
     const coordinates = useContext(CoordinatesContext)
     const setCoordinates = useContext(CoordinatesUpdateContext)
 
+    const handleTileClicked = () => {
+        switch(ship.id){
+            case ShipList.CARRIER.id:
+                setCoordinates({ ...coordinates, carrier: [...hoverXYs] })
+                break
+            case ShipList.CORVETTE.id:
+                setCoordinates({ ...coordinates, corvette: [...hoverXYs] })
+                break
+            case ShipList.DESTROYER.id:
+                setCoordinates({ ...coordinates, destroyer: [...hoverXYs] })
+                break
+            case ShipList.FRIGATE.id:
+                setCoordinates({ ...coordinates, frigate: [...hoverXYs] })
+                break
+            case ShipList.SUBMARINE.id:
+                setCoordinates({ ...coordinates, submarine: [...hoverXYs] })
+                break
+            default:
+
+                console.log("ship not clicked")
+                break
+        }
+    }
+
+
     /* setting board */
     for(let j=1; j <= 9; j++)
     {
         for(let i = 1; i <= 9; i++)
         {
-
+    
             board.push(
                 <Square
                 x={ j }
                 y={ i }
                 setXY={ setCurrentXY }
-                setClicked = { setClickedXY}
+                onClick = { handleTileClicked }
                 key={j*10 + i}
                 ship={ ship }
                 hoverXYs={ hoverXYs }
@@ -143,6 +134,7 @@ export default function Board()
             );
         }
     }
+        
 
     /**
      * when mouse is off the board, resets highlight, current coordinates and adjacent coordinates
@@ -153,15 +145,12 @@ export default function Board()
         setHoverXYs([])
     }
 
-    
-
-
     /* REMOVE LATER */
-    // useEffect(() => {
-    //     console.log(currentXY)
-    // }, [currentXY])
+    useEffect(() => {
+        console.log(coordinates)
+    }, [coordinates])
 
-
+    
     /* on hover while ship is clicked */
     useEffect(() => {
         /* check if ship is clicked */
@@ -183,24 +172,6 @@ export default function Board()
             }
         }
     }, [ship, currentXY]) // eslint-disable-line react-hooks/exhaustive-deps
-
-    useEffect(() => {
-        if(ship){               // check if the ship is clicked
-            if(!(clickedXY.x === 0 && clickedXY.y === 0)){          // it works unless the value of x and y is outside the board
-                const { length } = ship                         
-                const { x, y } = clickedXY
-                let adjacentXYs = getFinalTiles(x, y, length,rotateShip)         // get 3 tiles next from clicked tile
-                setShipCordinates(adjacentXYs)                              // problem here
-
-                console.log(`The ship is rotated ${rotateShip} times`)
-                console.log(`${x},${y} was clicked`)
-                console.log(shipCordinates)
-            }
-        }
-    }, [ship, clickedXY]) 
-
-    
-
 
     return(
         <>
@@ -226,7 +197,7 @@ export default function Board()
 }
 
 
-function Square({ x, y, setXY, setClicked, ship, hoverXYs, resetHighlight, valid }){
+function Square({ x, y, setXY, onClick, ship, hoverXYs, resetHighlight, valid }){
     const [colour, setColour] = useState("white") // color of the cell
 
     /* when mouse hovers on the cell */
@@ -238,11 +209,13 @@ function Square({ x, y, setXY, setClicked, ship, hoverXYs, resetHighlight, valid
         }
     }
 
+
     const handleClick = () => {
         if (ship){
-            setClicked({x,y})
+            onClick();
         }
     }
+
 
     /* used for highlight */
     useEffect(() => {
@@ -267,6 +240,7 @@ function Square({ x, y, setXY, setClicked, ship, hoverXYs, resetHighlight, valid
         }
     }, [hoverXYs]) // eslint-disable-line react-hooks/exhaustive-deps
 
+
     /* if mouse is off the board, set to default color */
     useEffect(() => {
         if(resetHighlight){
@@ -278,7 +252,7 @@ function Square({ x, y, setXY, setClicked, ship, hoverXYs, resetHighlight, valid
         <div
         className="tiles"
         onMouseOver={ handleHover }
-        onMouseDown = { handleClick }
+        onClick = { handleClick }
         >
             <h6>{colour}</h6>
         </div>

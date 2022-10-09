@@ -27,7 +27,7 @@ export const LockContext = React.createContext()
         submarine: [],
         destroyer: [],
         frigate: [],
-        covette: [],
+        corvette: [],
         carrier: []
     })
 
