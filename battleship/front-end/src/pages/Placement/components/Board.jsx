@@ -33,16 +33,73 @@ const checkValid = (coordinates) => {
  * @param {number} length 
  * @returns array of XYs adjacent to square in (x, y)
  */
-const getAdjacentXYs = (x, y, length) => {
+const getAdjacentXYs = (x, y, length, rotateShip) => {
     const adjacentXYs = []
 
     /* for horizontal ship */
     for(let i = 0; i < length; i++){
-        adjacentXYs.push([x, y - i])
+        switch (rotateShip) {
+            case 0:
+                adjacentXYs.push([x, y - i])                
+                break;
+            
+            case 1:
+                adjacentXYs.push([x + i, y])
+                break;
+
+            case 2: 
+                adjacentXYs.push([x, y + i])
+                break;
+
+            case 3: 
+                adjacentXYs.push([x - i, y])
+                break;
+            case 4: 
+                adjacentXYs.push([x, y - i])                
+                break;
+
+            default:
+                break;
+        }
     }
 
     // console.log(adjacentXYs)
     return adjacentXYs
+}
+
+const getFinalTiles = (x, y, length,rotateShip) => {
+    const finalTiles = []
+    console.log(rotateShip);
+
+    /* for horizontal ship */
+    for(let i = 0; i < length; i++){
+        switch (rotateShip) {
+            case 0:
+                finalTiles.push([x, y - i])                
+                break;
+            
+            case 1:
+                finalTiles.push([x + i, y])
+                break;
+
+            case 2: 
+                finalTiles.push([x, y + i])
+                break;
+
+            case 3: 
+                finalTiles.push([x - i, y])
+                break;
+            case 4: 
+                finalTiles.push([x, y - i])                
+                break;
+
+            default:
+                break;
+        }
+    }
+
+    // console.log(adjacentXYs)
+    return finalTiles
 }
 
 export default function Board()
@@ -116,7 +173,7 @@ export default function Board()
                 const { x, y } = currentXY
 
                 /* get array of adjecent cells */
-                let adjacentXYs = getAdjacentXYs(x, y, length)
+                let adjacentXYs = getAdjacentXYs(x, y, length, rotateShip)
 
                 /* check if they are valid and set value of valid to the value returned */
                 setValid(checkValid(adjacentXYs))
@@ -128,13 +185,12 @@ export default function Board()
     }, [ship, currentXY]) // eslint-disable-line react-hooks/exhaustive-deps
 
     useEffect(() => {
-        if(ship){
-            if(!(clickedXY.x === 0 && clickedXY.y === 0)){
-                const { length } = ship
+        if(ship){               // check if the ship is clicked
+            if(!(clickedXY.x === 0 && clickedXY.y === 0)){          // it works unless the value of x and y is outside the board
+                const { length } = ship                         
                 const { x, y } = clickedXY
-                let adjacentXYs = getAdjacentXYs(x, y, length)
-                // console.log(adjacentXYs)
-                setShipCordinates(adjacentXYs)
+                let adjacentXYs = getFinalTiles(x, y, length,rotateShip)         // get 3 tiles next from clicked tile
+                setShipCordinates(adjacentXYs)                              // problem here
 
                 console.log(`The ship is rotated ${rotateShip} times`)
                 console.log(`${x},${y} was clicked`)
