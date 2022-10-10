@@ -42,6 +42,7 @@ io.on('connection', (socket) => {
     })
 
     socket.on("request-signup",(username, tag, password, checkSameAccount) =>{
+
         db.signUp(username, tag, password, (error, SameAccount)=>{
             console.log(SameAccount);
             checkSameAccount(null, SameAccount);
@@ -149,9 +150,14 @@ io.on('connection', (socket) => {
     })
 
     socket.on("player-ready", (roomID) => {
+        /* get room */
         const thisRoom = rooms.getRoom(roomID);
+
+        /* increase ready count */
         thisRoom.readyPlayer();
         thisRoom.display();
+
+        /* emit to opponent that player is ready */
         socket.to(roomID).emit("oppponent-ready");
     })
 

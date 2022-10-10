@@ -60,9 +60,14 @@ export const LockContext = React.createContext()
     io.socket.off("opponent-ships-set").on("opponent-ships-set", () => {
         alert("Opponent is ready")
     })
-
+    
+    
     function onLoad(){
         try{
+            if(location.state.socketID !== io.socket.id){
+                throw console.error("Page reloaded");
+            }
+
             setRoomID(location.state.roomID);
         }catch(e){
             navigate("/");
