@@ -8,7 +8,6 @@ import Countdown from "../../features/Countdown";
 
 import * as io from "../../io-client-handler"
 import Button from "react-bootstrap/Button";
-import Ships from "./components/Ships";
 
 export const CoordinatesContext = React.createContext()
 export const CoordinatesUpdateContext = React.createContext()
@@ -51,20 +50,28 @@ export const LockContext = React.createContext()
 
 
         /* emit signal to server */
-        io.socket.emit("send-ship-coordinates", coordinates)
+        io.socket.emit("send-ship-coordinates", coordinates, roomID, (isSuccessful) => {
+            if (!isSuccessful){
+                alert("Some error occured!!!")
+            }
+        })
     }
 
-    // function onLoad(){
-    //     try{
-    //         setRoomID(location.state.roomID);
-    //     }catch(e){
-    //         navigate("/");
-    //     }
-    // }
+    io.socket.off("opponent-ships-set").on("opponent-ships-set", () => {
+        alert("Opponent is ready")
+    })
 
-    // useEffect(() => {
-    //     onLoad();
-    // }, []) // eslint-disable-line react-hooks/exhaustive-deps
+    function onLoad(){
+        try{
+            setRoomID(location.state.roomID);
+        }catch(e){
+            navigate("/");
+        }
+    }
+
+    useEffect(() => {
+        onLoad();
+    }, []) // eslint-disable-line react-hooks/exhaustive-deps
 
 
     return (

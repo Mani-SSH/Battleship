@@ -3,7 +3,7 @@ const express = require('express');
 const { createServer } = require("http");
 const { Server } = require("socket.io");
 
-const { Room, RoomList } = require("./classes/room");
+const { Room, RoomList } = require("./classes/room")
 
 const db = require('./mongoose-handler');
 
@@ -41,10 +41,10 @@ io.on('connection', (socket) => {
         });
     })
 
-    socket.on("request-signup",(username,tag,password,checkSameAccount) =>{
-        db.signUp(username,tag,password,(error,SameAccount)=>{
+    socket.on("request-signup",(username, tag, password, checkSameAccount) =>{
+        db.signUp(username, tag, password, (error, SameAccount)=>{
             console.log(SameAccount);
-        checkSameAccount(null,SameAccount);
+            checkSameAccount(null, SameAccount);
         });
         })
 
@@ -70,7 +70,7 @@ io.on('connection', (socket) => {
     })
 
     /* INCOMPLETE */
-    socket.on('join-room', (roomID, isLoggedIn, playerID, fn) => {
+    socket.on('join-room', (roomID, playerID, fn) => {
         let hasJoined = false;                  //state of player if joined
         let isFound = false;                    //state of room if found
 
@@ -97,10 +97,10 @@ io.on('connection', (socket) => {
             return;
         }
 
-        const id = (isLoggedIn)? playerID: socket.id;
+        // const id = (isLoggedIn)? playerID: socket.id;
 
         /* add user to room in room list */
-        if(thisRoom.addPlayer(id)){
+        if(thisRoom.addPlayer(socket.id, playerID)){
             /* player can join */
             hasJoined = true;
 
@@ -108,7 +108,7 @@ io.on('connection', (socket) => {
             socket.join(roomID);
 
             /* send message */
-            const msg = id + " joined room: " + roomID;
+            const msg = playerID /* id */ + " joined room: " + roomID;
             console.log(msg);
 
             fn(isFound, hasJoined);
@@ -120,24 +120,25 @@ io.on('connection', (socket) => {
         }
     })
 
-    socket.on("get-opponentID", (roomID, playerID, giveID) => {
+    socket.on("get-opponentID", (roomID, giveID) => {
         const thisRoom = rooms.getRoom(roomID);
 
-        let playerID1 = thisRoom.elements.players[0];
-        let playerID2 = thisRoom.elements.players[1];
+        let playerID1 = thisRoom.elements.players[0].playerID
+        let playerID2 = thisRoom.elements.players[1].playerID
 
         /* if playing through socket id, assign them guest names */
-        if(playerID1.length == 20){
+        if(playerID1.length < 6){
             playerID1 = "Guest1";
         }
 
-        if(playerID2.length == 20){
+        if(playerID2.length < 6){
             playerID2 = "Guest2";
         }
 
         /* get id of opponent */
         let opponentID = "";
-        if(playerID == thisRoom.elements.players[0]){
+        let playerID = ""
+        if(socket.id == thisRoom.elements.players[0].socketID){
             opponentID = playerID2;
             playerID = playerID1;
         }else{
@@ -152,6 +153,34 @@ io.on('connection', (socket) => {
         thisRoom.readyPlayer();
         thisRoom.display();
         socket.to(roomID).emit("oppponent-ready");
+    })
+
+    socket.on("send-ship-coordinates", (coordinates, roomID, callback) => {
+        const thisRoom = rooms.getRoom(roomID)
+        let isSuccessful = false
+
+        console.log(thisRoom)
+
+        try {
+            /* if room not found */
+            if (thisRoom == undefined){
+                callback(isSuccessful)
+                throw "Room Not Found!!!"
+            }
+
+            /* if error occurs in setting board */
+            if(thisRoom.setBoard(socket.id, coordinates.submarine, coordinates.corvette, coordinates.frigate, coordinates.destroyer, coordinates.carrier) === false){
+                callback(isSuccessful)
+                throw "Player With Given SocketID Not Found!!!"
+            }
+
+            isSuccessful = true
+            callback(isSuccessful)
+
+            socket.to(roomID).emit("opponent-ships-set")
+        } catch (error) {
+            console.error(error)
+        }
     })
 
     socket.on("remove-players", (roomID) => {

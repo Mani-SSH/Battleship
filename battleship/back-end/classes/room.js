@@ -1,3 +1,5 @@
+const { Board } = require("./board")
+
 /* length of roomID */
 const LENGTH_ROOMID = 6;
 const MAX_PLAYER_PER_ROOM = 2;
@@ -16,12 +18,19 @@ function makeRoomID() {
 return result;
 }
 
+class RoomPlayer {
+   constructor(socketID, playerID){
+      this.socketID = socketID
+      this.playerID = playerID
+      this.board = new Board()
+   }
+}
+
 
 class Room{
    constructor(){
       this.elements = {
          roomID: makeRoomID(),
-         player_count: 0,
          players: [],
          ready_count: 0
       }
@@ -32,45 +41,86 @@ class Room{
     * @returns true if the room is full, else false
     */
    isFull(){
-      return (this.elements.player_count >= MAX_PLAYER_PER_ROOM);
+      return (this.elements.players.length >= MAX_PLAYER_PER_ROOM);
    }
 
    isReady(){
-      return (this.elements.ready_count == 2);
+      return (this.elements.ready_count.length == 2);
    }
 
    /**
     * takes socket id of user and pushs it to players array
-    * @param {string} userID
+    * @param {string} socketID
+    * @param {string} playerID
     * @returns true if new player has been added successfully, else false
     */
-   addPlayer(userID){
+   addPlayer(socketID, playerID){
       if(this.isFull()){
          return false;
       }else{
-         this.elements.players.push(userID);
-         this.elements.player_count++;
+         this.elements.players.push(new RoomPlayer(socketID, playerID));
          this.display();
          return true;
       }
    }
 
 
-   removePlayer(userID){
-      this.elements.players = this.elements.players.filter((value) => {return value != userID});
-      this.elements.player_count--;
+   /**
+    * removes player with matching socket id
+    * @param {string} socketID 
+    */
+   removePlayer(socketID){
+      this.elements.players = this.elements.players.filter((value) => {return value.socketID != socketID});
    }
 
 
+   /**
+    * removes all players from the room
+    */
    removePlayers(){
-      this.elements.count = 0
       this.elements.players = []
    }
 
 
+   /* increases ready count of the room */
    readyPlayer(){
       this.elements.ready_count++;
    }
+
+
+   /**
+    * @param {string} socketID 
+    * @returns {Board | undefined} board of a player from their socket id
+    */
+   getBoard(socketID){
+      for(let i = 0; i < this.elements.players.length; i++){
+         if(this.elements.players[i].socketID === socketID){
+            return this.elements.players[i].board
+         }
+      }
+      return undefined
+   }
+
+
+   /**
+    * sets the board of the player with matching socket id with the given coords of the ship
+    * @param {string} socketID 
+    * @param {number[]} submarineXYs 
+    * @param {number[]} corvetteXYs 
+    * @param {number[]} frigateXYs 
+    * @param {number[]} destroyerXYs 
+    * @param {number[]} carrierXYs 
+    * @return {boolean} true if board set successfully
+    */
+   setBoard(socketID, submarineXYs, corvetteXYs, frigateXYs, destroyerXYs, carrierXYs){
+      let thisBoard = this.getBoard(socketID)
+
+      if(thisBoard === undefined) return false
+
+      thisBoard.setBoard(submarineXYs, corvetteXYs, frigateXYs, destroyerXYs, carrierXYs)
+      return true
+   }
+
 
    /**
     * displays elements of room
@@ -78,7 +128,7 @@ class Room{
    display(){
       console.log(`Room: ${ this.elements.roomID }`)
       console.log(this.elements.players);
-      console.log(`Player count: ${ this.elements.player_count }`);
+      console.log(`Player count: ${ this.elements.players.length }`);
    }
 }
 
@@ -191,5 +241,5 @@ class RoomList{
    }
 }
 
-exports.RoomList = RoomList;
-exports.Room = Room;
+exports.Room = Room
+exports.RoomList = RoomList
