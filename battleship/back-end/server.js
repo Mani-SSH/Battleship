@@ -200,4 +200,10 @@ io.on('connection', (socket) => {
         thisRoom.removePlayer(socket.id);
         thisRoom.display();
     })
+
+    socket.on("disconnect", () => {
+        /* check if user was on a room */
+
+        /* emit to room player has forfeit */
+    })
 })
