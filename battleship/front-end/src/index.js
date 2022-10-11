@@ -3,7 +3,7 @@ import ReactDOM from 'react-dom/client';
 import './assets/css/index.css';
 import Home from './pages/Home/Home';
 import Placement from './pages/Placement/Placement';
-import Game from './pages/game/Game'; 
+import Game from './pages/Game/Game'; 
 import { BrowserRouter, Routes, Route } from "react-router-dom";
 
 export default function App() {

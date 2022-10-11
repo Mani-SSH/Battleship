@@ -14,6 +14,7 @@ export function Ships({ setShip }){
         ships.push(<ButtonShip 
             onClick={ () => setShip(ShipList[ship]) }
             ship={ ShipList[ship] }
+            key={ ship.id }
         />)
     })
 

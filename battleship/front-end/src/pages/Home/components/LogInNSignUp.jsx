@@ -26,8 +26,8 @@ export default function LogInNSignUp()
 
     return (
         <>
-            <Button className='logg' size='lg' bsPrefix='Home' onClick={ handleShowLogIn }>Log In</Button>
-            <Button className='logg1' size='lg' bsPrefix='Home' onClick={ handleShowSignUp }>Sign Up</Button>
+            <Button className='logg' size='lg' onClick={ handleShowLogIn }>Log In</Button>
+            <Button className='logg1' size='lg' onClick={ handleShowSignUp }>Sign Up</Button>
             <LogIn 
             show={ showLogIn }
             onHide={ handleCloseLogIn }

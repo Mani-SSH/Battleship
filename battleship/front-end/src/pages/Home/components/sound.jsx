@@ -16,6 +16,7 @@ export default function Music()
 
     /* set audio to loop */
     audio.loop = true;
+    audio.volume = 0.25
     
     /* side effect of 'playing' state being changed */
     useEffect(() => {
@@ -26,7 +27,7 @@ export default function Music()
 
         return(
             <div>
-                {playing? <MdMusicNote className="audi" size='sm' bsPrefix="Home" onClick={ toggle }/> : <MdMusicOff className="audi" size='sm' bsPrefix="Home" onClick={ toggle }/> }
+                {playing? <MdMusicNote className="audi" size='sm' onClick={ toggle }/> : <MdMusicOff className="audi" size='sm' onClick={ toggle }/> }
             </div>
         );
 

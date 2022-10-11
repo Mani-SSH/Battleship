@@ -1,9 +1,6 @@
 import "../../../assets/css/gameBoard.sass";
 
 import React, { useState } from "react";
- 
-const VA = [];
-const HA = [];
 
 
 export default function Board() {
@@ -18,7 +15,7 @@ export default function Board() {
         {
     
             board.push(
-                <div className="tiles">{HA[i]} {VA[j]}</div>
+                <Square />
             );
         }
     }
@@ -28,4 +25,10 @@ export default function Board() {
             <div className="gBoard">{board}</div>
         </>
     );
+}
+
+function Square() {
+    return(
+        <div className="tiles"></div>
+    )
 }
