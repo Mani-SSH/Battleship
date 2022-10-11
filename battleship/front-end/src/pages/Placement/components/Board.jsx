@@ -100,7 +100,7 @@ export default function Board()
                 setCoordinates({ ...coordinates, destroyer: [...hoverXYs] })
                 break
             case ShipList.FRIGATE.id:
-                setCoordinates({ ...coordinates, frigate: [...hoverXYs] })
+                setCoordinates({ ...coordinates, frigate: [...hoverXYs] }) 
                 break
             case ShipList.SUBMARINE.id:
                 setCoordinates({ ...coordinates, submarine: [...hoverXYs] })
@@ -200,7 +200,7 @@ export default function Board()
 }
 
 
-function Square({ x, y, setXY, onClick, ship, hoverXYs, resetHighlight, valid }){
+function Square({ x, y, setXY, onClick, ship, hoverXYs, resetHighlight, valid}){
     const [colour, setColour] = useState("white") // color of the cell
 
     /* when mouse hovers on the cell */
@@ -216,6 +216,9 @@ function Square({ x, y, setXY, onClick, ship, hoverXYs, resetHighlight, valid })
     const handleClick = () => {
         if (ship){
             onClick();
+            let elem = document.querySelector(`div.tiles`);
+            let rect = elem.getBoundingClientRect();
+            console.log(rect);
         }
     }
 
@@ -251,13 +254,21 @@ function Square({ x, y, setXY, onClick, ship, hoverXYs, resetHighlight, valid })
         }
     }, [resetHighlight])
 
+    const mystyle = {
+        backgroundColor: colour,
+        opacity: 0.5,
+        width: 50 + 'px',
+        height: 50 + 'px',
+        border: '1px solid black'
+      };
+
     return(
         <div
-        className="tiles"
+        className = "tiles"
         onMouseOver={ handleHover }
         onClick = { handleClick }
+        style={mystyle}
         >
-            <h6>{colour}</h6>
         </div>
     )
 }
