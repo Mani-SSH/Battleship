@@ -128,11 +128,12 @@ export default function Board()
                 y={ i }
                 setXY={ setCurrentXY }
                 onClick = { handleTileClicked }
-                key={j*10 + i}
+                squareNo={ 'squareNo' + j*10 + i}
                 ship={ ship }
                 hoverXYs={ hoverXYs }
                 resetHighlight={ resetHighlight }
                 valid={ valid }
+                key = {j*10 + i}
                 />
             );
         }
@@ -200,7 +201,7 @@ export default function Board()
 }
 
 
-function Square({ x, y, setXY, onClick, ship, hoverXYs, resetHighlight, valid}){
+function Square({ x, y, setXY, onClick, squareNo, ship, hoverXYs, resetHighlight, valid}){
     const [colour, setColour] = useState("white") // color of the cell
 
     /* when mouse hovers on the cell */
@@ -216,7 +217,7 @@ function Square({ x, y, setXY, onClick, ship, hoverXYs, resetHighlight, valid}){
     const handleClick = () => {
         if (ship){
             onClick();
-            let elem = document.querySelector(`div.tiles`);
+            let elem = document.querySelector(`div.${squareNo}`);
             let rect = elem.getBoundingClientRect();
             console.log(rect);
         }
@@ -264,7 +265,7 @@ function Square({ x, y, setXY, onClick, ship, hoverXYs, resetHighlight, valid}){
 
     return(
         <div
-        className = "tiles"
+        className = {squareNo}
         onMouseOver={ handleHover }
         onClick = { handleClick }
         style={mystyle}
