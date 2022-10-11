@@ -190,8 +190,7 @@ export default function Board()
             <Button onClick = {()=>{(rotateShip < 4) ? setRotation(rotateShip + 1) : setRotation(0)}}>Rotate</Button>
             <Button>Place Ship</Button>
 
-            <div
-            className="flex-container"
+            <div className="flex-container"
             onMouseLeave={ handleMouseLeaveBoard }
             onMouseEnter={() => setResetHighlight(false)}
             >{board}</div>
@@ -252,8 +251,7 @@ function Square({ x, y, setXY, onClick, ship, hoverXYs, resetHighlight, valid })
     }, [resetHighlight])
 
     return(
-        <div
-        className="tiles"
+        <div className="tiles"
         onMouseOver={ handleHover }
         onClick = { handleClick }
         >
