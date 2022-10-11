@@ -3,6 +3,7 @@ import ReactDOM from 'react-dom/client';
 import './assets/css/index.css';
 import Home from './pages/Home/Home';
 import Placement from './pages/Placement/Placement';
+import Game from './pages/game/Game'; 
 import { BrowserRouter, Routes, Route } from "react-router-dom";
 
 export default function App() {
@@ -12,6 +13,7 @@ export default function App() {
         <Routes>
           <Route path='/' element={ <Home/> } />
           <Route path="placement" element={ <Placement/> } />
+          <Route path='game' element={ <Game /> } />
         </Routes>
       </BrowserRouter>
     </div>
