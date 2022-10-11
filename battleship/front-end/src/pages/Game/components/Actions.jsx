@@ -19,7 +19,7 @@ export default function Actions({ setAction }) {
     )
 }
 
-function ButtonAction({ onClick, action}) {
+function ButtonAction({ onClick, action }) {
     const [disable, setDisable] = useState(false)
     
     return(

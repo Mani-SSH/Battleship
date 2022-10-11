@@ -7,12 +7,12 @@ export const ActionList = {
         id: "radar",
         charge: 3
     },
-    CLUSTER_BOMB: {
-        id: "cluster bomb",
+    CLUSTER_STRIKE: {
+        id: "cluster_strike",
         charge: 6
     },
     AERIAL_STRIKE: {
-        id: "aerial strike",
+        id: "aerial_strike",
         charge: 6
     }
 }
