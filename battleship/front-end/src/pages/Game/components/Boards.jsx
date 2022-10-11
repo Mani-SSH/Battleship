@@ -1,12 +1,14 @@
 import "../../../assets/css/gameBoard.sass";
 
-import React, { useState } from "react";
+export default function Boards({ turn }) {
+    return (
+        <Board />
+    )
+}
 
 
-export default function Board() {
-
+function Board() {
     let board =[];
-
     
     /* setting board */
     for(let j=1; j <= 9; j++)
