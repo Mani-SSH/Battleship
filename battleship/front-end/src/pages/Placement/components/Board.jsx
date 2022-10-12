@@ -37,7 +37,6 @@ const checkValid = (coordinates) => {
 const getAdjacentXYs = (x, y, length, rotateShip) => {
     const adjacentXYs = []
 
-    /* for horizontal ship */
     for(let i = 0; i < length; i++){
         switch (rotateShip) {
             case 0:
