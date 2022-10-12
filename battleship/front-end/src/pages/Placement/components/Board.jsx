@@ -93,11 +93,12 @@ export default function Board()
     let shipsImg = [];
 
     Object.keys(ShipList).forEach((ship)=>{
-        shipsImg.push(<RenderShip
-                        currentTile = {currentTile}
-                        ship = {ship}
-        />)
-        
+        shipsImg.push(
+        <RenderShip
+        currentTile={ currentTile }
+        ship={ ShipList[ship] }
+        />
+        ) 
     })
 
     const handleTileClicked = () => {
@@ -292,7 +293,7 @@ function Square({ x, y, setXY, onClick, squareNo, ship, hoverXYs, resetHighlight
 }
 
 
-function RenderShip({currentTile, ship})
+function RenderShip({ currentTile, ship })
 {
     const coordinates = useContext(CoordinatesContext)
     const [show,setShow] = useState(false)
@@ -300,20 +301,25 @@ function RenderShip({currentTile, ship})
     var top = currentTile.top;
     console.log(`${left}, ${top}`) // checking top and left for tiles... it works
     console.log(ship) // only ship name is visible
-    useEffect(()=>{
-        if(coordinates.length > 0)
+
+    useEffect(() => {
+        if(coordinates[ship.id].length > 0)
         {
             console.log("checking about cordinates")
             setShow(true);
             console.log("this is true")
         }
-    },[coordinates])
+    }, [coordinates[ship.id]])
+
     return(
-        <div
-        style = {{left, top, position:'absolute'}}>
-        {show ? <img src = {ship.thumb} alt= "ships"/> : null
+        <div>
+        {show && <div
+            style={ { left, top, position:'absolute' } }>
+            <img src={ship.thumb} alt="ships"/>
+            </div>
         }
         </div>
+        
     )
 }
 
