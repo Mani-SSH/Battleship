@@ -11,10 +11,12 @@ export function Ships({ setShip }){
     let ships = []
 
     Object.keys(ShipList).forEach((ship) => {
-        ships.push(<ButtonShip 
-            onClick={ () => setShip(ShipList[ship]) }
-            ship={ ShipList[ship] }
-        />)
+        ships.push(
+            <ButtonShip 
+                onClick={ () => setShip(ShipList[ship]) }
+                ship={ ShipList[ship] }
+            />
+        )
     })
 
     return(

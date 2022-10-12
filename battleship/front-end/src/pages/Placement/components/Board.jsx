@@ -297,19 +297,21 @@ function RenderShip({ currentTile, ship })
 {
     const coordinates = useContext(CoordinatesContext)
     const [show,setShow] = useState(false)
-    var left = currentTile.left;
-    var top = currentTile.top;
-    console.log(`${left}, ${top}`) // checking top and left for tiles... it works
-    console.log(ship) // only ship name is visible
+    const [left, setLeft] = useState(0)
+    const [top, setTop] = useState(0)
+
+    // console.log(`${left}, ${top}`) // checking top and left for tiles... it works
+    // console.log(ship) // only ship name is visible
 
     useEffect(() => {
-        if(coordinates[ship.id].length > 0)
-        {
+        if(coordinates[ship.id].length > 0){
             console.log("checking about cordinates")
+            setLeft(currentTile.left)
+            setTop(currentTile.top)
             setShow(true);
             console.log("this is true")
         }
-    }, [coordinates[ship.id]])
+    }, [coordinates[ship.id]]) // eslint-disable-line react-hooks/exhaustive-deps
 
     return(
         <div>
