@@ -88,22 +88,27 @@ export default function Board()
     const coordinates = useContext(CoordinatesContext)
     const setCoordinates = useContext(CoordinatesUpdateContext)
 
-    const handleTileClicked = () => {
+    const handleTileClicked = (rect) => {
         switch(ship.id){
             case ShipList.CARRIER.id:
                 setCoordinates({ ...coordinates, carrier: [...hoverXYs] })
+                renderShip(rect, ShipList.CARRIER.thumb)
                 break
             case ShipList.CORVETTE.id:
                 setCoordinates({ ...coordinates, corvette: [...hoverXYs] })
+                renderShip(rect, ShipList.CORVETTE.thumb)
                 break
             case ShipList.DESTROYER.id:
                 setCoordinates({ ...coordinates, destroyer: [...hoverXYs] })
+                renderShip(rect, ShipList.DESTROYER.thumb)
                 break
             case ShipList.FRIGATE.id:
                 setCoordinates({ ...coordinates, frigate: [...hoverXYs] }) 
+                renderShip(rect, ShipList.FRIGATE.thumb)
                 break
             case ShipList.SUBMARINE.id:
                 setCoordinates({ ...coordinates, submarine: [...hoverXYs] })
+                renderShip(rect, ShipList.SUBMARINE.thumb)
                 break
             default:
                 console.log("ship not clicked")
@@ -127,7 +132,7 @@ export default function Board()
                 x={ j }
                 y={ i }
                 setXY={ setCurrentXY }
-                onClick = { handleTileClicked }
+                onClick = { handleTileClicked } 
                 squareNo={ 'squareNo' + j*10 + i}
                 ship={ ship }
                 hoverXYs={ hoverXYs }
@@ -216,10 +221,10 @@ function Square({ x, y, setXY, onClick, squareNo, ship, hoverXYs, resetHighlight
 
     const handleClick = () => {
         if (ship){
-            onClick();
+            
             let elem = document.querySelector(`div.${squareNo}`);
             let rect = elem.getBoundingClientRect();
-            console.log(rect);
+            onClick(rect);
         }
     }
 
@@ -257,7 +262,7 @@ function Square({ x, y, setXY, onClick, squareNo, ship, hoverXYs, resetHighlight
 
     const mystyle = {
         backgroundColor: colour,
-        opacity: 0.5,
+        opacity: 1,
         width: 50 + 'px',
         height: 50 + 'px',
         border: '1px solid black'
@@ -270,6 +275,22 @@ function Square({ x, y, setXY, onClick, squareNo, ship, hoverXYs, resetHighlight
         onClick = { handleClick }
         style={mystyle}
         >
+        </div>
+    )
+}
+
+
+function renderShip(rect, thumb)
+{
+    var left = rect.left;
+    var top = rect.top;
+    console.log(rect)
+    console.log(`${left}, ${top}`)
+    console.log(thumb)
+    return(
+        <div
+        style = {{left, top, position:'absolute'}}>
+        <img src = {thumb} alt= "ships"/>
         </div>
     )
 }
