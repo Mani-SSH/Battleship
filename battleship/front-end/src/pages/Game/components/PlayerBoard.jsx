@@ -1,9 +1,11 @@
 import { useState } from "react";
+import { useLocation } from "react-router-dom";
 
 import "../../../assets/css/gameBoard.sass";
 
 export default function PlayerBoard() {
     let board = []
+    const location = useLocation()
 
      /* setting board */
      for(let j=1; j <= 9; j++)

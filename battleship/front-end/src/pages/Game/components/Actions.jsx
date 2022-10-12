@@ -11,7 +11,7 @@ export default function Actions({ setAction }) {
         actions.push(<ButtonAction 
             onClick={ () => setAction(ActionList[action])}
             action={ ActionList[action] }
-            key={ action.id }
+            key={ ActionList[action].id }
         />)
     })
 
