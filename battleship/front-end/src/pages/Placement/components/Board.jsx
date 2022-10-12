@@ -14,15 +14,30 @@ import { Ships, ShipPreview} from "./Ships";
  * @param {array} coordinates 
  * @returns true if all coordinates are valid, else false
  */
-const checkValid = (coordinates) => {
+const checkValid = (adjacentXYs,coordinates) => {
     /* if any coordinate is out of board, return false */
-    for(let i = 0; i < coordinates.length; i++){
-        if(coordinates[i][0] < 1 || coordinates[i][1] < 1 || coordinates[i][0] > 9 || coordinates[i][1] > 9){
+    for(let i = 0; i < adjacentXYs.length; i++){
+        if(adjacentXYs[i][0] < 1 || adjacentXYs[i][1] < 1 || adjacentXYs[i][0] > 9 || adjacentXYs[i][1] > 9){
             return false
         }
+    
     }
-
     /* if any coordinate is coincides with coordinates of other ship, return false */
+    Object.keys(ShipList).forEach((ship) => {
+        let name = ShipList[ship].id
+        console.log("Here is from shipList")
+        if(coordinates[name].length!==0)
+        {
+            for(let i = 0; i < coordinates[name].length; i++ )
+            {
+                if (adjacentXYs===coordinates[ShipList[ship].id][i])
+                {
+                    return false
+                }
+            }
+        }
+          
+    });
 
 
     return true
@@ -186,7 +201,7 @@ export default function Board()
                 let adjacentXYs = getAdjacentXYs(x, y, length, rotateShip)
 
                 /* check if they are valid and set value of valid to the value returned */
-                setValid(checkValid(adjacentXYs))
+                setValid(checkValid(adjacentXYs,coordinates))
 
                 /* set value of adjacent coordinates on hover */
                 setHoverXYs(adjacentXYs)
@@ -275,7 +290,7 @@ function Square({ x, y, setXY, onClick, squareNo, ship, hoverXYs, resetHighlight
 
     const mystyle = {
         backgroundColor: colour,
-        opacity: 1,
+        opacity: 0.5,
         width: 50 + 'px',
         height: 50 + 'px',
         border: '1px solid black'
