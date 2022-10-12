@@ -50,6 +50,10 @@ export default function OpponentBoard() {
         setHoverXYs([])
     }
 
+    const handleTileClicked = () => {
+        
+    }
+
     let board =[];
     
     /* setting board */
@@ -65,6 +69,7 @@ export default function OpponentBoard() {
                     setXY={ setCurrentXY }
                     hoverXYs={ hoverXYs }
                     resetHighlight={ resetHighlight }
+                    onClick={ handleTileClicked }
                 />
             );
         }

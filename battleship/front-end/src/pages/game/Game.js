@@ -15,7 +15,7 @@ export default function Game()
 
     const [clickedXY, setClickedXY] = useState({ x: 0, y: 0 })
     const [action, setAction] = useState()
-    const [turn, setTurn] = useState(false)
+    const [turn, setTurn] = useState(true)
 
     useEffect(() => {
         console.log(action)
