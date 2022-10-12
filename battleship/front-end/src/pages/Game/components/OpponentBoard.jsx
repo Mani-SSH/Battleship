@@ -154,11 +154,20 @@ function Square({x, y, setXY, hoverXYs, resetHighlight, onClick }) {
         }
     }, [resetHighlight])
 
+    const mystyle = {
+        backgroundColor:color,
+        opacity:1,
+        width:50+ 'px',
+        height:50+'px',
+        border:'1px solid black',
+    }
+
     return(
         <div 
         className="tiles"
         onMouseOver={ handleHover }
         onClick = { handleClick }
+        style={mystyle}
         >
         {(bombed)? "bombed" : "clear"}
         <br/>

@@ -13,6 +13,7 @@ import OpponentFound from './OpponentFound';
 import * as io from '../../../io-client-handler'
 
 import "../../../assets/css/CreateRoom.sass"
+import "../../../assets/css/Home.sass";
 import { LoggedInContext, PlayerContext } from '../Home';
 
 
@@ -154,7 +155,7 @@ export default function CreateRoom() {
 
     return (
         <div id='call1'>
-            <Button className='createRoom' size="lg" variant="success" onClick={ handleShowCreateRoom }>Create Room</Button>
+            <Button className='createRoom' size="lg" bsPrefix='Home' variant="success" onClick={ handleShowCreateRoom }>Create Room</Button>
 
             <Modal
             show={ showCreateRoom }

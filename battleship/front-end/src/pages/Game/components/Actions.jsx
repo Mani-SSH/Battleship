@@ -1,10 +1,11 @@
 import { useState } from "react";
 import Button from "react-bootstrap/esm/Button";
+import "../../../assets/css/action.sass";
 
 import { ActionList } from "../../../data/actionlist";
 
 export default function Actions({ setAction }) {
-    let actions = []
+    let actions = [];
 
     Object.keys(ActionList).forEach((action) => {
         actions.push(<ButtonAction 
@@ -23,6 +24,6 @@ function ButtonAction({ onClick, action }) {
     const [disable, setDisable] = useState(false)
     
     return(
-        <Button onClick={ onClick }>{ action.id }</Button>
+        <Button className="action" variant="danger" onClick={ onClick }>{ action.id }</Button>
     )
 }

@@ -22,7 +22,7 @@ export default function Game()
     }, [action])
 
     return(
-        <div>
+        <div className="Gamee">
             <ClickedXYContext.Provider value={ clickedXY }>
             <ClickedXYUpdateContext.Provider value={ setClickedXY }>
             <ActionContext.Provider value={ action }>
@@ -31,7 +31,7 @@ export default function Game()
             </ClickedXYUpdateContext.Provider>
             </ClickedXYContext.Provider>
 
-            <Actions setAction={ setAction } />
+            <div className="act"><Actions setAction={ setAction } /></div>
         </div>
     );
 
