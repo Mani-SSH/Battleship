@@ -81,6 +81,8 @@ export default function Board()
 
     const [rotateShip, setRotation] = useState(0)
 
+    const [currentTile, setCurrentTile] = useState() //postion of tile clicked on grid
+
     const [valid, setValid] = useState(true) // if the adjacent cells are valid
 
     const [resetHighlight, setResetHighlight] = useState(false) // toggles when mouse in on and off the board, turns off highlight
@@ -88,27 +90,32 @@ export default function Board()
     const coordinates = useContext(CoordinatesContext)
     const setCoordinates = useContext(CoordinatesUpdateContext)
 
-    const handleTileClicked = (rect) => {
+    let shipsImg = [];
+
+    Object.keys(ShipList).forEach((ship)=>{
+        shipsImg.push(<RenderShip
+                        currentTile = {currentTile}
+                        ship = {ship}
+        />)
+        
+    })
+
+    const handleTileClicked = () => {
         switch(ship.id){
             case ShipList.CARRIER.id:
                 setCoordinates({ ...coordinates, carrier: [...hoverXYs] })
-                renderShip(rect, ShipList.CARRIER.thumb)
                 break
             case ShipList.CORVETTE.id:
                 setCoordinates({ ...coordinates, corvette: [...hoverXYs] })
-                renderShip(rect, ShipList.CORVETTE.thumb)
                 break
             case ShipList.DESTROYER.id:
                 setCoordinates({ ...coordinates, destroyer: [...hoverXYs] })
-                renderShip(rect, ShipList.DESTROYER.thumb)
                 break
             case ShipList.FRIGATE.id:
                 setCoordinates({ ...coordinates, frigate: [...hoverXYs] }) 
-                renderShip(rect, ShipList.FRIGATE.thumb)
                 break
             case ShipList.SUBMARINE.id:
                 setCoordinates({ ...coordinates, submarine: [...hoverXYs] })
-                renderShip(rect, ShipList.SUBMARINE.thumb)
                 break
             default:
                 console.log("ship not clicked")
@@ -138,6 +145,7 @@ export default function Board()
                 hoverXYs={ hoverXYs }
                 resetHighlight={ resetHighlight }
                 valid={ valid }
+                setCurrentTile = {setCurrentTile}
                 key = {j*10 + i}
                 />
             );
@@ -155,11 +163,14 @@ export default function Board()
     }
 
     /* REMOVE LATER */
-    useEffect(() => {
-        console.log(coordinates)
-    }, [coordinates])
+    // useEffect(() => {
+    //     console.log(coordinates)
+    // }, [coordinates])
 
-    
+    useEffect (()=>{
+        console.log("This is from current tile:")
+        console.log(currentTile)
+    }, [currentTile])
     /* on hover while ship is clicked */
     useEffect(() => {
         /* check if ship is clicked */
@@ -201,12 +212,13 @@ export default function Board()
             onMouseLeave={ handleMouseLeaveBoard }
             onMouseEnter={() => setResetHighlight(false)}
             >{board}</div>
+            <div>{shipsImg}</div>
         </>
     );
 }
 
 
-function Square({ x, y, setXY, onClick, squareNo, ship, hoverXYs, resetHighlight, valid}){
+function Square({ x, y, setXY, onClick, squareNo, ship, hoverXYs, resetHighlight, valid, setCurrentTile}){
     const [colour, setColour] = useState("white") // color of the cell
 
     /* when mouse hovers on the cell */
@@ -221,10 +233,10 @@ function Square({ x, y, setXY, onClick, squareNo, ship, hoverXYs, resetHighlight
 
     const handleClick = () => {
         if (ship){
-            
-            let elem = document.querySelector(`div.${squareNo}`);
-            let rect = elem.getBoundingClientRect();
-            onClick(rect);
+            let squareElement = document.querySelector(`div.${squareNo}`);
+            let currentTile = squareElement.getBoundingClientRect();
+            setCurrentTile(currentTile);
+            onClick();
         }
     }
 
@@ -280,17 +292,40 @@ function Square({ x, y, setXY, onClick, squareNo, ship, hoverXYs, resetHighlight
 }
 
 
-function renderShip(rect, thumb)
+function RenderShip({currentTile, ship})
 {
-    var left = rect.left;
-    var top = rect.top;
-    console.log(rect)
-    console.log(`${left}, ${top}`)
-    console.log(thumb)
+    const coordinates = useContext(CoordinatesContext)
+    const [show,setShow] = useState(false)
+    var left = currentTile.left;
+    var top = currentTile.top;
+    console.log(`${left}, ${top}`) // checking top and left for tiles... it works
+    console.log(ship) // only ship name is visible
+    useEffect(()=>{
+        if(coordinates.length > 0)
+        {
+            console.log("checking about cordinates")
+            setShow(true);
+            console.log("this is true")
+        }
+    },[coordinates])
     return(
         <div
         style = {{left, top, position:'absolute'}}>
-        <img src = {thumb} alt= "ships"/>
+        {show ? <img src = {ship.thumb} alt= "ships"/> : null
+        }
         </div>
     )
+}
+
+RenderShip.defaultProps = {
+    currentTile : {
+        bottom: 0,
+        height: 0,
+        left: 0,
+        right: 0,
+        top: 0,
+        width: 0,
+        x: 0,
+        y: 0
+    }
 }
