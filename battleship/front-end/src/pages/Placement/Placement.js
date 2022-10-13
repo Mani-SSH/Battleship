@@ -1,4 +1,5 @@
 import "../../assets/css/Body.sass";
+import "../../assets/css/flex.sass";
 
 import React,{ useContext, useEffect, useState } from "react";
 import { useLocation, useNavigate } from 'react-router-dom';

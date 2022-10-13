@@ -321,7 +321,7 @@ function RenderShip({ currentTile, ship })
     useEffect(() => {
         if(coordinates[ship.id].length > 0){
             console.log("checking about cordinates")
-            setLeft(currentTile.left)
+            setLeft(currentTile.left-((ship.length-1)*50))
             setTop(currentTile.top)
             setShow(true);
             console.log("this is true")
@@ -330,9 +330,9 @@ function RenderShip({ currentTile, ship })
 
     return(
         <div>
-        {show && <div
+        {show && <div 
             style={ { left, top, position:'absolute' } }>
-            <img src={ship.thumb} alt="ships"/>
+            <img src={ship.thumb} alt="ships" className={ship.id} />
             </div>
         }
         </div>
