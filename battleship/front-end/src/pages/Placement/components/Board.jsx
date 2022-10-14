@@ -25,7 +25,7 @@ const checkValid = (adjacentXYs,coordinates) => {
     /* if any coordinate is coincides with coordinates of other ship, return false */
     Object.keys(ShipList).forEach((ship) => {
         let name = ShipList[ship].id
-        console.log("Here is from shipList")
+       // console.log("Here is from shipList")
         if(coordinates[name].length!==0)
         {
             for(let i = 0; i < coordinates[name].length; i++ )
@@ -92,11 +92,11 @@ export default function Board()
     const [ship, setShip] = useState() // ship clicked
 
     const [currentXY, setCurrentXY] = useState({x:0, y: 0}) // coordinates of current cell pointed on board
-    const [hoverXYs, setHoverXYs] = useState([]) // coordinates of adjacent cells where ship is placed
-
-    const [rotateShip, setRotation] = useState(0)
+    const [hoverXYs, setHoverXYs] = useState([]) // coordinates of adjacent cells where ship is place
 
     const [currentTile, setCurrentTile] = useState() //postion of tile clicked on grid
+    
+    const [rotateShip, setRotation] = useState(0)
 
     const [valid, setValid] = useState(true) // if the adjacent cells are valid
 
@@ -106,16 +106,6 @@ export default function Board()
     const setCoordinates = useContext(CoordinatesUpdateContext)
 
     let shipsImg = [];
-
-    Object.keys(ShipList).forEach((ship)=>{
-        shipsImg.push(
-        <RenderShip
-        currentTile={ currentTile }
-        ship={ ShipList[ship] }
-        rotateShip={rotateShip}
-        />
-        ) 
-    })
 
     const handleTileClicked = () => {
         switch(ship.id){
@@ -140,7 +130,7 @@ export default function Board()
         }
         setShip(undefined)
         setHoverXYs([])
-        setRotation(0)
+        // setRotation(0)
         setResetHighlight(true)
     }
 
@@ -184,10 +174,13 @@ export default function Board()
     //     console.log(coordinates)
     // }, [coordinates])
 
-    useEffect (()=>{
-        console.log("This is from current tile:")
-        console.log(currentTile)
-    }, [currentTile])
+    /* REMOVE LATER*/
+    // useEffect (()=>{
+    //     console.log("This is from current tile:")
+    //     console.log(currentTile)
+    // }, [currentTile])  
+
+
     /* on hover while ship is clicked */
     useEffect(() => {
         /* check if ship is clicked */
@@ -210,6 +203,21 @@ export default function Board()
         }
     }, [ship, currentXY]) // eslint-disable-line react-hooks/exhaustive-deps
 
+    Object.keys(ShipList).forEach((ship)=>{
+        shipsImg.push(
+        <RenderShip
+        currentTile={ currentTile }
+        ship={ ShipList[ship] }
+        rotateShip={ rotateShip }
+        setRotation = {setRotation}
+        />
+        ) 
+    })
+
+    const handleRotation = () => {
+        setRotation( (rotateShip +1) % 4)
+    }
+
     return(
         <>
             <div className='shipBtnContainer'>
@@ -221,8 +229,7 @@ export default function Board()
                 </div>
             </div>
 
-            <Button onClick = {()=>{(rotateShip < 4) ? setRotation(rotateShip + 1) : setRotation(0)}}>Rotate</Button>
-            <Button>Place Ship</Button>
+            <Button onClick ={handleRotation}>Rotate</Button>
 
             <div
             className="flex-container"
@@ -309,32 +316,54 @@ function Square({ x, y, setXY, onClick, squareNo, ship, hoverXYs, resetHighlight
 }
 
 
-function RenderShip({ currentTile, ship,rotateShip })
+function RenderShip({ currentTile, ship, rotateShip, setRotation})
 {
     const coordinates = useContext(CoordinatesContext)
     const [show,setShow] = useState(false)
     const [left, setLeft] = useState(0)
     const [top, setTop] = useState(0)
-
-    // console.log(`${left}, ${top}`) // checking top and left for tiles... it works
-    // console.log(ship) // only ship name is visible
+    const [rotateClass, setRotateClass] = useState("")
 
     useEffect(() => {
         if(coordinates[ship.id].length > 0){
-            console.log("checking about cordinates")
-            setLeft(currentTile.left-((ship.length-1)*50))
-            setTop(currentTile.top)
-            setShow(true);
-            console.log("this is true")
-            console.log(rotateShip)
+            console.log("checking inside RenderFunction")
+            setLeft(currentTile.left-((ship.length-1)*50))  // left of the DOMElement
+            setTop(currentTile.top) // top of the DOM Element
+            setShow(true);  // Turns on Visibility of the ship
+            console.log(`${ship.id} = ${rotateShip}`)
+
+            if(rotateShip === 0)
+            {
+                setRotateClass(rotateClass => rotateClass + "Zero_");
+            }
+            else if (rotateShip === 1)
+            {
+                setRotateClass ("Ninety_");
+            }
+            else if (rotateShip === 2)
+            {
+                setRotateClass ("HundredEighty_")
+            } 
+            else if (rotateShip === 3)
+            {
+                setRotateClass("TwoSeventy_")
+            }
+            setRotation(0)
+            console.log("Outside renderFunction")
+            console.log(rotateClass + ship.id)
         }
     }, [coordinates[ship.id]]) // eslint-disable-line react-hooks/exhaustive-deps
+
+    useEffect(()=>{
+        console.log(rotateClass + ship.id)
+    },[rotateClass])
+
 
     return(
         <div>
         {show && <div 
             style={ { left, top, position:'absolute' } } className="placeShip">
-            <img src={ship.thumb} alt="ships" className={"place_"+ship.id} />
+            <img src={ship.thumb} alt="ships" className={rotateClass + ship.id} />
             </div>
         }
         </div>
