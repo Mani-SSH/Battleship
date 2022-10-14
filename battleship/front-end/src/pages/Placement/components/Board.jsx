@@ -112,6 +112,7 @@ export default function Board()
         <RenderShip
         currentTile={ currentTile }
         ship={ ShipList[ship] }
+        rotateShip={rotateShip}
         />
         ) 
     })
@@ -308,7 +309,7 @@ function Square({ x, y, setXY, onClick, squareNo, ship, hoverXYs, resetHighlight
 }
 
 
-function RenderShip({ currentTile, ship })
+function RenderShip({ currentTile, ship,rotateShip })
 {
     const coordinates = useContext(CoordinatesContext)
     const [show,setShow] = useState(false)
@@ -325,14 +326,15 @@ function RenderShip({ currentTile, ship })
             setTop(currentTile.top)
             setShow(true);
             console.log("this is true")
+            console.log(rotateShip)
         }
     }, [coordinates[ship.id]]) // eslint-disable-line react-hooks/exhaustive-deps
 
     return(
         <div>
         {show && <div 
-            style={ { left, top, position:'absolute' } }>
-            <img src={ship.thumb} alt="ships" className={ship.id} />
+            style={ { left, top, position:'absolute' } } className="placeShip">
+            <img src={ship.thumb} alt="ships" className={"place_"+ship.id} />
             </div>
         }
         </div>
