@@ -18,7 +18,6 @@ export default function JoinRoom(props){
             <Modal.Body className='join-body'>
                 <h2>Waiting for opponent...</h2>
                 <div className='spinner-border text-success m-2' role="status">
-                    <span className='sr-only'></span>
                 </div>
                 <h6>Loading...</h6>
             </Modal.Body>
