@@ -9,6 +9,7 @@ import { BrowserRouter, Routes, Route } from "react-router-dom";
 export default function App() {
   return(
     <div className='App'>
+    <React.StrictMode>
       <BrowserRouter>
         <Routes>
           <Route path='/' element={ <Home/> } />
@@ -16,6 +17,7 @@ export default function App() {
           <Route path='game' element={ <Game /> } />
         </Routes>
       </BrowserRouter>
+    </React.StrictMode>
     </div>
   );
 }

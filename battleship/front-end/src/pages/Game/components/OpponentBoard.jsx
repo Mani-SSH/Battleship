@@ -1,11 +1,12 @@
-import { useContext, useEffect, useMemo, useState } from "react";
+import { useEffect, useMemo, useState } from "react";
 
 import { useLocation } from "react-router-dom";
 
-import { ActionContext } from "../Game";
 import * as io from "../../../io-client-handler"
 
 import "../../../assets/css/gameBoard.sass";
+import EndTurn from "./EndTurn";
+import Actions from "./Actions";
 
 
 const getAdjacentXYs = (x, y, action) => {
@@ -34,9 +35,9 @@ const getAdjacentXYs = (x, y, action) => {
     return adjacentXYs
 }
 
-export default function OpponentBoard() {
+export default function OpponentBoard({ setTurn }) {
     const location = useLocation()
-    const action = useContext(ActionContext)
+    const [action, setAction] = useState()
 
     const [currentXY, setCurrentXY] = useState({x: 0, y: 0}) // coordinates of current cell pointed on board
     const [hoverXYs, setHoverXYs] = useState([]) // coordinates of adjacent cells where ship is placed
@@ -88,13 +89,14 @@ export default function OpponentBoard() {
                         onClick={ handleTileClicked }
                         hitCoords={ hitCoords }
                         missedCoords={ missedCoords }
+                        action={ action }
                     />
                 );
             }
         }
 
         return board
-    }, [hoverXYs, resetHighlight, hitCoords, missedCoords]);
+    }, [hoverXYs, resetHighlight, hitCoords, missedCoords, action]); // eslint-disable-line react-hooks/exhaustive-deps
     
    
 
@@ -129,14 +131,15 @@ export default function OpponentBoard() {
             >
             {board}
             </div>
+            <div className="act"><Actions setAction={ setAction } /></div>
+            <EndTurn setTurn={ setTurn }/>
         </>
     );
 }
 
-function Square({x, y, setXY, hoverXYs, resetHighlight, onClick, hitCoords, missedCoords }) {
+function Square({x, y, setXY, hoverXYs, resetHighlight, onClick, hitCoords, missedCoords, action }) {
     const [color, setColor] = useState("white")
     const [status, setStatus] = useState("clear")
-    const action = useContext(ActionContext)
 
     const handleHover = () => {
         if(action){
@@ -175,7 +178,7 @@ function Square({x, y, setXY, hoverXYs, resetHighlight, onClick, hitCoords, miss
 
     /* if mouse is off the board, set to default color */
     useEffect(() => {
-        if(status === "clear"){
+        if(status === "clear" || status === "miss"){
             if(resetHighlight){
                 setColor("white")
             }
@@ -190,7 +193,7 @@ function Square({x, y, setXY, hoverXYs, resetHighlight, onClick, hitCoords, miss
                 }
             }
         }
-    }, [missedCoords])
+    }, [missedCoords]) // eslint-disable-line react-hooks/exhaustive-deps
 
     useEffect(() => {
         if(status === "clear"){
@@ -200,7 +203,7 @@ function Square({x, y, setXY, hoverXYs, resetHighlight, onClick, hitCoords, miss
                 }
             }
         }
-    }, [hitCoords])
+    }, [hitCoords]) // eslint-disable-line react-hooks/exhaustive-deps
 
     const mystyle = {
         backgroundColor:color,

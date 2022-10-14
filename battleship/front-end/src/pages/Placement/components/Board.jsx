@@ -215,7 +215,7 @@ function Square({ x, y, setXY, onClick, ship, hoverXYs, resetHighlight, valid })
 
 
     const handleClick = () => {
-        if (ship){
+        if (ship && valid){
             onClick();
         }
     }

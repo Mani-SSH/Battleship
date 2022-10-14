@@ -223,6 +223,10 @@ io.on('connection', (socket) => {
         callback(isSuccessful, hitCoords, missedCoords)
     })
 
+    socket.on("switch-turn", (roomID) => {
+        socket.to(roomID).emit("switched-turn")
+    })
+
     socket.on("remove-players", (roomID) => {
         const thisRoom = rooms.getRoom(roomID)
         thisRoom.removePlayers()
