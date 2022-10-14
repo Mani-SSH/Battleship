@@ -96,11 +96,13 @@ export default function Board()
 
     const [currentTile, setCurrentTile] = useState() //postion of tile clicked on grid
     
-    const [rotateShip, setRotation] = useState(0)
+    const [rotateShip, setRotation] = useState(0) // No of times ratate button is clicked. 0 means initial, 1 means 90 degree and so on up to 270
 
     const [valid, setValid] = useState(true) // if the adjacent cells are valid
 
     const [resetHighlight, setResetHighlight] = useState(false) // toggles when mouse in on and off the board, turns off highlight
+
+    const [previewClass, setPreviewClass] = useState("") // className for preview ship div
 
     const coordinates = useContext(CoordinatesContext)
     const setCoordinates = useContext(CoordinatesUpdateContext)
@@ -167,18 +169,7 @@ export default function Board()
         setResetHighlight(true)
         setCurrentXY({x:0, y:0})
         setHoverXYs([])
-    }
-
-    /* REMOVE LATER */
-    // useEffect(() => {
-    //     console.log(coordinates)
-    // }, [coordinates])
-
-    /* REMOVE LATER*/
-    // useEffect (()=>{
-    //     console.log("This is from current tile:")
-    //     console.log(currentTile)
-    // }, [currentTile])  
+    } 
 
 
     /* on hover while ship is clicked */
@@ -217,6 +208,33 @@ export default function Board()
     const handleRotation = () => {
         setRotation( (rotateShip +1) % 4)
     }
+
+    useEffect(()=>{         // changin div className for ship image preview
+        if(ship){
+            if (rotateShip === 0)
+            {
+                setPreviewClass("Zero");
+            }
+            else if (rotateShip === 1)
+            {
+                setPreviewClass("Ninety");
+            }
+            else if (rotateShip === 2)
+            {
+                setPreviewClass("HundredEighty")
+            }
+            else if (rotateShip === 3)
+            {
+                setPreviewClass("TwoSeventy")
+            }
+        }
+    },[rotateShip])
+
+    
+    //Needs to be removed
+    useEffect(()=>{
+        console.log(previewClass);
+    },[previewClass])
 
     return(
         <>
@@ -326,11 +344,11 @@ function RenderShip({ currentTile, ship, rotateShip, setRotation})
 
     useEffect(() => {
         if(coordinates[ship.id].length > 0){
-            console.log("checking inside RenderFunction")
+            //console.log("checking inside RenderFunction")
             setLeft(currentTile.left-((ship.length-1)*50))  // left of the DOMElement
             setTop(currentTile.top) // top of the DOM Element
             setShow(true);  // Turns on Visibility of the ship
-            console.log(`${ship.id} = ${rotateShip}`)
+            //console.log(`${ship.id} = ${rotateShip}`)
 
             if(rotateShip === 0)
             {
@@ -349,14 +367,10 @@ function RenderShip({ currentTile, ship, rotateShip, setRotation})
                 setRotateClass("TwoSeventy_")
             }
             setRotation(0)
-            console.log("Outside renderFunction")
-            console.log(rotateClass + ship.id)
+            // console.log("Outside renderFunction")
+            // console.log(rotateClass + ship.id)
         }
     }, [coordinates[ship.id]]) // eslint-disable-line react-hooks/exhaustive-deps
-
-    useEffect(()=>{
-        console.log(rotateClass + ship.id)
-    },[rotateClass])
 
 
     return(
