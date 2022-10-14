@@ -46,7 +46,7 @@ export default function OpponentFound({show, onHide, roomID, playerID, opponentI
                 <Modal.Title className='of-title'>Opponent Found<CgSearchFound /></Modal.Title>
             </Modal.Header>
             <Modal.Body className='of-body'>
-                {/* <h3>{!(ready && opponentReady)? <Countdown counter={ 10 } onEnd={ handleOnCountdownEnd } /> : <></> }</h3> */}
+                <h3>{!(ready && opponentReady)? <Countdown counter={ 10 } onEnd={ handleOnCountdownEnd } /> : <></> }</h3>
                 { 
                     (ready)? 
                     <PlayerReady 
