@@ -1,6 +1,8 @@
 import Modal from 'react-bootstrap/Modal';
 import Button from 'react-bootstrap/Button';
 import Spinner from 'react-bootstrap/Spinner';
+import "../../../assets/css/oppfound.sass";
+import {CgSearchFound} from "react-icons/cg";
 
 import { useState } from 'react';
 
@@ -33,18 +35,18 @@ export default function OpponentFound({show, onHide, roomID, playerID, opponentI
     })
 
     return(
-        <Modal
+        <Modal className='of-modal'
         show={ show }
         onHide={ onHide }
-        size="md"
+        size="sm"
         backdrop="static"
         keyboard="false"
         centered>
-            <Modal.Header>
-                <Modal.Title>Opponent Found</Modal.Title>
+            <Modal.Header className='of-header'>
+                <Modal.Title className='of-title'>Opponent Found<CgSearchFound /></Modal.Title>
             </Modal.Header>
-            <Modal.Body>
-                <h3>{!(ready && opponentReady)? <Countdown counter={ 10 } onEnd={ handleOnCountdownEnd } /> : <></> }</h3>
+            <Modal.Body className='of-body'>
+                {/* <h3>{!(ready && opponentReady)? <Countdown counter={ 10 } onEnd={ handleOnCountdownEnd } /> : <></> }</h3> */}
                 { 
                     (ready)? 
                     <PlayerReady 
@@ -64,10 +66,11 @@ export default function OpponentFound({show, onHide, roomID, playerID, opponentI
 
 function PlayerReady({playerID, opponentID, playerReady, opponentReady, handleGoToNextPage}){
     return(
-        <div>
-            <h1>{ playerID }  { (playerReady)? <>Ready</> : <Spinner /> }</h1>
-            <h1>{ opponentID }    { (opponentReady)? <>Ready</> : <Spinner /> }</h1>
-            <h1>{ (playerReady && opponentReady)? <>Starting on <Countdown counter={ 3 } onEnd={ handleGoToNextPage }/>...</>:<></> }</h1>
+        <div className='h1-head'>
+            <h1>{ playerID }  { (playerReady)? <>is Ready</> : <div className='spinner-border text-primary m-0.2' role="status"></div> }</h1>
+            <h1>{ opponentID }    { (opponentReady)? <>is Ready</> :  <div className='spinner-border text-primary m-0.2' role="status">
+                </div> }</h1>
+            <h2>{ (playerReady && opponentReady)? <>Game starts in <Countdown counter={ 3 } onEnd={ handleGoToNextPage }/>...</>:<></> }</h2>
         </div>
     )
 }
