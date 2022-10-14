@@ -1,4 +1,4 @@
-import { useContext, useEffect, useState } from "react";
+import { useContext, useEffect, useMemo, useState } from "react";
 
 import { useLocation } from "react-router-dom";
 
@@ -40,6 +40,8 @@ export default function OpponentBoard() {
 
     const [currentXY, setCurrentXY] = useState({x: 0, y: 0}) // coordinates of current cell pointed on board
     const [hoverXYs, setHoverXYs] = useState([]) // coordinates of adjacent cells where ship is placed
+    const [hitCoords, setHitCoords] = useState([])
+    const [missedCoords, setMissedCoords] = useState([])
 
     const [resetHighlight, setResetHighlight] = useState(false) // toggles when mouse in on and off the board, turns off highlight
 
@@ -53,36 +55,48 @@ export default function OpponentBoard() {
     }
 
     const handleTileClicked = () => {
-        io.socket.emit("player-action", location.state.roomID, action.id, currentXY.x, currentXY.y, (isSuccessful, hitCoords) => {
+        io.socket.emit("player-action", location.state.roomID, action.id, currentXY.x, currentXY.y, (isSuccessful, hitCoords, missedCoords) => {
             /* if action is not successful, alert the user */
             if(!isSuccessful){
                 alert("Some error occured")
             }
 
-            /** change tiles hit condition */
+            /* set hit and missed coords */
+            setHitCoords(hitCoords)
+            setMissedCoords(missedCoords)
+            console.log(hitCoords)
+            console.log(missedCoords)
         })
     }
 
-    let board =[];
-    
-    /* setting board */
-    for(let j=1; j <= 9; j++)
-    {
-        for(let i = 1; i <= 9; i++)
+    const board = useMemo(() => {
+        let board = []
+
+         /* setting board */
+        for(let j=1; j <= 9; j++)
         {
-            board.push(
-                <Square 
-                    key={ 10*j + i }
-                    x={j}
-                    y={i}
-                    setXY={ setCurrentXY }
-                    hoverXYs={ hoverXYs }
-                    resetHighlight={ resetHighlight }
-                    onClick={ handleTileClicked }
-                />
-            );
+            for(let i = 1; i <= 9; i++)
+            {
+                board.push(
+                    <Square 
+                        key={ 10*j + i }
+                        x={j}
+                        y={i}
+                        setXY={ setCurrentXY }
+                        hoverXYs={ hoverXYs }
+                        resetHighlight={ resetHighlight }
+                        onClick={ handleTileClicked }
+                        hitCoords={ hitCoords }
+                        missedCoords={ missedCoords }
+                    />
+                );
+            }
         }
-    }
+
+        return board
+    }, [hoverXYs, resetHighlight, hitCoords, missedCoords]);
+    
+   
 
     /* set images of ship */
     // useEffect(() => {
@@ -119,9 +133,9 @@ export default function OpponentBoard() {
     );
 }
 
-function Square({x, y, setXY, hoverXYs, resetHighlight, onClick }) {
+function Square({x, y, setXY, hoverXYs, resetHighlight, onClick, hitCoords, missedCoords }) {
     const [color, setColor] = useState("white")
-    const [bombed, setBombed] = useState(false)
+    const [status, setStatus] = useState("clear")
     const action = useContext(ActionContext)
 
     const handleHover = () => {
@@ -143,7 +157,7 @@ function Square({x, y, setXY, hoverXYs, resetHighlight, onClick }) {
             /* if coordinates match */
             if(hoverXYs[i][0] === x && hoverXYs[i][1] === y){
                 /* check validity */
-                if(!bombed){
+                if(status === "clear"){
                     /* highlight green */
                     setColor("green")
                     break
@@ -161,12 +175,32 @@ function Square({x, y, setXY, hoverXYs, resetHighlight, onClick }) {
 
     /* if mouse is off the board, set to default color */
     useEffect(() => {
-        if(!bombed){
+        if(status === "clear"){
             if(resetHighlight){
                 setColor("white")
             }
         }
-    }, [resetHighlight])
+    }, [resetHighlight]) // eslint-disable-line react-hooks/exhaustive-deps
+
+    useEffect(() => {
+        if(status === "clear"){
+            for(let i = 0; i < missedCoords.length; i++){
+                if(missedCoords[i][0] === x && missedCoords[i][1] === y){
+                    setStatus("miss")
+                }
+            }
+        }
+    }, [missedCoords])
+
+    useEffect(() => {
+        if(status === "clear"){
+            for(let i = 0; i < hitCoords.length; i++){
+                if(hitCoords[i][0] === x && hitCoords[i][1] === y){
+                    setStatus("hit")
+                }
+            }
+        }
+    }, [hitCoords])
 
     const mystyle = {
         backgroundColor:color,
@@ -183,9 +217,9 @@ function Square({x, y, setXY, hoverXYs, resetHighlight, onClick }) {
         onClick = { handleClick }
         style={mystyle}
         >
-        {(bombed)? "bombed" : "clear"}
+        { status }
         <br/>
-        {color}
+        { color }
         </div>
     )
 }

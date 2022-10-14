@@ -34,17 +34,22 @@ class Board {
      */
     doMissile(x, y){
         let hitCoords = []
-        let effectedCoords = []
+        let missedCoords = []
+        let isHit = false
         /* for each ship check coordinate if it matches */
         Object.keys(this).forEach((ship) => {
             /* if hit push the coordinates in hitCoords */
             if(this[ship].isHit(x, y)){
+                isHit = true
                 hitCoords.push([x, y])
             }
         })
-        effectedCoords([x, y])
 
-        return { hitCoords, effectedCoords }
+        if(!isHit){
+            missedCoords.push([x, y])
+        }
+
+        return { hitCoords, missedCoords }
     }
 }
 

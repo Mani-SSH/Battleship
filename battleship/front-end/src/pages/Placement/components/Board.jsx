@@ -1,4 +1,4 @@
-import React, { useContext, useEffect, useState } from "react";
+import React, { useContext, useEffect, useState, useMemo } from "react";
 import Button from "react-bootstrap/Button"
 
 import "../../../assets/css/flex.sass";
@@ -70,9 +70,7 @@ const getAdjacentXYs = (x, y, length, rotateShip) => {
 
 
 export default function Board()
-{
-    let board =[];
-    
+{   
     const [ship, setShip] = useState() // ship clicked
 
     const [currentXY, setCurrentXY] = useState({x:0, y: 0}) // coordinates of current cell pointed on board
@@ -115,27 +113,32 @@ export default function Board()
     }
 
 
-    /* setting board */
-    for(let j=1; j <= 9; j++)
-    {
-        for(let i = 1; i <= 9; i++)
+    const board = useMemo(() => {
+        let board = []
+
+         /* setting board */
+        for(let j=1; j <= 9; j++)
         {
-    
-            board.push(
-                <Square
-                x={ j }
-                y={ i }
-                setXY={ setCurrentXY }
-                onClick = { handleTileClicked }
-                key={j*10 + i}
-                ship={ ship }
-                hoverXYs={ hoverXYs }
-                resetHighlight={ resetHighlight }
-                valid={ valid }
-                />
-            );
+            for(let i = 1; i <= 9; i++)
+            {
+                board.push(
+                    <Square 
+                        x={ j }
+                        y={ i }
+                        setXY={ setCurrentXY }
+                        onClick = { handleTileClicked }
+                        key={j*10 + i}
+                        ship={ ship }
+                        hoverXYs={ hoverXYs }
+                        resetHighlight={ resetHighlight }
+                        valid={ valid }
+                    />
+                );
+            }
         }
-    }
+
+        return board
+    }, [hoverXYs, resetHighlight, ship, valid]); // eslint-disable-line react-hooks/exhaustive-deps
         
 
     /**

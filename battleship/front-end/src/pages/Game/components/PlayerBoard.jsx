@@ -1,26 +1,31 @@
-import { useState } from "react";
+import { useState, useMemo } from "react";
 import { useLocation } from "react-router-dom";
 
 import "../../../assets/css/gameBoard.sass";
 
 export default function PlayerBoard() {
-    let board = []
     const location = useLocation()
 
-     /* setting board */
-     for(let j=1; j <= 9; j++)
-     {
-         for(let i = 1; i <= 9; i++)
-         {
-            board.push(
-                <Square 
-                key={ 10*j + i }
-                x={j}
-                y={i}
-                />
-            );
-         }
-     }
+    const board = useMemo(() => {
+        let board = []
+
+         /* setting board */
+        for(let j=1; j <= 9; j++)
+        {
+            for(let i = 1; i <= 9; i++)
+            {
+                board.push(
+                    <Square 
+                        key={ 10*j + i }
+                        x={j}
+                        y={i}
+                    />
+                );
+            }
+        }
+
+        return board
+    }, []);
 
     return (
         <div className="gBoard">
@@ -31,7 +36,7 @@ export default function PlayerBoard() {
 
 function Square({x, y}) {
     const [color, setColor] = useState("white")
-    const [bombed, setBombed] = useState(false)
+    const [status, setStatus] = useState("clear")
 
     const mystyle = {
         backgroundColor:color,
@@ -46,7 +51,7 @@ function Square({x, y}) {
         className="tiles"
         style={mystyle}
         >
-        {(bombed)? "bombed" : "clear"}
+        { status }
         </div>
     )
 }

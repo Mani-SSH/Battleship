@@ -201,7 +201,7 @@ io.on('connection', (socket) => {
         const thisBoard = thisRoom.getBoard(opponentSocketID)
 
         let hitCoords = []
-        let effectedCoords = []
+        let missedCoords = []
 
         let isSuccessful = false
 
@@ -211,16 +211,16 @@ io.on('connection', (socket) => {
             case ActionList.CLUSTER_STRIKE.id:
                 break
             case ActionList.MISSILE.id:
-                ({ hitCoords, effectedCoords } = thisBoard.doMissile(x, y))
+                ({ hitCoords, missedCoords } = thisBoard.doMissile(x, y))
                 break
             case ActionList.RADAR.id:
                 break
             default:
-                callback(isSuccessful, hitCoords, effectedCoords)
+                callback(isSuccessful, hitCoords, missedCoords)
                 retun
         }
         isSuccessful = true
-        callback(isSuccessful, hitCoords, effectedCoords)
+        callback(isSuccessful, hitCoords, missedCoords)
     })
 
     socket.on("remove-players", (roomID) => {
