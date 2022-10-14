@@ -4,6 +4,7 @@ const { createServer } = require("http");
 const { Server } = require("socket.io");
 
 const { Room, RoomList } = require("./classes/room")
+const { ActionList } = require("./data/actionlist")
 
 const db = require('./mongoose-handler');
 
@@ -187,6 +188,39 @@ io.on('connection', (socket) => {
         } catch (error) {
             console.error(error)
         }
+    })
+
+    socket.on("player-action", (roomID, actionID, x, y, callback) => {
+        /* get the room the player is in */
+        const thisRoom = rooms.getRoom(roomID)
+
+        /* get socket id of opponent */
+        const opponentSocketID = thisRoom.getOpponentSocketID(socket.id)
+
+        /* get board of the opponent */
+        const thisBoard = thisRoom.getBoard(opponentSocketID)
+
+        let hitCoords = []
+        let effectedCoords = []
+
+        let isSuccessful = false
+
+        switch(actionID){
+            case ActionList.AERIAL_STRIKE.id:
+                break
+            case ActionList.CLUSTER_STRIKE.id:
+                break
+            case ActionList.MISSILE.id:
+                ({ hitCoords, effectedCoords } = thisBoard.doMissile(x, y))
+                break
+            case ActionList.RADAR.id:
+                break
+            default:
+                callback(isSuccessful, hitCoords, effectedCoords)
+                retun
+        }
+        isSuccessful = true
+        callback(isSuccessful, hitCoords, effectedCoords)
     })
 
     socket.on("remove-players", (roomID) => {

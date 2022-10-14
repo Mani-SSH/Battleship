@@ -1,4 +1,5 @@
-const { Ship, ShipList } = require("./ships")
+const { Ship } = require("./ships")
+const { ShipList } = require("../data/shiplist")
 
 class Board {
     // constructor(){
@@ -22,6 +23,28 @@ class Board {
         this.frigate = new Ship(ShipList.FRIGATE.length, frigateXYs)
         this.destroyer = new Ship(ShipList.DESTROYER.length, destroyerXYs)
         this.carrier = new Ship(ShipList.CARRIER.length, carrierXYs)
+    }
+
+
+    /**
+     * 
+     * @param {number} x 
+     * @param {number} y 
+     * @returns {Object} coordinates that is hit
+     */
+    doMissile(x, y){
+        let hitCoords = []
+        let effectedCoords = []
+        /* for each ship check coordinate if it matches */
+        Object.keys(this).forEach((ship) => {
+            /* if hit push the coordinates in hitCoords */
+            if(this[ship].isHit(x, y)){
+                hitCoords.push([x, y])
+            }
+        })
+        effectedCoords([x, y])
+
+        return { hitCoords, effectedCoords }
     }
 }
 

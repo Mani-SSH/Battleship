@@ -1,25 +1,4 @@
-const ShipList = {
-    SUBMARINE: {
-        id: "submarine",
-        length: 2
-    },
-    FRIGATE: {
-        id: "frigate",
-        length: 2
-    },
-    DESTROYER: {
-        id: "destroyer",
-        length: 3
-    },
-    CORVETTE: {
-        id: "corvette",
-        length: 3
-    },
-    CARRIER: {
-        id: "carrier",
-        length: 4
-    }
-}
+const { ShipList } = require("../data/shiplist")
 
 class Ship {
     /**
@@ -30,7 +9,24 @@ class Ship {
         this.length = length
         this.coords = coords
     }
+
+
+    /**
+     * 
+     * @param {number} x 
+     * @param {number} y 
+     * @return {boolean} true if the ship is hit
+     */
+    isHit(x, y){
+        /* for each coordinate check, x and y matched */
+        for(let i = 0; i < this.length; i++){
+            /* if coordinates matched, return true */
+            if(this.coords[i][0] === x && this.coords[i][1] === y){
+                return true
+            }
+        }
+        return false
+    }
 }
 
-exports.ShipList = ShipList
 exports.Ship = Ship

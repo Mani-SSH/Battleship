@@ -3,8 +3,10 @@ import { useContext, useEffect, useState } from "react";
 import { useLocation } from "react-router-dom";
 
 import { ActionContext } from "../Game";
+import * as io from "../../../io-client-handler"
 
 import "../../../assets/css/gameBoard.sass";
+
 
 const getAdjacentXYs = (x, y, action) => {
     const adjacentXYs = []
@@ -36,7 +38,7 @@ export default function OpponentBoard() {
     const location = useLocation()
     const action = useContext(ActionContext)
 
-    const [currentXY, setCurrentXY] = useState({x:0, y: 0}) // coordinates of current cell pointed on board
+    const [currentXY, setCurrentXY] = useState({x: 0, y: 0}) // coordinates of current cell pointed on board
     const [hoverXYs, setHoverXYs] = useState([]) // coordinates of adjacent cells where ship is placed
 
     const [resetHighlight, setResetHighlight] = useState(false) // toggles when mouse in on and off the board, turns off highlight
@@ -51,7 +53,14 @@ export default function OpponentBoard() {
     }
 
     const handleTileClicked = () => {
-        
+        io.socket.emit("player-action", location.state.roomID, action.id, currentXY.x, currentXY.y, (isSuccessful, hitCoords) => {
+            /* if action is not successful, alert the user */
+            if(!isSuccessful){
+                alert("Some error occured")
+            }
+
+            /** change tiles hit condition */
+        })
     }
 
     let board =[];
@@ -102,7 +111,7 @@ export default function OpponentBoard() {
             <div 
             className="gBoard"
             onMouseLeave={ handleMouseLeaveBoard }
-            onMouseEnter={() => setResetHighlight(false)}
+            onMouseEnter={ () => setResetHighlight(false) }
             >
             {board}
             </div>

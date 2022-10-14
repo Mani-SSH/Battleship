@@ -87,6 +87,18 @@ class Room{
       this.elements.ready_count++;
    }
 
+   /**
+    * @param {string} socketID 
+    * @returns {string} opponent's socket id
+    */
+   getOpponentSocketID(socketID){
+      if(this.elements.players[0].socketID === socketID){
+         return this.elements.players[1].socketID
+      }else{
+         return this.elements.players[0].socketID
+      }
+   }
+
 
    /**
     * @param {string} socketID 
