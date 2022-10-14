@@ -35,8 +35,7 @@ const getAdjacentXYs = (x, y, action) => {
     return adjacentXYs
 }
 
-export default function OpponentBoard({ setTurn }) {
-    const location = useLocation()
+export default function OpponentBoard({ setTurn, roomID }) {
     const [action, setAction] = useState()
 
     const [currentXY, setCurrentXY] = useState({x: 0, y: 0}) // coordinates of current cell pointed on board
@@ -56,7 +55,7 @@ export default function OpponentBoard({ setTurn }) {
     }
 
     const handleTileClicked = () => {
-        io.socket.emit("player-action", location.state.roomID, action.id, currentXY.x, currentXY.y, (isSuccessful, hitCoords, missedCoords) => {
+        io.socket.emit("player-action", roomID, action.id, currentXY.x, currentXY.y, (isSuccessful, hitCoords, missedCoords) => {
             /* if action is not successful, alert the user */
             if(!isSuccessful){
                 alert("Some error occured")

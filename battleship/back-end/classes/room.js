@@ -32,7 +32,8 @@ class Room{
       this.elements = {
          roomID: makeRoomID(),
          players: [],
-         ready_count: 0
+         ready_count: 0,
+         firstTurn: ""
       }
       this.next = null;
    }
@@ -131,6 +132,19 @@ class Room{
 
       thisBoard.setBoard(submarineXYs, corvetteXYs, frigateXYs, destroyerXYs, carrierXYs)
       return true
+   }
+
+
+   setFirstTurn(){
+      /* get random number from 0 and 1 */
+      const random = Math.floor(Math.random() * 2)
+
+      /* set first turn according to random number */
+      this.elements.firstTurn = this.elements.players[random].socketID
+   }
+
+   getFirstTurn(){
+      return this.elements.firstTurn
    }
 
 

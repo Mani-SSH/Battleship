@@ -10,6 +10,18 @@ class Board {
     //     this.carrier = {}
     // }
 
+
+    /**
+     * @returns true if empty 
+     */
+    isEmpty(){
+        if(Object.keys(this).length === 0){
+            return true
+        }
+
+        return false
+    }
+
     /**
      * @param {number[]} submarineXYs 
      * @param {number[]} corvetteXYs 

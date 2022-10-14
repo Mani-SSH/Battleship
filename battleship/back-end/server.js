@@ -185,9 +185,27 @@ io.on('connection', (socket) => {
             callback(isSuccessful)
 
             socket.to(roomID).emit("opponent-ships-set")
+
+            if(thisRoom.elements.players[0].board.isEmpty() || thisRoom.elements.players[1].board.isEmpty()){
+                thisRoom.setFirstTurn()
+            }
         } catch (error) {
             console.error(error)
         }
+    })
+
+    socket.on("get-turn", (roomID, giveTurn) => {
+        const thisRoom = rooms.getRoom(roomID)
+        const socketIDofFirst = thisRoom.getFirstTurn()
+        let isSuccessful = false
+
+        if(socketIDofFirst.length === 0){
+            giveTurn(isSuccessful)
+            return
+        }
+
+        isSuccessful = true
+        giveTurn(isSuccessful, socketIDofFirst)
     })
 
     socket.on("player-action", (roomID, actionID, x, y, callback) => {
