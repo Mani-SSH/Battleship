@@ -224,8 +224,8 @@ export default function Board()
                 <div className='shipBtn'>
                     <Ships setShip={ setShip }/>
                 </div>
-                <div className="shipPreview">
-                    <ShipPreview ship={ ship }/>
+                <div>
+                    <ShipPreview ship={ ship } />
                 </div>
             </div>
 
