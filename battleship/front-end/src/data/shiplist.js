@@ -3,6 +3,7 @@ import S2 from "../assets/images/Ships/frigate.png";
 import S3 from "../assets/images/Ships/des.png"; 
 import S4 from "../assets/images/Ships/corvette.png"; 
 import S5 from "../assets/images/Ships/aircraft_carrier.png";
+import "../data/shiplist.sass";
 
 export const ShipList = {
     SUBMARINE: {
@@ -13,7 +14,7 @@ export const ShipList = {
     FRIGATE: {
         id: "frigate",
         thumb: S2,
-        length: 2
+        length: 3
     },
     DESTROYER: {
         id: "destroyer",
@@ -23,7 +24,7 @@ export const ShipList = {
     CORVETTE: {
         id: "corvette",
         thumb: S4,
-        length: 3
+        length: 1
     },
     CARRIER: {
         id: "carrier",
