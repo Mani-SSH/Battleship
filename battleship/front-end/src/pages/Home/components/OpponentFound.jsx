@@ -3,6 +3,7 @@ import Button from 'react-bootstrap/Button';
 import Spinner from 'react-bootstrap/Spinner';
 import "../../../assets/css/oppfound.sass";
 import {CgSearchFound} from "react-icons/cg";
+import {AiFillCheckCircle} from "react-icons/ai";
 
 import { useState } from 'react';
 
@@ -67,9 +68,8 @@ export default function OpponentFound({show, onHide, roomID, playerID, opponentI
 function PlayerReady({playerID, opponentID, playerReady, opponentReady, handleGoToNextPage}){
     return(
         <div className='h1-head'>
-            <h1>{ playerID }  { (playerReady)? <>is Ready</> : <div className='spinner-border text-primary m-0.2' role="status"></div> }</h1>
-            <h1>{ opponentID }    { (opponentReady)? <>is Ready</> :  <div className='spinner-border text-primary m-0.2' role="status">
-                </div> }</h1>
+            <h1>{ playerID }  { (playerReady)? <><AiFillCheckCircle className='check' /></> : <div className='spinner-border text-success m-0.2' role="status"></div> }</h1>
+            <h1>{ opponentID }    { (opponentReady)? <><AiFillCheckCircle className='check' /></> : <div className='spinner-border text-success m-0.2' role="status"></div> }</h1>
             <h2>{ (playerReady && opponentReady)? <>Game starts in <Countdown counter={ 3 } onEnd={ handleGoToNextPage }/>...</>:<></> }</h2>
         </div>
     )
