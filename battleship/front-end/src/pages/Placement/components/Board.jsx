@@ -150,11 +150,6 @@ export default function Board()
         setHoverXYs([])
     }
 
-    /* REMOVE LATER */
-    useEffect(() => {
-        console.log(coordinates)
-    }, [coordinates])
-
     
     /* on hover while ship is clicked */
     useEffect(() => {

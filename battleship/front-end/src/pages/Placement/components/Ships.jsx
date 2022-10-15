@@ -30,7 +30,6 @@ function ButtonShip({ onClick, ship }){
     const [disable, setDisable] = useState(false)
 
     useEffect(() => {
-        console.log(coordinates[ship.id].length)
         if(coordinates[ship.id].length !== 0){
             setDisable(true)
         }else{

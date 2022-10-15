@@ -57,7 +57,6 @@ export const ReadyContext = React.createContext()
     }
 
     io.socket.off("opponent-ships-set").on("opponent-ships-set", () => {
-        alert("Opponent is ready")
         setOpponentReady(true)
     })
     
