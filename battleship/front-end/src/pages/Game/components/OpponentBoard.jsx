@@ -184,6 +184,7 @@ function Square({x, y, setXY, hoverXYs, resetHighlight, onClick, hitCoords, miss
         }
     }, [resetHighlight]) // eslint-disable-line react-hooks/exhaustive-deps
 
+    /* if attack missed */
     useEffect(() => {
         if(status === "clear"){
             for(let i = 0; i < missedCoords.length; i++){
@@ -194,6 +195,7 @@ function Square({x, y, setXY, hoverXYs, resetHighlight, onClick, hitCoords, miss
         }
     }, [missedCoords]) // eslint-disable-line react-hooks/exhaustive-deps
 
+    /* if attack hit */
     useEffect(() => {
         if(status === "clear"){
             for(let i = 0; i < hitCoords.length; i++){

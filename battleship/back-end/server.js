@@ -239,6 +239,7 @@ io.on('connection', (socket) => {
         }
         isSuccessful = true
         callback(isSuccessful, hitCoords, missedCoords)
+        socket.to(roomID).emit("opponent-action", hitCoords, missedCoords)
     })
 
     socket.on("switch-turn", (roomID) => {

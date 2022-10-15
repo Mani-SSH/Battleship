@@ -85,7 +85,8 @@ export const ReadyContext = React.createContext()
                     playerID: location.state.playerID,
                     opponentID: location.state.opponentID,
                     roomID: location.state.roomID,
-                    socketID: location.state.socketID
+                    socketID: location.state.socketID,
+                    coordinates
                 },
                 replace: true
             })
