@@ -1,4 +1,4 @@
-import "../../../assets/css/ships.sass";
+import "../../../assets/css/dragdrop.sass";
 
 import Button from "react-bootstrap/Button"
 
@@ -46,11 +46,11 @@ function ButtonShip({ onClick, ship }){
     )
 }
 
-export function ShipPreview({ship ,previewClass}) {
+export function ShipPreview({ ship }) {
     return(
         <>
             <div className='preview'>
-                <div>{ (ship)? <img src={ ship.thumb } alt={ ship.id } className={`${previewClass} ${ship.id}`} /> : <></> }</div>
+                <div>{ (ship)? <img src={ ship.thumb } alt={ ship.id }/> : <></> }</div>
             </div>
         </>
     )

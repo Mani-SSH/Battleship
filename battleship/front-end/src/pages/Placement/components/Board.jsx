@@ -14,30 +14,15 @@ import { Ships, ShipPreview} from "./Ships";
  * @param {array} coordinates 
  * @returns true if all coordinates are valid, else false
  */
-const checkValid = (adjacentXYs,coordinates) => {
+const checkValid = (coordinates) => {
     /* if any coordinate is out of board, return false */
-    for(let i = 0; i < adjacentXYs.length; i++){
-        if(adjacentXYs[i][0] < 1 || adjacentXYs[i][1] < 1 || adjacentXYs[i][0] > 9 || adjacentXYs[i][1] > 9){
+    for(let i = 0; i < coordinates.length; i++){
+        if(coordinates[i][0] < 1 || coordinates[i][1] < 1 || coordinates[i][0] > 9 || coordinates[i][1] > 9){
             return false
         }
-    
     }
+
     /* if any coordinate is coincides with coordinates of other ship, return false */
-    Object.keys(ShipList).forEach((ship) => {
-        let name = ShipList[ship].id
-       // console.log("Here is from shipList")
-        if(coordinates[name].length!==0)
-        {
-            for(let i = 0; i < coordinates[name].length; i++ )
-            {
-                if (adjacentXYs===coordinates[ShipList[ship].id][i])
-                {
-                    return false
-                }
-            }
-        }
-          
-    });
 
 
     return true
@@ -89,22 +74,16 @@ export default function Board()
     const [ship, setShip] = useState() // ship clicked
 
     const [currentXY, setCurrentXY] = useState({x:0, y: 0}) // coordinates of current cell pointed on board
-    const [hoverXYs, setHoverXYs] = useState([]) // coordinates of adjacent cells where ship is place
+    const [hoverXYs, setHoverXYs] = useState([]) // coordinates of adjacent cells where ship is placed
 
-    const [currentTile, setCurrentTile] = useState() //postion of tile clicked on grid
-    
-    const [rotateShip, setRotation] = useState(0) // No of times ratate button is clicked. 0 means initial, 1 means 90 degree and so on up to 270
+    const [rotateShip, setRotation] = useState(0)
 
     const [valid, setValid] = useState(true) // if the adjacent cells are valid
 
     const [resetHighlight, setResetHighlight] = useState(false) // toggles when mouse in on and off the board, turns off highlight
 
-    const [previewClass, setPreviewClass] = useState("") // className for preview ship div
-
     const coordinates = useContext(CoordinatesContext)
     const setCoordinates = useContext(CoordinatesUpdateContext)
-
-    let shipsImg = [];
 
     const handleTileClicked = () => {
         switch(ship.id){
@@ -118,7 +97,7 @@ export default function Board()
                 setCoordinates({ ...coordinates, destroyer: [...hoverXYs] })
                 break
             case ShipList.FRIGATE.id:
-                setCoordinates({ ...coordinates, frigate: [...hoverXYs] }) 
+                setCoordinates({ ...coordinates, frigate: [...hoverXYs] })
                 break
             case ShipList.SUBMARINE.id:
                 setCoordinates({ ...coordinates, submarine: [...hoverXYs] })
@@ -129,7 +108,7 @@ export default function Board()
         }
         setShip(undefined)
         setHoverXYs([])
-        // setRotation(0)
+        setRotation(0)
         setResetHighlight(true)
     }
 
@@ -140,22 +119,22 @@ export default function Board()
          /* setting board */
         for(let j=1; j <= 9; j++)
         {
-    
-            board.push(
-                <Square
-                x={ j }
-                y={ i }
-                setXY={ setCurrentXY }
-                onClick = { handleTileClicked } 
-                squareNo={ 'squareNo' + j*10 + i}
-                ship={ ship }
-                hoverXYs={ hoverXYs }
-                resetHighlight={ resetHighlight }
-                valid={ valid }
-                setCurrentTile = {setCurrentTile}
-                key = {j*10 + i}
-                />
-            );
+            for(let i = 1; i <= 9; i++)
+            {
+                board.push(
+                    <Square 
+                        x={ j }
+                        y={ i }
+                        setXY={ setCurrentXY }
+                        onClick = { handleTileClicked }
+                        key={j*10 + i}
+                        ship={ ship }
+                        hoverXYs={ hoverXYs }
+                        resetHighlight={ resetHighlight }
+                        valid={ valid }
+                    />
+                );
+            }
         }
 
         return board
@@ -169,8 +148,9 @@ export default function Board()
         setResetHighlight(true)
         setCurrentXY({x:0, y:0})
         setHoverXYs([])
-    } 
+    }
 
+    
     /* on hover while ship is clicked */
     useEffect(() => {
         /* check if ship is clicked */
@@ -185,7 +165,7 @@ export default function Board()
                 let adjacentXYs = getAdjacentXYs(x, y, length, rotateShip)
 
                 /* check if they are valid and set value of valid to the value returned */
-                setValid(checkValid(adjacentXYs,coordinates))
+                setValid(checkValid(adjacentXYs))
 
                 /* set value of adjacent coordinates on hover */
                 setHoverXYs(adjacentXYs)
@@ -193,72 +173,30 @@ export default function Board()
         }
     }, [ship, currentXY]) // eslint-disable-line react-hooks/exhaustive-deps
 
-    Object.keys(ShipList).forEach((ship)=>{
-        shipsImg.push(
-        <RenderShip
-        currentTile={ currentTile }
-        ship={ ShipList[ship] }
-        rotateShip={ rotateShip }
-        setRotation = {setRotation}
-        />
-        ) 
-    })
-
-    const handleRotation = () => {
-        setRotation( (rotateShip +1) % 4)
-    }
-
-    useEffect(()=>{         // changin div className for ship image preview
-        if(ship){
-            if (rotateShip === 0)
-            {
-                setPreviewClass("preZero");
-            }
-            else if (rotateShip === 1)
-            {
-                setPreviewClass("preNinety");
-            }
-            else if (rotateShip === 2)
-            {
-                setPreviewClass("preHundredEighty")
-            }
-            else if (rotateShip === 3)
-            {
-                setPreviewClass("preTwoSeventy")
-            }
-        }
-    },[rotateShip])
-
-    
-    //Needs to be removed
-    useEffect(()=>{
-        console.log(previewClass);
-    },[previewClass])
-
     return(
         <>
             <div className='shipBtnContainer'>
                 <div className='shipBtn'>
                     <Ships setShip={ setShip }/>
                 </div>
-                <div>
-                    <ShipPreview ship={ ship } previewClass={previewClass}/>
+                <div className="shipPreview">
+                    <ShipPreview ship={ ship }/>
                 </div>
             </div>
 
-            <Button onClick ={handleRotation}>Rotate</Button>
+            <Button onClick = {()=>{(rotateShip < 4) ? setRotation(rotateShip + 1) : setRotation(0)}}>Rotate</Button>
+            <Button>Place Ship</Button>
 
             <div className="flex-container"
             onMouseLeave={ handleMouseLeaveBoard }
             onMouseEnter={() => setResetHighlight(false)}
             >{board}</div>
-            <div>{shipsImg}</div>
         </>
     );
 }
 
 
-function Square({ x, y, setXY, onClick, squareNo, ship, hoverXYs, resetHighlight, valid, setCurrentTile}){
+function Square({ x, y, setXY, onClick, ship, hoverXYs, resetHighlight, valid }){
     const [colour, setColour] = useState("white") // color of the cell
 
     /* when mouse hovers on the cell */
@@ -273,9 +211,6 @@ function Square({ x, y, setXY, onClick, squareNo, ship, hoverXYs, resetHighlight
 
     const handleClick = () => {
         if (ship && valid){
-            let squareElement = document.querySelector(`div.${squareNo}`);
-            let currentTile = squareElement.getBoundingClientRect();
-            setCurrentTile(currentTile);
             onClick();
         }
     }
@@ -312,86 +247,12 @@ function Square({ x, y, setXY, onClick, squareNo, ship, hoverXYs, resetHighlight
         }
     }, [resetHighlight])
 
-    const mystyle = {
-        backgroundColor: colour,
-        opacity: 0.5,
-        width: 50 + 'px',
-        height: 50 + 'px',
-        border: '1px solid black'
-      };
-
     return(
-        <div
-        className = {squareNo}
+        <div className="tiles"
         onMouseOver={ handleHover }
         onClick = { handleClick }
-        style={mystyle}
         >
+            <h6>{colour}</h6>
         </div>
     )
-}
-
-
-function RenderShip({ currentTile, ship, rotateShip, setRotation})
-{
-    const coordinates = useContext(CoordinatesContext)
-    const [show,setShow] = useState(false)
-    const [left, setLeft] = useState(0)
-    const [top, setTop] = useState(0)
-    const [rotateClass, setRotateClass] = useState("")
-
-    useEffect(() => {
-        if(coordinates[ship.id].length > 0){
-            //console.log("checking inside RenderFunction")
-            setLeft(currentTile.left-((ship.length-1)*50))  // left of the DOMElement
-            setTop(currentTile.top) // top of the DOM Element
-            setShow(true);  // Turns on Visibility of the ship
-            //console.log(`${ship.id} = ${rotateShip}`)
-
-            if(rotateShip === 0)
-            {
-                setRotateClass(rotateClass => rotateClass + "Zero_");
-            }
-            else if (rotateShip === 1)
-            {
-                setRotateClass ("Ninety_");
-            }
-            else if (rotateShip === 2)
-            {
-                setRotateClass ("HundredEighty_")
-            } 
-            else if (rotateShip === 3)
-            {
-                setRotateClass("TwoSeventy_")
-            }
-            setRotation(0)
-            // console.log("Outside renderFunction")
-            // console.log(rotateClass + ship.id)
-        }
-    }, [coordinates[ship.id]]) // eslint-disable-line react-hooks/exhaustive-deps
-
-
-    return(
-        <div>
-        {show && <div 
-            style={ { left, top, position:'absolute' } } className="placeShip">
-            <img src={ship.thumb} alt="ships" className={rotateClass + ship.id} />
-            </div>
-        }
-        </div>
-        
-    )
-}
-
-RenderShip.defaultProps = {
-    currentTile : {
-        bottom: 0,
-        height: 0,
-        left: 0,
-        right: 0,
-        top: 0,
-        width: 0,
-        x: 0,
-        y: 0
-    }
 }
