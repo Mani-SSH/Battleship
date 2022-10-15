@@ -1,7 +1,6 @@
 import { useContext, useState, useEffect } from "react"
 import { PlayerContext } from "../Home"
 import "../../../assets/css/userinfo.sass";
-import {useNavigate } from 'react-router-dom';
 import { PlayerUpdateContext,LoggedInUpdateContext } from "../Home";
 import Player from "../../../player";
 
@@ -14,7 +13,7 @@ export default function UserInfo()
 
     useEffect(() => {
         if(logout) {
-            setPlayer(new Player);
+            setPlayer(new Player());
             setIsLoggedIn(false);
         }
     }, [logout]) // eslint-disable-line react-hooks/exhaustive-deps

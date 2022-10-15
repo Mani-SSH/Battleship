@@ -13,6 +13,7 @@ import OpponentFound from './OpponentFound';
 import * as io from '../../../io-client-handler'
 
 import "../../../assets/css/CreateRoom.sass"
+import "../../../assets/css/Home.sass";
 import { LoggedInContext, PlayerContext } from '../Home';
 
 
@@ -54,7 +55,7 @@ export default function CreateRoom() {
         setPlayerID(player.id)
 
         /* emit an event to join the room with given roomID */
-        io.socket.emit('join-room', roomID, isLoggedIn, playerID, (isFound, hasJoined) => {
+        io.socket.emit('join-room', roomID, playerID, (isFound, hasJoined) => {
             if(isFound){
                 /* if player has joined */
                 if(hasJoined){
@@ -106,7 +107,15 @@ export default function CreateRoom() {
         handleCloseJoinRoom();
         
         /* send signal to enter "ship placement" page with roomID*/
-        navigate("/placement", { state: { roomID } });
+        navigate("/placement", { 
+            state: {
+                roomID, 
+                playerID, 
+                opponentID, 
+                socketID: io.socket.id 
+            },
+            replace: true 
+        });
 
         /* reset this modal */
         reset();
@@ -117,7 +126,7 @@ export default function CreateRoom() {
     io.socket.off("lobby-full").on("lobby-full", () => {
         console.log("Lobby is full. Now starting...");
 
-        io.socket.emit("get-opponentID", roomID, playerID, (playerID, opponentID) => {
+        io.socket.emit("get-opponentID", roomID, (playerID, opponentID) => {
             setPlayerID(playerID);
             setOpponentID(opponentID);
         });
@@ -129,11 +138,10 @@ export default function CreateRoom() {
         handleShowOpponentFound();
     })
 
+    /* if player logs in change player */
     useEffect(() => {
         if(isLoggedIn){
             setPlayerID(player.id)
-        }else{
-            setPlayerID(io.socket.id)
         }
     }, [isLoggedIn]) // eslint-disable-line react-hooks/exhaustive-deps
 
@@ -147,7 +155,7 @@ export default function CreateRoom() {
 
     return (
         <div id='call1'>
-            <Button className='createRoom' size="lg" bsPrefix="Home" variant="success" onClick={ handleShowCreateRoom }>Create Room</Button>
+            <Button className='createRoom' size="lg" bsPrefix='Home' variant="success" onClick={ handleShowCreateRoom }>Create Room</Button>
 
             <Modal
             show={ showCreateRoom }
