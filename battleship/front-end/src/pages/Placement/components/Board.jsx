@@ -213,19 +213,19 @@ export default function Board()
         if(ship){
             if (rotateShip === 0)
             {
-                setPreviewClass("Zero");
+                setPreviewClass("preZero");
             }
             else if (rotateShip === 1)
             {
-                setPreviewClass("Ninety");
+                setPreviewClass("preNinety");
             }
             else if (rotateShip === 2)
             {
-                setPreviewClass("HundredEighty")
+                setPreviewClass("preHundredEighty")
             }
             else if (rotateShip === 3)
             {
-                setPreviewClass("TwoSeventy")
+                setPreviewClass("preTwoSeventy")
             }
         }
     },[rotateShip])
@@ -243,7 +243,7 @@ export default function Board()
                     <Ships setShip={ setShip }/>
                 </div>
                 <div>
-                    <ShipPreview ship={ ship } />
+                    <ShipPreview ship={ ship } previewClass={previewClass}/>
                 </div>
             </div>
 
