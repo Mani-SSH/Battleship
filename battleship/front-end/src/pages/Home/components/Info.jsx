@@ -14,7 +14,7 @@ export default function Info()
 
     return (
     <div className="infoBack">
-        <button className="button-info" size='lg' bsPrefix='Home' variant="success" onClick={handleShow}>
+        <button className="button-info" size='lg' variant="success" onClick={handleShow}>
             Information</button>
         <Modal className="info-modal"
             show={show}

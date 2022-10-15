@@ -11,12 +11,11 @@ export function Ships({ setShip }){
     let ships = []
 
     Object.keys(ShipList).forEach((ship) => {
-        ships.push(
-            <ButtonShip 
-                onClick={ () => setShip(ShipList[ship]) }
-                ship={ ShipList[ship] }
-            />
-        )
+        ships.push(<ButtonShip 
+            onClick={ () => setShip(ShipList[ship]) }
+            ship={ ShipList[ship] }
+            key={ ShipList[ship].id }
+        />)
     })
 
     return(
@@ -31,7 +30,6 @@ function ButtonShip({ onClick, ship }){
     const [disable, setDisable] = useState(false)
 
     useEffect(() => {
-       // console.log(coordinates[ship.id].length)
         if(coordinates[ship.id].length !== 0){
             setDisable(true)
         }else{

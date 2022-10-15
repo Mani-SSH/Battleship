@@ -1,4 +1,4 @@
-import React, { useContext, useEffect, useState } from "react";
+import React, { useContext, useEffect, useState, useMemo } from "react";
 import Button from "react-bootstrap/Button"
 
 import "../../../assets/css/flex.sass";
@@ -52,7 +52,6 @@ const checkValid = (adjacentXYs,coordinates) => {
 const getAdjacentXYs = (x, y, length, rotateShip) => {
     const adjacentXYs = []
 
-    /* for horizontal ship */
     for(let i = 0; i < length; i++){
         switch (rotateShip) {
             case 0:
@@ -86,9 +85,7 @@ const getAdjacentXYs = (x, y, length, rotateShip) => {
 
 
 export default function Board()
-{
-    let board =[];
-    
+{   
     const [ship, setShip] = useState() // ship clicked
 
     const [currentXY, setCurrentXY] = useState({x:0, y: 0}) // coordinates of current cell pointed on board
@@ -137,10 +134,11 @@ export default function Board()
     }
 
 
-    /* setting board */
-    for(let j=1; j <= 9; j++)
-    {
-        for(let i = 1; i <= 9; i++)
+    const board = useMemo(() => {
+        let board = []
+
+         /* setting board */
+        for(let j=1; j <= 9; j++)
         {
     
             board.push(
@@ -159,7 +157,9 @@ export default function Board()
                 />
             );
         }
-    }
+
+        return board
+    }, [hoverXYs, resetHighlight, ship, valid]); // eslint-disable-line react-hooks/exhaustive-deps
         
 
     /**
@@ -170,7 +170,6 @@ export default function Board()
         setCurrentXY({x:0, y:0})
         setHoverXYs([])
     } 
-
 
     /* on hover while ship is clicked */
     useEffect(() => {
@@ -249,8 +248,7 @@ export default function Board()
 
             <Button onClick ={handleRotation}>Rotate</Button>
 
-            <div
-            className="flex-container"
+            <div className="flex-container"
             onMouseLeave={ handleMouseLeaveBoard }
             onMouseEnter={() => setResetHighlight(false)}
             >{board}</div>
@@ -274,7 +272,7 @@ function Square({ x, y, setXY, onClick, squareNo, ship, hoverXYs, resetHighlight
 
 
     const handleClick = () => {
-        if (ship){
+        if (ship && valid){
             let squareElement = document.querySelector(`div.${squareNo}`);
             let currentTile = squareElement.getBoundingClientRect();
             setCurrentTile(currentTile);

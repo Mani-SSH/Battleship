@@ -1,7 +1,7 @@
 import React,{useEffect,useState} from "react";
 import 'bootstrap/dist/css/bootstrap.min.css';
 import '../../../assets/css/audio.sass';
-import background from "../../../assets/bgm/Home/background.mp3";
+import background from "../../../assets/bgm/Home/opbgm.m4a";
 import {MdMusicNote} from "react-icons/md";
 import {MdMusicOff} from "react-icons/md";
 
@@ -16,6 +16,7 @@ export default function Music()
 
     /* set audio to loop */
     audio.loop = true;
+    audio.volume = 0.25
     
     /* side effect of 'playing' state being changed */
     useEffect(() => {
@@ -26,7 +27,7 @@ export default function Music()
 
         return(
             <div>
-                {playing? <MdMusicNote className="audi" size='md' bsPrefix="Home" onClick={ toggle }/> : <MdMusicOff className="audi" size='md' bsPrefix="Home" onClick={ toggle }/> }
+                {playing? <MdMusicNote className="audi" size='sm' onClick={ toggle }/> : <MdMusicOff className="audi" size='sm' onClick={ toggle }/> }
             </div>
         );
 
