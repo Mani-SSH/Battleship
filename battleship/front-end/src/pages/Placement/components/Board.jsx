@@ -14,7 +14,7 @@ import { Ships, ShipPreview} from "./Ships";
  * @param {array} coordinates 
  * @returns true if all coordinates are valid, else false
  */
-const checkValid = (adjacentXYs,coordinates) => {
+const checkValid = (adjacentXYs, coordinates) => {
     /* if any coordinate is out of board, return false */
     for(let i = 0; i < adjacentXYs.length; i++){
         if(adjacentXYs[i][0] < 1 || adjacentXYs[i][1] < 1 || adjacentXYs[i][0] > 9 || adjacentXYs[i][1] > 9){
@@ -22,23 +22,25 @@ const checkValid = (adjacentXYs,coordinates) => {
         }
     
     }
+
     /* if any coordinate is coincides with coordinates of other ship, return false */
+    let isFound = false
+
     Object.keys(ShipList).forEach((ship) => {
-        let name = ShipList[ship].id
-       // console.log("Here is from shipList")
-        if(coordinates[name].length!==0)
-        {
-            for(let i = 0; i < coordinates[name].length; i++ )
-            {
-                if (adjacentXYs===coordinates[ShipList[ship].id][i])
-                {
-                    return false
+        let shipID = ShipList[ship].id
+        for(let i = 0; i < coordinates[shipID].length; i++ ){
+            for(let j = 0; j < adjacentXYs.length; j++){
+                if(coordinates[shipID][i][0] === adjacentXYs[j][0] && coordinates[shipID][i][1] === adjacentXYs[j][1]){
+                    isFound = true
+                    return
                 }
             }
         }
-          
-    });
+    })
 
+    if(isFound){
+        return false
+    }
 
     return true
 }
@@ -140,22 +142,23 @@ export default function Board()
          /* setting board */
         for(let j=1; j <= 9; j++)
         {
-    
-            board.push(
-                <Square
-                x={ j }
-                y={ i }
-                setXY={ setCurrentXY }
-                onClick = { handleTileClicked } 
-                squareNo={ 'squareNo' + j*10 + i}
-                ship={ ship }
-                hoverXYs={ hoverXYs }
-                resetHighlight={ resetHighlight }
-                valid={ valid }
-                setCurrentTile = {setCurrentTile}
-                key = {j*10 + i}
-                />
-            );
+            for(let i = 1; i <= 9; i++){
+                board.push(
+                    <Square
+                    x={ j }
+                    y={ i }
+                    setXY={ setCurrentXY }
+                    onClick = { handleTileClicked } 
+                    squareNo={ 'squareNo' + j*10 + i}
+                    ship={ ship }
+                    hoverXYs={ hoverXYs }
+                    resetHighlight={ resetHighlight }
+                    valid={ valid }
+                    setCurrentTile = {setCurrentTile}
+                    key = {j*10 + i}
+                    />
+                );
+            }
         }
 
         return board
