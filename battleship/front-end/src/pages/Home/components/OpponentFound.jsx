@@ -1,6 +1,5 @@
 import Modal from 'react-bootstrap/Modal';
 import Button from 'react-bootstrap/Button';
-import Spinner from 'react-bootstrap/Spinner';
 import "../../../assets/css/oppfound.sass";
 import {CgSearchFound} from "react-icons/cg";
 import {AiFillCheckCircle} from "react-icons/ai";

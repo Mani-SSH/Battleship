@@ -96,6 +96,11 @@ export default function OpponentBoard({ setTurn, roomID }) {
 
         return board
     }, [hoverXYs, resetHighlight, hitCoords, missedCoords, action]); // eslint-disable-line react-hooks/exhaustive-deps
+
+    const handleEndTurn = () => {
+        setTurn(false)
+        setAction()
+    }
     
    
 
@@ -131,7 +136,7 @@ export default function OpponentBoard({ setTurn, roomID }) {
             {board}
             </div>
             <div className="act"><Actions setAction={ setAction } /></div>
-            <EndTurn setTurn={ setTurn }/>
+            <EndTurn onClick={ handleEndTurn }/>
         </>
     );
 }
