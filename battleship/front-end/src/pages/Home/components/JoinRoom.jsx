@@ -1,18 +1,25 @@
+import { useState } from 'react';
+
 import Button from 'react-bootstrap/Button';
 import Modal from 'react-bootstrap/Modal';
+
+
 import "../../../assets/css/joinroom.sass";
 
-export default function JoinRoom(props){
+export default function JoinRoom({ show, onHide, isCustom, roomID, onCancel }){
+    const [showJoinRoom, setShowJoinRoom] = useState(false);                   //'show' state of the modal "Joining Room"
+    const [showOpponentFound, setShowOpponentFound] = useState(false);         //"show" state of the modal "Opponent Found"
+
     return(
         <Modal className='join-modal'
-            show={ props.show }
-            onHide={ props.onHide }
+            show={ show }
+            onHide={ onHide }
             size="sm"
             backdrop="static"
             keyboard="false"
             centered>
             <Modal.Header className='join-header'>
-                <Modal.Title className='join-title'>Joining room: { (props.isCustom)? props.roomID: "" }</Modal.Title>
+                <Modal.Title className='join-title'>Joining room: { (isCustom)? roomID: "" }</Modal.Title>
             </Modal.Header>
 
             <Modal.Body className='join-body'>
@@ -23,9 +30,14 @@ export default function JoinRoom(props){
             </Modal.Body>
 
             <Modal.Footer className='join-footer'>
-                <Button variant="primary" onClick={ props.onCancel }>Cancel</Button>
+                <Button variant="primary" onClick={ onCancel }>Cancel</Button>
             </Modal.Footer>
 
         </Modal>
     )
+}
+
+JoinRoom.defaultProps = {
+    isCustom: false,
+    roomID: ""
 }
