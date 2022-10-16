@@ -30,9 +30,11 @@ export default function PlayerBoard() {
         }
 
         return board
-    }, []);
+    }, [hitCoords, missedCoords]);
 
     io.socket.off("opponent-action").on("opponent-action", (hitCoords, missedCoords) => {
+        console.log(hitCoords)
+        console.log(missedCoords)
         setHitCoords(hitCoords)
         setMissedCoords(missedCoords)
     })
