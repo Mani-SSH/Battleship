@@ -4,11 +4,13 @@ const { createServer } = require("http");
 const { Server } = require("socket.io");
 
 const { Room, RoomList } = require("./classes/room")
+const { MatchQueue } = require("./classes/match-queue")
 const { ActionList } = require("./data/actionlist")
 
 const db = require('./mongoose-handler');
 
 let rooms = new RoomList;
+let matchQueue = new MatchQueue
 
 /* port */
 let PORT = process.env.PORT||5000;
@@ -53,7 +55,7 @@ io.on('connection', (socket) => {
     /* listen to event on a socket to generate roomID */
     socket.on('generate-roomID', (giveRoomID) => {
         /* create new room */
-        var thisRoom = new Room;
+        let thisRoom = new Room;
         console.log(`\nnew room: ${ thisRoom.elements.roomID } generated\n`);
 
         /* add room to the list */
@@ -71,7 +73,54 @@ io.on('connection', (socket) => {
         giveRoomID(thisRoom.elements.roomID);
     })
 
-    /* INCOMPLETE */
+    socket.on("join-queue", (playerID, playerScore, callback) => {
+        const opponent = matchQueue.searchMatch(playerScore)
+        let isSuccessful = false
+        
+        /* if match not found, add the player to queue */
+        if(opponent == undefined){
+            matchQueue.addToQueue(playerID, playerScore, socket.id)
+            isSuccessful = true
+            callback(isSuccessful)
+            return
+        }
+
+        /* remove opponent from queue */
+        if(!matchQueue.remove(opponent.playerID)){
+            isSuccessful = false
+            callback(isSuccessful)
+            return
+        }
+
+        /** if match found, make new room */
+        let thisRoom = new Room
+        rooms.add(thisRoom)
+
+        /* remove room if inactivite by checking every 5 min */
+        const removeInactiveRoom = setInterval(() => {
+            if(thisRoom.elements.player_count == 0){
+                rooms.remove(thisRoom.elements.roomID);
+                console.log(`Room removed due to inactivity: ${ thisRoom.elements.roomID }`);
+                clearInterval(removeInactiveRoom);
+            }
+        }, 300000)
+
+        /* join both players to the room */
+        if(thisRoom.addPlayer(socket.id, playerID) && thisRoom.addPlayer(opponent.socketID, opponent.playerID)){
+            io.in(socket.id).socketsJoin(thisRoom.elements.roomID)
+            io.in(opponent.socketID).socketsJoin(thisRoom.elements.roomID)
+            isSuccessful = true
+            io.sockets.to(thisRoom.elements.roomID).emit("send-roomID", thisRoom.elements.roomID)
+        }
+
+        /* if room gets full emit a message to another user */
+        if(thisRoom.isFull()){
+            io.sockets.to(thisRoom.elements.roomID).emit("lobby-full");            
+        }
+
+        callback(isSuccessful)
+    })
+
     socket.on('join-room', (roomID, playerID, fn) => {
         let hasJoined = false;                  //state of player if joined
         let isFound = false;                    //state of room if found
@@ -145,7 +194,7 @@ io.on('connection', (socket) => {
             playerID = playerID1;
         }else{
             opponentID = playerID1;
-            playerID = playerID2;
+            playerID = playerID2
         }
         giveID(playerID, opponentID);
     })

@@ -24,7 +24,7 @@ export default function OpponentFound({show, onHide, roomID, playerID, opponentI
     }
 
     const handleOnCountdownEnd = () => {
-        console.log("Both players didn't join. Removing from room")
+        alert("Removed from room.\nReason: One or both players didn't join.")
         io.socket.emit("remove-players", roomID);
         onCountdownEnd();
     }
