@@ -91,6 +91,7 @@ export default function OpponentBoard({ setTurn, roomID, turn }) {
                         missedCoords={ missedCoords }
                         action={ action }
                         setEnergyBar = { setEnergyBar }
+                        energyBar = {energyBar}
                     />
                 );
             }
@@ -145,7 +146,7 @@ export default function OpponentBoard({ setTurn, roomID, turn }) {
     );
 }
 
-function Square({x, y, setXY, hoverXYs, resetHighlight, onClick, hitCoords, missedCoords, action, setEnergyBar }) {
+function Square({x, y, setXY, hoverXYs, resetHighlight, onClick, hitCoords, missedCoords, action, setEnergyBar, energyBar }) {
     const [color, setColor] = useState("white")
     const [status, setStatus] = useState("clear")
 
@@ -158,7 +159,11 @@ function Square({x, y, setXY, hoverXYs, resetHighlight, onClick, hitCoords, miss
     const handleClick = () => {
         if(action){
             onClick()
-            setEnergyBar(prevEnergyBar => prevEnergyBar - action.charge) // each action will decrease the energy
+            if(energyBar > 0)
+            {setEnergyBar(prevEnergyBar => prevEnergyBar - action.charge)} // each action will decrease the energy
+        else{
+            setEnergyBar(0)
+        }
         }
     } 
 

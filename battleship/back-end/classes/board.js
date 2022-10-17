@@ -3,11 +3,13 @@ const { ShipList } = require("../data/shiplist")
 
 class Board {
     // constructor(){
-    //     this.submarine = {}
-    //     this.corvette = {}
-    //     this.frigate = {}
-    //     this.destroyer = {}
-    //     this.carrier = {}
+    //     this.hitShipCoords = {
+    //         submarine: [],
+    //         corvette: [],
+    //         frigate: [],
+    //         destroyer: [],
+    //         carrier: []
+    //     }
     // }
 
 
@@ -62,6 +64,10 @@ class Board {
         }
 
         return { hitCoords, missedCoords }
+    }
+
+    print(){
+        console.log(hitShipCoords)
     }
 }
 

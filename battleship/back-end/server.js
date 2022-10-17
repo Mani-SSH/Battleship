@@ -45,8 +45,15 @@ io.on('connection', (socket) => {
     socket.on("request-signup",(username, tag, password, checkSameAccount) =>{
 
         db.signUp(username, tag, password, (error, SameAccount)=>{
-            console.log(SameAccount);
             checkSameAccount(null, SameAccount);
+            if (SameAccount === true)
+            {
+                alert("Username has been already used")
+            }
+            if (SameAccount === false)
+            {
+                alert("Account has been created successfully")
+            }
         });
         })
 

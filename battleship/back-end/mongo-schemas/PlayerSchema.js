@@ -19,6 +19,12 @@ const PlayerSchema = new mongoose.Schema({
     {
         type: Number,
         default: 0  // default value is 0
+    },
+
+    isLoggedIn:
+    {
+        type: Boolean,
+        default: false
     }
 
 })
