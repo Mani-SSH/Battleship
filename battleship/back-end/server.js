@@ -8,6 +8,7 @@ const { MatchQueue } = require("./classes/match-queue")
 const { ActionList } = require("./data/actionlist")
 
 const db = require('./mongoose-handler');
+const { match } = require('assert');
 
 let rooms = new RoomList;
 let matchQueue = new MatchQueue
@@ -80,10 +81,14 @@ io.on('connection', (socket) => {
         /* if match not found, add the player to queue */
         if(opponent == undefined){
             matchQueue.addToQueue(playerID, playerScore, socket.id)
+            console.log(`${ playerID } added to queue.`)
+            matchQueue.display()
             isSuccessful = true
             callback(isSuccessful)
             return
         }
+
+        console.log(`Match found for ${ playerID }: ${ opponent.playerID }`)
 
         /* remove opponent from queue */
         if(!matchQueue.remove(opponent.playerID)){
@@ -91,6 +96,8 @@ io.on('connection', (socket) => {
             callback(isSuccessful)
             return
         }
+
+        matchQueue.display()
 
         /** if match found, make new room */
         let thisRoom = new Room
@@ -107,18 +114,25 @@ io.on('connection', (socket) => {
 
         /* join both players to the room */
         if(thisRoom.addPlayer(socket.id, playerID) && thisRoom.addPlayer(opponent.socketID, opponent.playerID)){
+            // io.sockets.in(socket.id).socketsJoin(thisRoom.elements.roomID)
+            // io.sockets.in(opponent.socketID).socketsJoin(thisRoom.elements.roomID)
             io.in(socket.id).socketsJoin(thisRoom.elements.roomID)
             io.in(opponent.socketID).socketsJoin(thisRoom.elements.roomID)
             isSuccessful = true
             io.sockets.to(thisRoom.elements.roomID).emit("send-roomID", thisRoom.elements.roomID)
-        }
 
-        /* if room gets full emit a message to another user */
-        if(thisRoom.isFull()){
-            io.sockets.to(thisRoom.elements.roomID).emit("lobby-full");            
+            /* if room gets full emit a message to another user */
+            if(thisRoom.isFull()){
+                io.sockets.to(thisRoom.elements.roomID).emit("lobby-full");            
+            }
         }
 
         callback(isSuccessful)
+    })
+
+    socket.on("remove-from-queue", (playerID) => {
+        matchQueue.remove(playerID)
+        matchQueue.display()
     })
 
     socket.on('join-room', (roomID, playerID, fn) => {

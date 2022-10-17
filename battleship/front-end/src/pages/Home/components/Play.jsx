@@ -38,15 +38,19 @@ export default function Play() {
     const handleCloseOpponentFound = () => setShowOpponentFound(false);
 
     const handlePlayClicked = () => {
-        handleShowJoinRoom();
+        handleShowJoinRoom()
+
         io.socket.emit("join-queue", player.id, player.score, (isSuccessful) => {
             if(!isSuccessful){
                 alert("Some error occured!")
+                handleCloseJoinRoom()
+                return
             }
         })
     }
 
     const handleCancel = () => {
+        io.socket.emit("remove-from-queue", player.id)
         handleCloseJoinRoom();
     }
     /* handles event to go to next page */
@@ -70,7 +74,11 @@ export default function Play() {
     }
 
     io.socket.off("send-roomID").on("send-roomID", (roomID) => {
+        console.log("Received roomID: " + roomID)
         setRoomID(roomID)
+
+        /* close modal "Join Room" */
+        handleCloseJoinRoom()
     })
 
     /* if "lobby-full" signal received from server, go to next page */

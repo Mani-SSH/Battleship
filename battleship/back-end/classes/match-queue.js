@@ -16,7 +16,6 @@ class QueuePlayer{
 class MatchQueue{
     constructor(){
         this.head = null
-        this.tail = null
         this.size = 0
     }
 
@@ -39,9 +38,13 @@ class MatchQueue{
         /* if queue is empty add to head */
         if(this.isEmpty()){
             this.head = player
+            this.tail = player
+            this.size++
+            return
         }
 
         /* add to tail */
+        this.tail.next = player
         this.tail = player
         this.size++
     }
@@ -92,7 +95,13 @@ class MatchQueue{
 
         /* if player to delete is in head */
         if(playerToDelete == this.head){
-            this.head == this.head.next
+            /* if only one element in queue */
+            if(this.head == this.tail){
+                this.tail = null
+                this.head = null
+            }else{
+                this.head == this.head.next
+            }
             this.size--
             isSuccessful = true
             return isSuccessful
@@ -104,8 +113,8 @@ class MatchQueue{
             currentPlayer = currentPlayer.next
         }
 
-        /* set it as tail and next to null */
-        currentPlayer.next = playerToDelete.next
+        /* update pointers */
+        currentPlayer.next = currentPlayer.next.next
 
         /* if player to delete is in tail, update tail pointer */
         if(playerToDelete == this.tail) {
@@ -113,7 +122,6 @@ class MatchQueue{
         }
         this.size--
 
-        this.display()
         isSuccessful = true
         return isSuccessful
     }
@@ -124,7 +132,7 @@ class MatchQueue{
     display(){
         let temp = this.head;
         while(temp) {
-            console.log(temp);
+            console.log(temp.playerID);
             temp = temp.next;
         }
         console.log(`size: ${ this.size }\n`)
