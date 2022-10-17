@@ -31,7 +31,7 @@ export default function Boards({ roomID }) {
     return (
         <>
         <div style={ { display: turn? "block" : "none"} }>
-            <OpponentBoard setTurn={ setTurn } roomID={ roomID }/>
+            <OpponentBoard setTurn={ setTurn } roomID={ roomID } turn = { turn }/>
         </div>
         <div style={ { display: (!turn)? "block" : "none"} }>
             <PlayerBoard setTurn={ setTurn }/>

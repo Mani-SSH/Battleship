@@ -35,7 +35,7 @@ const getAdjacentXYs = (x, y, action) => {
     return adjacentXYs
 }
 
-export default function OpponentBoard({ setTurn, roomID }) {
+export default function OpponentBoard({ setTurn, roomID, turn }) {
     const [action, setAction] = useState()
 
     const [currentXY, setCurrentXY] = useState({x: 0, y: 0}) // coordinates of current cell pointed on board
@@ -45,6 +45,7 @@ export default function OpponentBoard({ setTurn, roomID }) {
 
     const [resetHighlight, setResetHighlight] = useState(false) // toggles when mouse in on and off the board, turns off highlight
 
+    const [energyBar, setEnergyBar] = useState(0);  // eneryBar for each strikes
     /**
      * when mouse is off the board, resets highlight, current coordinates and adjacent coordinates
      */
@@ -89,6 +90,7 @@ export default function OpponentBoard({ setTurn, roomID }) {
                         hitCoords={ hitCoords }
                         missedCoords={ missedCoords }
                         action={ action }
+                        setEnergyBar = { setEnergyBar }
                     />
                 );
             }
@@ -102,13 +104,14 @@ export default function OpponentBoard({ setTurn, roomID }) {
         setAction()
     }
     
-   
+   useEffect(()=>{
+    if(turn == true) // if the turn is true, it is increased by 2 everytime
+    {
+            setEnergyBar(energyBar + 2)
+    }
+   },[turn])
 
     /* set images of ship */
-    // useEffect(() => {
-
-    // }, [])
-
     useEffect(() => {
         /* check if  is clicked */
         if(action){
@@ -135,13 +138,17 @@ export default function OpponentBoard({ setTurn, roomID }) {
             >
             {board}
             </div>
-            <div className="act"><Actions setAction={ setAction } /></div>
+            <div className="act">
+            <Actions 
+            setAction={ setAction } 
+            energyBar = { energyBar }
+            /></div>
             <EndTurn onClick={ handleEndTurn }/>
         </>
     );
 }
 
-function Square({x, y, setXY, hoverXYs, resetHighlight, onClick, hitCoords, missedCoords, action }) {
+function Square({x, y, setXY, hoverXYs, resetHighlight, onClick, hitCoords, missedCoords, action, setEnergyBar }) {
     const [color, setColor] = useState("white")
     const [status, setStatus] = useState("clear")
 
@@ -154,6 +161,7 @@ function Square({x, y, setXY, hoverXYs, resetHighlight, onClick, hitCoords, miss
     const handleClick = () => {
         if(action){
             onClick()
+            setEnergyBar(prevEnergyBar => prevEnergyBar - action.charge) // each action will decrease the energy
         }
     } 
 
