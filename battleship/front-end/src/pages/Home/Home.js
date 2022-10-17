@@ -13,6 +13,7 @@ import submarine from "../../assets/images/Home/submarine.png";
 import play from "../../assets/images/Home/play.png";
 import Music from "./components/sound";
 import Player from "../../player";
+import Play from "./components/Play";
 
 export const PlayerContext = React.createContext()
 export const PlayerUpdateContext = React.createContext()
@@ -27,33 +28,34 @@ export default function Home() {
   const [isLoggedIn, setIsLoggedIn] = useState(false);
   
   return (
-    <div className="Home">
-      <div className="Header">
-        <h1>BATTLESHIP</h1>
-      </div>
-      <PlayerContext.Provider value={ player }> 
-      <PlayerUpdateContext.Provider value={ setPlayer }>
-      <LoggedInContext.Provider value={ isLoggedIn }>
-      <LoggedInUpdateContext.Provider value={ setIsLoggedIn }>
-        <div id='log' className="topButton">
-          { (isLoggedIn)? <UserInfo />: <LogInNSignUp /> }
-        </div>
+      <div className="Home">
+          <div className="Header">
+            <h1>BATTLESHIP</h1>
+          </div>
+          <PlayerContext.Provider value={ player }> 
+          <PlayerUpdateContext.Provider value={ setPlayer }>
+          <LoggedInContext.Provider value={ isLoggedIn }>
+          <LoggedInUpdateContext.Provider value={ setIsLoggedIn }>
+              <div id='log' className="topButton">
+                { (isLoggedIn)? <UserInfo />: <LogInNSignUp /> }
+              </div>
 
-        <div className="playButton">
-          <img src={play} alt="play" />
-        </div>
-        <div className="iinfo"><Info /></div>
-        <div className="auidoo"><Music /></div>
-        <div className="crRoom"><CreateRoom /></div>
-      </LoggedInUpdateContext.Provider>
-      </LoggedInContext.Provider>
-      </PlayerUpdateContext.Provider>
-      </PlayerContext.Provider> 
-      <div className="background">
-        <Waves />
-        <Ships />
+              <div className="playButton">
+                  <Play />
+                  <img src={play} alt="play" />
+              </div>
+              <div className="iinfo"><Info /></div>
+              <div className="auidoo"><Music /></div>
+              <div className="crRoom"><CreateRoom /></div>
+          </LoggedInUpdateContext.Provider>
+          </LoggedInContext.Provider>
+          </PlayerUpdateContext.Provider>
+          </PlayerContext.Provider> 
+          <div className="background">
+              <Waves />
+              <Ships />
+          </div>
       </div>
-    </div>
   );
 }
 

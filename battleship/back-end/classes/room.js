@@ -168,10 +168,10 @@ class RoomList{
 
 
    /**
-    * @returns true if list is empty, else false
+    * @returns {boolean} true if list is empty, else false
     */
    isEmpty(){
-      return (this.head == null)? true: false;
+      return (this.head == null);
    }
 
 

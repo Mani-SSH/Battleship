@@ -190,7 +190,7 @@ export default function CreateRoom() {
             </Modal>
 
             <JoinRoom
-            isCustom
+            isCustom={ true }
             show={ showJoinRoom }
             roomID={ roomID }
             onHide={ handleCloseJoinRoom }

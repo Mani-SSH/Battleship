@@ -1,15 +1,9 @@
-import { useState } from 'react';
-
 import Button from 'react-bootstrap/Button';
 import Modal from 'react-bootstrap/Modal';
-
 
 import "../../../assets/css/joinroom.sass";
 
 export default function JoinRoom({ show, onHide, isCustom, roomID, onCancel }){
-    const [showJoinRoom, setShowJoinRoom] = useState(false);                   //'show' state of the modal "Joining Room"
-    const [showOpponentFound, setShowOpponentFound] = useState(false);         //"show" state of the modal "Opponent Found"
-
     return(
         <Modal className='join-modal'
             show={ show }
