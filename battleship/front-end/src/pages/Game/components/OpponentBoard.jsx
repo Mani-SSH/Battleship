@@ -45,7 +45,7 @@ export default function OpponentBoard({ setTurn, roomID, turn }) {
 
     const [resetHighlight, setResetHighlight] = useState(false) // toggles when mouse in on and off the board, turns off highlight
 
-    const [energyBar, setEnergyBar] = useState(0);  // eneryBar for each strikes
+    const [energyBar, setEnergyBar] = useState(2);  // eneryBar for each strikes
     /**
      * when mouse is off the board, resets highlight, current coordinates and adjacent coordinates
      */
@@ -101,15 +101,9 @@ export default function OpponentBoard({ setTurn, roomID, turn }) {
 
     const handleEndTurn = () => {
         setTurn(false)
+        setEnergyBar(energyBar => energyBar + 2)
         setAction()
     }
-    
-   useEffect(()=>{
-    if(turn == true) // if the turn is true, it is increased by 2 everytime
-    {
-            setEnergyBar(energyBar + 2)
-    }
-   },[turn])
 
     /* set images of ship */
     useEffect(() => {
@@ -144,6 +138,9 @@ export default function OpponentBoard({ setTurn, roomID, turn }) {
             energyBar = { energyBar }
             /></div>
             <EndTurn onClick={ handleEndTurn }/>
+            <div className = "energyBar">
+            Energy Bar : {energyBar}
+            </div>
         </>
     );
 }
