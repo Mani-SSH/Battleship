@@ -2,15 +2,15 @@ const { Ship } = require("./ships")
 const { ShipList } = require("../data/shiplist")
 
 class Board {
-    // constructor(){
-    //     this.hitShipCoords = {
-    //         submarine: [],
-    //         corvette: [],
-    //         frigate: [],
-    //         destroyer: [],
-    //         carrier: []
-    //     }
-    // }
+    constructor(){
+        this.hitShipCoords = {
+            submarine: [],
+            corvette: [],
+            frigate: [],
+            destroyer: [],
+            carrier: []
+        }
+    }
 
 
     /**
@@ -66,9 +66,32 @@ class Board {
         return { hitCoords, missedCoords }
     }
 
-    print(){
-        console.log(hitShipCoords)
-    }
+    doAirStrike(x,y){
+        let hitCoords = []
+        let missedCoords = []
+        let isHit = false
+        for(let i = 1; i < 10; i++)
+        {
+            Object.keys(this).forEach((ship) => {
+                if(this[ship].isHit(i, y)){
+                    isHit = true
+                    hitCoords.push([i, y])
+                    this.hitShipCoords[ship].push([i,y])
+                }   
+                else
+                {
+                    isHit = false
+                }
+        })
+        if (!isHit)
+        {
+            missedCoords.push([i,y])
+        }
+        }
+        console.log(this.hitShipCoords)
+        return{ hitCoords, missedCoords }    
+}
+
 }
 
 exports.Board = Board

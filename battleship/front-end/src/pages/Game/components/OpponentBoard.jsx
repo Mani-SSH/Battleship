@@ -65,7 +65,9 @@ export default function OpponentBoard({ setTurn, roomID, turn }) {
             /* set hit and missed coords */
             setHitCoords(hitCoords)
             setMissedCoords(missedCoords)
+            console.log("hitCoords: ")
             console.log(hitCoords)
+            console.log("missedCoords: ")
             console.log(missedCoords)
         })
     }

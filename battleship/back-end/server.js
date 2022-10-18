@@ -232,6 +232,7 @@ io.on('connection', (socket) => {
 
         switch(actionID){
             case ActionList.AERIAL_STRIKE.id:
+                ({ hitCoords, missedCoords } = thisBoard.doAirStrike(x, y))
                 break
             case ActionList.CLUSTER_STRIKE.id:
                 break
