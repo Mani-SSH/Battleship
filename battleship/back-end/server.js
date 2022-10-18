@@ -8,7 +8,6 @@ const { MatchQueue } = require("./classes/match-queue")
 const { ActionList } = require("./data/actionlist")
 
 const db = require('./mongoose-handler');
-const { match } = require('assert');
 
 let rooms = new RoomList;
 let matchQueue = new MatchQueue
@@ -323,9 +322,17 @@ io.on('connection', (socket) => {
 
     socket.on("disconnecting", () => {
         /* check if user was on a room */
-        console.log(socket.rooms.values().next().value)
-        console.log(socket.rooms.values().next().value)
+        const ROOMS = socket.rooms.values()
+        ROOMS.next().value
+        const roomID = ROOMS.next().value
+
+        /* if not joined to room, do nothing */
+        if(roomID == undefined){
+            return
+        }
 
         /* emit to room player has forfeit */
+        socket.to(roomID).emit("player-forfeit")
+        rooms.remove(roomID)
     })
 })
