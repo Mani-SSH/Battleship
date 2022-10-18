@@ -10,6 +10,8 @@ class Board {
             destroyer: [],
             carrier: []
         }
+
+        this.ships = {}
     }
 
 
@@ -32,11 +34,13 @@ class Board {
      * @param {number[]} carrierXYs 
      */
     setBoard(submarineXYs, corvetteXYs, frigateXYs, destroyerXYs, carrierXYs){
-        this.submarine = new Ship(ShipList.CARRIER.length, submarineXYs)
-        this.corvette = new Ship(ShipList.CORVETTE.length, corvetteXYs)
-        this.frigate = new Ship(ShipList.FRIGATE.length, frigateXYs)
-        this.destroyer = new Ship(ShipList.DESTROYER.length, destroyerXYs)
-        this.carrier = new Ship(ShipList.CARRIER.length, carrierXYs)
+        this.ships = {
+            submarine: new Ship(ShipList.CARRIER.length, submarineXYs),
+            corvette: new Ship(ShipList.CORVETTE.length, corvetteXYs),
+            frigate: new Ship(ShipList.FRIGATE.length, frigateXYs),
+            destroyer: new Ship(ShipList.DESTROYER.length, destroyerXYs),
+            carrier: new Ship(ShipList.CARRIER.length, carrierXYs)
+        } 
     }
 
 
@@ -72,8 +76,8 @@ class Board {
         let isHit = false
         for(let i = 1; i < 10; i++)
         {
-            Object.keys(this).forEach((ship) => {
-                if(this[ship].isHit(i, y)){
+            Object.keys(this.ships).forEach((ship) => {
+                if(this.ships[ship].isHit(i, y)){
                     isHit = true
                     hitCoords.push([i, y])
                     this.hitShipCoords[ship].push([i,y])
@@ -90,7 +94,7 @@ class Board {
         }
         console.log(this.hitShipCoords)
         return{ hitCoords, missedCoords }    
-}
+    }
 
 }
 
