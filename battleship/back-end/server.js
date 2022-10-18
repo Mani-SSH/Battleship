@@ -321,8 +321,10 @@ io.on('connection', (socket) => {
         thisRoom.display();
     })
 
-    socket.on("disconnect", () => {
+    socket.on("disconnecting", () => {
         /* check if user was on a room */
+        console.log(socket.rooms.values().next().value)
+        console.log(socket.rooms.values().next().value)
 
         /* emit to room player has forfeit */
     })
