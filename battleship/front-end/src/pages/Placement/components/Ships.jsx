@@ -1,4 +1,5 @@
 import "../../../assets/css/ships.sass";
+import "../../../assets/css/board.sass";
 
 import Button from "react-bootstrap/Button"
 
@@ -19,7 +20,7 @@ export function Ships({ setShip }){
     })
 
     return(
-        <div>
+        <div className='shipButtons'>
             { ships }
         </div>
     )
@@ -40,9 +41,9 @@ function ButtonShip({ onClick, ship }){
     return(
         <Button 
         onClick={ onClick } 
-        className='ship_button'
+        className='shipButton'
         disabled={ disable }
-        >{ ship.id }</Button>
+        >{ ship.id.toUpperCase() }</Button>
     )
 }
 

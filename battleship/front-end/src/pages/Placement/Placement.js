@@ -1,5 +1,5 @@
 import "../../assets/css/Body.sass";
-import "../../assets/css/flex.sass";
+import "../../assets/css/board.sass";
 
 import React,{ useContext, useEffect, useState } from "react";
 import { useLocation, useNavigate } from 'react-router-dom';
@@ -10,6 +10,7 @@ import Countdown from "../../features/Countdown";
 import * as io from "../../io-client-handler"
 import Button from "react-bootstrap/Button";
 import OpponentStatus from "./components/OpponentStatus";
+import background from "../../assets/images/Ships/bg.jpg"
 
 export const CoordinatesContext = React.createContext()
 export const CoordinatesUpdateContext = React.createContext()
@@ -62,58 +63,61 @@ export const ReadyContext = React.createContext()
     })
     
 
-    const onLoad = () => {
-        try{
-            if(location.state.socketID !== io.socket.id){
-                throw console.error("Page reloaded");
-            }
+    // const onLoad = () => {
+    //     try{
+    //         if(location.state.socketID !== io.socket.id){
+    //             throw console.error("Page reloaded");
+    //         }
 
-            setRoomID(location.state.roomID);
-        }catch(e){
-            navigate("/");
-        }
-    }
+    //         setRoomID(location.state.roomID);
+    //     }catch(e){
+    //         navigate("/");
+    //     }
+    // }
 
-    useEffect(() => {
-        onLoad();
-    }, []) // eslint-disable-line react-hooks/exhaustive-deps
+    // useEffect(() => {
+    //     onLoad();
+    // }, []) // eslint-disable-line react-hooks/exhaustive-deps
 
-    useEffect(() => {
-        if(ready && opponentReady){
-            navigate("/game", { 
-                state: { 
-                    playerID: location.state.playerID,
-                    opponentID: location.state.opponentID,
-                    roomID: location.state.roomID,
-                    socketID: location.state.socketID,
-                    coordinates
-                },
-                replace: true
-            })
-        }
-    }, [ready, opponentReady]) // eslint-disable-line react-hooks/exhaustive-deps
+    // useEffect(() => {
+    //     if(ready && opponentReady){
+    //         navigate("/game", { 
+    //             state: { 
+    //                 playerID: location.state.playerID,
+    //                 opponentID: location.state.opponentID,
+    //                 roomID: location.state.roomID,
+    //                 socketID: location.state.socketID,
+    //                 coordinates
+    //             },
+    //             replace: true
+    //         })
+    //     }
+    // }, [ready, opponentReady]) // eslint-disable-line react-hooks/exhaustive-deps
 
     return (
         <div className="Body">
+            <img src={background} alt="background" className="bg"/>
             <div className="Header1">
                 <h1>Plan Your Ships</h1>
-                <h3>{ location.state.playerID }'s Board</h3>
+                {/* <h3>{ location.state.playerID }'s Board</h3> */}
             </div>
 
             <CoordinatesContext.Provider value={ coordinates }>
             <CoordinatesUpdateContext.Provider value={ setCoordinates }>
             <ReadyContext.Provider value={ ready }>
-                <div className="Header2">
+                <div className="secButtons">
                     {/* <h1><Countdown counter={ 90 } onEnd={ handleCounterEnd } /></h1> */}
+                    {/* <OpponentStatus opponentID={ location.state.opponentID } ready={ opponentReady }/> */}
+                    <ButtonReady onClick={ handleReady }/>
                 </div>
 
-                <div className="flexie"><Board /></div>
+            <div className="boardContainer"><Board /></div>
 
-                <ButtonReady onClick={ handleReady }/>
+            
             </ReadyContext.Provider>
             </CoordinatesUpdateContext.Provider>
             </CoordinatesContext.Provider>
-            <OpponentStatus opponentID={ location.state.opponentID } ready={ opponentReady }/>
+           
         </div>
     );
  }
@@ -142,6 +146,6 @@ export const ReadyContext = React.createContext()
     }, [coordinates, ready])
 
     return(
-        <Button className="back" disabled={ disable } onClick={ handleClicked }>Ready</Button>
+        <Button className="readyBtn" disabled={ disable } onClick={ handleClicked }>Ready</Button>
     )
  }

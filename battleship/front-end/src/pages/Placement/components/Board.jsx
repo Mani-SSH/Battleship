@@ -1,11 +1,12 @@
 import React, { useContext, useEffect, useState, useMemo } from "react";
 import Button from "react-bootstrap/Button"
 
-import "../../../assets/css/flex.sass";
+import "../../../assets/css/board.sass";
 import { ShipList } from "../../../data/shiplist";
 import { CoordinatesContext, CoordinatesUpdateContext } from "../Placement";
 
 import { Ships, ShipPreview} from "./Ships";
+import {BiRotateRight} from "react-icons/bi";
 
 //const xyIntoPosition = (x, y) => ((x - 1) * 10 + (y - 1 * x))
 
@@ -156,6 +157,7 @@ export default function Board()
                     valid={ valid }
                     setCurrentTile = {setCurrentTile}
                     key = {j*10 + i}
+                    
                     />
                 );
             }
@@ -239,30 +241,28 @@ export default function Board()
     },[previewClass])
 
     return(
-        <>
-            <div className='shipBtnContainer'>
-                <div className='shipBtn'>
+        <div className="BoardContainer">
+            <div className='shipBtnPre'>
                     <Ships setShip={ setShip }/>
-                </div>
-                <div>
                     <ShipPreview ship={ ship } previewClass={previewClass}/>
-                </div>
+                    <BiRotateRight onClick ={handleRotation} className="rotateIcon"/>                   
             </div>
-
-            <Button onClick ={handleRotation}>Rotate</Button>
-
-            <div className="flex-container"
-            onMouseLeave={ handleMouseLeaveBoard }
-            onMouseEnter={() => setResetHighlight(false)}
-            >{board}</div>
-            <div>{shipsImg}</div>
-        </>
+            
+            <div className="board">
+                <div className="boardGrid"
+                onMouseLeave={ handleMouseLeaveBoard }
+                onMouseEnter={() => setResetHighlight(false)}
+                >{board}</div>
+                <div>{shipsImg}</div>
+            </div>
+            
+        </div>
     );
 }
 
 
 function Square({ x, y, setXY, onClick, squareNo, ship, hoverXYs, resetHighlight, valid, setCurrentTile}){
-    const [colour, setColour] = useState("white") // color of the cell
+    const [colour, setColour] = useState("") // color of the cell
 
     /* when mouse hovers on the cell */
     const handleHover = () => {
@@ -302,7 +302,7 @@ function Square({ x, y, setXY, onClick, squareNo, ship, hoverXYs, resetHighlight
                 }
             }else{
                 /* default color */
-                setColour("white")
+                setColour("")
             }
         }
     }, [hoverXYs]) // eslint-disable-line react-hooks/exhaustive-deps
@@ -311,21 +311,21 @@ function Square({ x, y, setXY, onClick, squareNo, ship, hoverXYs, resetHighlight
     /* if mouse is off the board, set to default color */
     useEffect(() => {
         if(resetHighlight){
-            setColour("white")
+            setColour("")
         }
     }, [resetHighlight])
 
     const mystyle = {
         backgroundColor: colour,
-        opacity: 0.5,
+        opacity: 1,
         width: 50 + 'px',
         height: 50 + 'px',
-        border: '1px solid black'
+        border: '1.5px solid white'
       };
 
     return(
         <div
-        className = {squareNo}
+        className = {`_square ${squareNo}`}
         onMouseOver={ handleHover }
         onClick = { handleClick }
         style={mystyle}
@@ -346,7 +346,7 @@ function RenderShip({ currentTile, ship, rotateShip, setRotation})
     useEffect(() => {
         if(coordinates[ship.id].length > 0){
             //console.log("checking inside RenderFunction")
-            setLeft(currentTile.left-((ship.length-1)*50))  // left of the DOMElement
+            setLeft(((currentTile.left))-((ship.length-1)*50))  // left of the DOMElement
             setTop(currentTile.top) // top of the DOM Element
             setShow(true);  // Turns on Visibility of the ship
             //console.log(`${ship.id} = ${rotateShip}`)
@@ -377,7 +377,7 @@ function RenderShip({ currentTile, ship, rotateShip, setRotation})
     return(
         <div>
         {show && <div 
-            style={ { left, top, position:'absolute' } } className="placeShip">
+            style={ { left, top, position:'absolute'} } className="placeShip">
             <img src={ship.thumb} alt="ships" className={rotateClass + ship.id} />
             </div>
         }
