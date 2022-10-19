@@ -63,7 +63,7 @@ export default function OpponentBoard({ setTurn, roomID, turn }) {
                 alert("Some error occured")
             }
 
-            /* set hit and missed coords */
+            /* set hit and missed coords and destroyed ships */
             setHitCoords(hitCoords)
             setMissedCoords(missedCoords)
             setDestroyedShips(destroyedShips)
@@ -73,6 +73,10 @@ export default function OpponentBoard({ setTurn, roomID, turn }) {
             console.log(missedCoords)
             console.log("destroyedShips: ")
             console.log(destroyedShips)
+
+            /* reset action and highlight */
+            setAction()
+            setResetHighlight(true)
         })
     }
 
@@ -137,16 +141,17 @@ export default function OpponentBoard({ setTurn, roomID, turn }) {
             onMouseLeave={ handleMouseLeaveBoard }
             onMouseEnter={ () => setResetHighlight(false) }
             >
-            {board}
+                {board}
             </div>
             <div className="act">
-            <Actions 
-            setAction={ setAction } 
-            energyBar = { energyBar }
-            /></div>
-            <EndTurn onClick={ handleEndTurn }/>
+                <Actions 
+                setAction={ setAction } 
+                energyBar = { energyBar }
+                />
+            </div>
+                <EndTurn onClick={ handleEndTurn }/>
             <div className = "energyBar">
-            Energy Bar : {energyBar}
+                Energy Bar : {energyBar}
             </div>
         </>
     );
