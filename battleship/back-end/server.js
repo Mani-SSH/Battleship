@@ -233,19 +233,19 @@ io.on('connection', (socket) => {
 
         switch(actionID){
             case ActionList.AERIAL_STRIKE.id:
-                ({ hitCoords, missedCoords } = thisBoard.doAirStrike(x, y))
+                ({ hitCoords, missedCoords, destroyedShips } = thisBoard.doAirStrike(x, y))
                 break
             case ActionList.CLUSTER_STRIKE.id:
-                ({ hitCoords, missedCoords } = thisBoard.doClusterAttack(x, y))
+                ({ hitCoords, missedCoords, destroyedShips } = thisBoard.doClusterAttack(x, y))
                 break
             case ActionList.MISSILE.id:
-                ({ hitCoords, missedCoords } = thisBoard.doMissile(x, y))
+                ({ hitCoords, missedCoords, destroyedShips } = thisBoard.doMissile(x, y))
                 break
             case ActionList.RADAR.id:
                 break
             default:
                 callback(isSuccessful, hitCoords, missedCoords, destroyedShips)
-                retun
+                return
         }
         isSuccessful = true
         callback(isSuccessful, hitCoords, missedCoords, destroyedShips)
