@@ -2,19 +2,6 @@ const { Ship } = require("./ships")
 const { ShipList } = require("../data/shiplist")
 
 class Board {
-    constructor(){
-        this.hitShipCoords = {
-            submarine: [],
-            corvette: [],
-            frigate: [],
-            destroyer: [],
-            carrier: []
-        }
-
-        this.ships = {}
-    }
-
-
     /**
      * @returns true if empty 
      */
@@ -40,7 +27,15 @@ class Board {
             frigate: new Ship(ShipList.FRIGATE.length, frigateXYs),
             destroyer: new Ship(ShipList.DESTROYER.length, destroyerXYs),
             carrier: new Ship(ShipList.CARRIER.length, carrierXYs)
-        } 
+        }
+
+        this.hitShipCoords = {
+            submarine: [],
+            corvette: [],
+            frigate: [],
+            destroyer: [],
+            carrier: []
+        }
     }
 
 
@@ -55,45 +50,69 @@ class Board {
         let missedCoords = []
         let isHit = false
         /* for each ship check coordinate if it matches */
-        Object.keys(this).forEach((ship) => {
+        Object.keys(this.ships).forEach((ship) => {
             /* if hit push the coordinates in hitCoords */
-            if(this[ship].isHit(x, y)){
+            if(this.ships[ship].isHit(x, y)){
                 isHit = true
                 hitCoords.push([x, y])
+                this.hitShipCoords[ship].push([x,y])
             }
         })
 
         if(!isHit){
             missedCoords.push([x, y])
         }
-
+        console.log(this.hitShipCoords)
         return { hitCoords, missedCoords }
     }
 
     doAirStrike(x,y){
         let hitCoords = []
         let missedCoords = []
-        let isHit = false
         for(let i = 1; i < 10; i++)
         {
+            let isHit = false
             Object.keys(this.ships).forEach((ship) => {
                 if(this.ships[ship].isHit(i, y)){
                     isHit = true
                     hitCoords.push([i, y])
                     this.hitShipCoords[ship].push([i,y])
-                }   
-                else
-                {
-                    isHit = false
+                    console.log(this.ships[ship].isHit(i, y))
+
                 }
         })
-        if (!isHit)
-        {
-            missedCoords.push([i,y])
-        }
+            if(!isHit)
+            {
+                missedCoords.push([i,y])
+            }
         }
         console.log(this.hitShipCoords)
         return{ hitCoords, missedCoords }    
+    }
+
+    doClusterAttack(x,y){
+        let hitCoords = []
+        let missedCoords = []
+        for (let i = -1; i <= 1; i++ )
+        {
+            for (let j = -1; j <= 1 ; j++)
+            {
+                let isHit = false
+                Object.keys(this.ships).forEach((ship) => {
+                if(this.ships[ship].isHit(x + i, y + j)){
+                    isHit = true
+                    hitCoords.push([x + i, y + j])
+                    this.hitShipCoords[ship].push([x + i, y + j])
+                }
+                })
+                if(!isHit)
+                {
+                    missedCoords.push([x + i, y + j])
+                }
+            }
+        }
+        console.log(this.hitShipCoords)
+        return{ hitCoords, missedCoords }
     }
 
 }

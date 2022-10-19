@@ -235,6 +235,7 @@ io.on('connection', (socket) => {
                 ({ hitCoords, missedCoords } = thisBoard.doAirStrike(x, y))
                 break
             case ActionList.CLUSTER_STRIKE.id:
+                ({ hitCoords, missedCoords } = thisBoard.doClusterAttack(x, y))
                 break
             case ActionList.MISSILE.id:
                 ({ hitCoords, missedCoords } = thisBoard.doMissile(x, y))
