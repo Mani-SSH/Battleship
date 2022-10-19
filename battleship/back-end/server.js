@@ -48,8 +48,15 @@ io.on('connection', (socket) => {
     socket.on("request-signup",(username, tag, password, checkSameAccount) =>{
 
         db.signUp(username, tag, password, (error, SameAccount)=>{
-            console.log(SameAccount);
             checkSameAccount(null, SameAccount);
+            if (SameAccount === true)
+            {
+                alert("Username has been already used")
+            }
+            if (SameAccount === false)
+            {
+                alert("Account has been created successfully")
+            }
         });
         })
 
@@ -283,26 +290,29 @@ io.on('connection', (socket) => {
 
         let hitCoords = []
         let missedCoords = []
+        let destroyedShips = []
 
         let isSuccessful = false
 
         switch(actionID){
             case ActionList.AERIAL_STRIKE.id:
+                ({ hitCoords, missedCoords, destroyedShips } = thisBoard.doAirStrike(x, y))
                 break
             case ActionList.CLUSTER_STRIKE.id:
+                ({ hitCoords, missedCoords, destroyedShips } = thisBoard.doClusterAttack(x, y))
                 break
             case ActionList.MISSILE.id:
-                ({ hitCoords, missedCoords } = thisBoard.doMissile(x, y))
+                ({ hitCoords, missedCoords, destroyedShips } = thisBoard.doMissile(x, y))
                 break
             case ActionList.RADAR.id:
                 break
             default:
-                callback(isSuccessful, hitCoords, missedCoords)
-                retun
+                callback(isSuccessful, hitCoords, missedCoords, destroyedShips)
+                return
         }
         isSuccessful = true
-        callback(isSuccessful, hitCoords, missedCoords)
-        socket.to(roomID).emit("opponent-action", hitCoords, missedCoords)
+        callback(isSuccessful, hitCoords, missedCoords, destroyedShips)
+        socket.to(roomID).emit("opponent-action", hitCoords, missedCoords, destroyedShips)
     })
 
     socket.on("switch-turn", (roomID) => {

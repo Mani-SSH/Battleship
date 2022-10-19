@@ -79,6 +79,7 @@ module.exports.logIn = function logIn(name, tag, password, callback){
             return;
         }
 
+        else{
         docs.toObject(); // docs is Mongoose Object at first. Converting it to JS object
 
         /* if password is wrong */
@@ -87,6 +88,7 @@ module.exports.logIn = function logIn(name, tag, password, callback){
             return;
         }
 
+        else{
         /* if username found and password matched */
         /* get details of the player */
         const thisPlayer = new Player;
@@ -94,6 +96,19 @@ module.exports.logIn = function logIn(name, tag, password, callback){
 
         /* return details of player with callback */
         callback(null, thisPlayer);
+        updateStatus(docs.Username)
         return;
+        }
+    }
     })
+}
+/**
+ * 
+ * toggles the isLoggedIn data to true in the db
+ * @param {string} username
+ */
+async function updateStatus(username)
+{
+    await PlayerModel.findOneAndUpdate({Username: username}, {isLoggedIn: 'true'})
+    return;
 }
