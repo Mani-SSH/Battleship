@@ -5,7 +5,7 @@ const ShipList = {
     },
     FRIGATE: {
         id: "frigate",
-        length: 2
+        length: 3
     },
     DESTROYER: {
         id: "destroyer",
@@ -13,7 +13,7 @@ const ShipList = {
     },
     CORVETTE: {
         id: "corvette",
-        length: 3
+        length: 1
     },
     CARRIER: {
         id: "carrier",

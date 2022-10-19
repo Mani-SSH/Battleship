@@ -22,7 +22,7 @@ class Board {
      */
     setBoard(submarineXYs, corvetteXYs, frigateXYs, destroyerXYs, carrierXYs){
         this.ships = {
-            submarine: new Ship(ShipList.CARRIER.length, submarineXYs),
+            submarine: new Ship(ShipList.SUBMARINE.length, submarineXYs),
             corvette: new Ship(ShipList.CORVETTE.length, corvetteXYs),
             frigate: new Ship(ShipList.FRIGATE.length, frigateXYs),
             destroyer: new Ship(ShipList.DESTROYER.length, destroyerXYs),
@@ -49,13 +49,42 @@ class Board {
         let hitCoords = []
         let missedCoords = []
         let isHit = false
+        let destroyedShips = []
         /* for each ship check coordinate if it matches */
         Object.keys(this.ships).forEach((ship) => {
             /* if hit push the coordinates in hitCoords */
             if(this.ships[ship].isHit(x, y)){
                 isHit = true
                 hitCoords.push([x, y])
-                this.hitShipCoords[ship].push([x,y])
+                if (this.hitShipCoords[ship].length != 0)
+                {
+                    let isMatched = false
+                    console.log(`Before the push: ${this.hitShipCoords[ship].length}`)
+                    for (let i = 0; i < this.hitShipCoords[ship].length; i++)
+                    {
+                        if((x === this.hitShipCoords[ship][i][0] && y=== this.hitShipCoords[ship][i][1]))
+                        {
+                            isMatched = true
+                            break
+                        }
+                    }
+
+                    if(!isMatched)
+                    {
+                        this.hitShipCoords[ship].push([x,y])
+                    }
+
+                }
+                else
+                {
+                    this.hitShipCoords[ship].push([x,y])
+                }
+
+                if(this.hitShipCoords[ship].length === this.ships[ship].length)
+                {
+                    destroyedShips.push(ship)
+                }
+               
             }
         })
 
@@ -63,11 +92,13 @@ class Board {
             missedCoords.push([x, y])
         }
         console.log(this.hitShipCoords)
-        return { hitCoords, missedCoords }
+        console.log(destroyedShips)
+        return { hitCoords, missedCoords, destroyedShips }
     }
 
     doAirStrike(x,y){
         let hitCoords = []
+        let destroyedShips = []
         let missedCoords = []
         for(let i = 1; i < 10; i++)
         {
@@ -76,9 +107,33 @@ class Board {
                 if(this.ships[ship].isHit(i, y)){
                     isHit = true
                     hitCoords.push([i, y])
-                    this.hitShipCoords[ship].push([i,y])
-                    console.log(this.ships[ship].isHit(i, y))
+                    if (this.hitShipCoords[ship].length != 0)
+                    {
+                        let isMatched = false;
+                        for (let j = 0; j < this.hitShipCoords[ship].length; j++)
+                        {
+                            if((i === this.hitShipCoords[ship][j][0] && y=== this.hitShipCoords[ship][j][1]))
+                            {
+                                isMatched = true
+                                break;
+                            }
+                        }
 
+                        if (!isMatched)
+                        {
+                            this.hitShipCoords[ship].push([i,y])
+                        }
+                    }
+                    else
+                    {
+                        this.hitShipCoords[ship].push([i,y])
+                    }
+
+                    if(this.hitShipCoords[ship].length === this.ships[ship].length)
+                    {
+                        destroyedShips.push(ship)
+                    }
+    
                 }
         })
             if(!isHit)
@@ -87,12 +142,14 @@ class Board {
             }
         }
         console.log(this.hitShipCoords)
-        return{ hitCoords, missedCoords }    
+        console.log(destroyedShips)
+        return{ hitCoords, missedCoords, destroyedShips }    
     }
 
     doClusterAttack(x,y){
         let hitCoords = []
         let missedCoords = []
+        let destroyedShips = []
         for (let i = -1; i <= 1; i++ )
         {
             for (let j = -1; j <= 1 ; j++)
@@ -102,7 +159,33 @@ class Board {
                 if(this.ships[ship].isHit(x + i, y + j)){
                     isHit = true
                     hitCoords.push([x + i, y + j])
-                    this.hitShipCoords[ship].push([x + i, y + j])
+                    if (this.hitShipCoords[ship].length != 0)
+                    {
+                        let isMatched = false
+                        for (let k = 0; k < this.hitShipCoords[ship].length; k++)
+                        {
+                            if(((x + i) === this.hitShipCoords[ship][k][0] && (y + j)=== this.hitShipCoords[ship][k][1]))
+                            {
+                                isMatched = true
+                                break
+                            }
+                        }
+
+                        if (!isMatched)
+                        {
+                            this.hitShipCoords[ship].push([x + i, y + j])
+                        }
+                    }
+                    else
+                    {
+                        this.hitShipCoords[ship].push([x + i, y + j])
+                    }
+
+                    if(this.hitShipCoords[ship].length === this.ships[ship].length)
+                    {
+                        destroyedShips.push(ship)
+                    }
+    
                 }
                 })
                 if(!isHit)
@@ -112,7 +195,8 @@ class Board {
             }
         }
         console.log(this.hitShipCoords)
-        return{ hitCoords, missedCoords }
+        console.log(destroyedShips)
+        return{ hitCoords, missedCoords, destroyedShips }
     }
 
 }

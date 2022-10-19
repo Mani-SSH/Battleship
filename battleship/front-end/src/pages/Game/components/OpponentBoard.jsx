@@ -42,6 +42,7 @@ export default function OpponentBoard({ setTurn, roomID, turn }) {
     const [hoverXYs, setHoverXYs] = useState([]) // coordinates of adjacent cells where ship is placed
     const [hitCoords, setHitCoords] = useState([])
     const [missedCoords, setMissedCoords] = useState([])
+    const [destroyedShips, setDestroyedShips] = useState([])
 
     const [resetHighlight, setResetHighlight] = useState(false) // toggles when mouse in on and off the board, turns off highlight
 
@@ -56,7 +57,7 @@ export default function OpponentBoard({ setTurn, roomID, turn }) {
     }
 
     const handleTileClicked = () => {
-        io.socket.emit("player-action", roomID, action.id, currentXY.x, currentXY.y, (isSuccessful, hitCoords, missedCoords) => {
+        io.socket.emit("player-action", roomID, action.id, currentXY.x, currentXY.y, (isSuccessful, hitCoords, missedCoords, destroyedShips) => {
             /* if action is not successful, alert the user */
             if(!isSuccessful){
                 alert("Some error occured")
@@ -65,10 +66,13 @@ export default function OpponentBoard({ setTurn, roomID, turn }) {
             /* set hit and missed coords */
             setHitCoords(hitCoords)
             setMissedCoords(missedCoords)
+            setDestroyedShips(destroyedShips)
             console.log("hitCoords: ")
             console.log(hitCoords)
             console.log("missedCoords: ")
             console.log(missedCoords)
+            console.log("destroyedShips: ")
+            console.log(destroyedShips)
         })
     }
 

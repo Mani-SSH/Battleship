@@ -227,6 +227,7 @@ io.on('connection', (socket) => {
 
         let hitCoords = []
         let missedCoords = []
+        let destroyedShips = []
 
         let isSuccessful = false
 
@@ -243,12 +244,12 @@ io.on('connection', (socket) => {
             case ActionList.RADAR.id:
                 break
             default:
-                callback(isSuccessful, hitCoords, missedCoords)
+                callback(isSuccessful, hitCoords, missedCoords, destroyedShips)
                 retun
         }
         isSuccessful = true
-        callback(isSuccessful, hitCoords, missedCoords)
-        socket.to(roomID).emit("opponent-action", hitCoords, missedCoords)
+        callback(isSuccessful, hitCoords, missedCoords, destroyedShips)
+        socket.to(roomID).emit("opponent-action", hitCoords, missedCoords, destroyedShips)
     })
 
     socket.on("switch-turn", (roomID) => {
