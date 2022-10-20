@@ -32,7 +32,6 @@ class Room{
       this.elements = {
          roomID: makeRoomID(),
          players: [],
-         ready_count: 0,
          firstTurn: ""
       }
       this.next = null;
@@ -43,10 +42,6 @@ class Room{
     */
    isFull(){
       return (this.elements.players.length >= MAX_PLAYER_PER_ROOM);
-   }
-
-   isReady(){
-      return (this.elements.ready_count.length == 2);
    }
 
    /**
@@ -80,12 +75,6 @@ class Room{
     */
    removePlayers(){
       this.elements.players = []
-   }
-
-
-   /* increases ready count of the room */
-   readyPlayer(){
-      this.elements.ready_count++;
    }
 
    /**

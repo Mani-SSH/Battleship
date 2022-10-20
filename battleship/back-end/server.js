@@ -120,11 +120,11 @@ io.on('connection', (socket) => {
 
         /* join both players to the room */
         if(thisRoom.addPlayer(socket.id, playerID) && thisRoom.addPlayer(opponent.socketID, opponent.playerID)){
-            // io.sockets.in(socket.id).socketsJoin(thisRoom.elements.roomID)
-            // io.sockets.in(opponent.socketID).socketsJoin(thisRoom.elements.roomID)
             io.in(socket.id).socketsJoin(thisRoom.elements.roomID)
             io.in(opponent.socketID).socketsJoin(thisRoom.elements.roomID)
             isSuccessful = true
+
+            /* emit roomID */
             io.sockets.to(thisRoom.elements.roomID).emit("send-roomID", thisRoom.elements.roomID)
 
             /* if room gets full emit a message to another user */
@@ -220,13 +220,6 @@ io.on('connection', (socket) => {
     })
 
     socket.on("player-ready", (roomID) => {
-        /* get room */
-        const thisRoom = rooms.getRoom(roomID);
-
-        /* increase ready count */
-        thisRoom.readyPlayer();
-        thisRoom.display();
-
         /* emit to opponent that player is ready */
         socket.to(roomID).emit("oppponent-ready");
     })
@@ -312,6 +305,14 @@ io.on('connection', (socket) => {
         isSuccessful = true
         callback(isSuccessful, hitCoords, missedCoords, destroyedShips)
         socket.to(roomID).emit("opponent-action", hitCoords, missedCoords, destroyedShips)
+
+        /* if a ship is destroyed, check if the game is over */
+        if(destroyedShips.length !== 0){
+            if(thisBoard.isGameOver()){
+                io.sockets.emit("game-over", socket.id)
+                rooms.remove(roomID)
+            }
+        }
     })
 
     socket.on("switch-turn", (roomID) => {

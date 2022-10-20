@@ -51,7 +51,6 @@ class Board {
         let hitCoords = []
         let missedCoords = []
         let destroyedShips = []
-        let isGameOver = false
         let isHit = false
         /* for each ship check coordinate if it matches */
         Object.keys(this.ships).forEach((ship) => {
@@ -86,10 +85,6 @@ class Board {
                 {
                     destroyedShips.push(ship)           // passing destroyed ships in front-end
                     this.sunkShips.push(ship)           // storing the ship in the array to check if the game is over
-                    if (this.sunkShips.length === 5)    // if all ships are in sunkShips, the game is over
-                    {
-                        isGameOver = true;              // toggling game over bool
-                    }
                 }
                
             }
@@ -98,14 +93,9 @@ class Board {
         if(!isHit){
             missedCoords.push([x, y])           // if the coords are missed, it is stored here
         }
-    
-        // if (isGameOver)
-        // {
-        //     io.sockets.to(roomID).emit("Game-Over", playerID); 
-        // }
 
-        console.log(`the status: ${isGameOver}`)
-        console.log(destroyedShips)
+        // console.log(`the status: ${this.isGameOver()}`)
+        // console.log(destroyedShips)
         return { hitCoords, missedCoords, destroyedShips }
     }
 
@@ -113,7 +103,6 @@ class Board {
         let hitCoords = []
         let destroyedShips = []
         let missedCoords = []
-        let isGameOver = false                  // bool to check if all ships has been sunk
         for(let i = 1; i < 10; i++)             // counts total of 9 tiles in AirStrike
         {
             let isHit = false                   // bool for checking hit
@@ -149,12 +138,7 @@ class Board {
                     {
                         destroyedShips.push(ship)       // passing destroyed ships to front end
                         this.sunkShips.push(ship)       // storing destroyed ships to check for game over
-                        if(this.sunkShips.length === 5)     // game is over once all 5 ships are sunk
-                        {
-                            isGameOver = true       
-                        }
                     }
-    
                 }
         })
 
@@ -164,13 +148,8 @@ class Board {
             }
         }
 
-        // if (isGameOver)
-        // {
-        //     io.sockets.to(roomID).emit("Game-Over", playerID); 
-        // }
-
-        console.log(`the status: ${isGameOver}`)
-        console.log(destroyedShips)
+        // console.log(`the status: ${this.isGameOver()}`)
+        // console.log(destroyedShips)
         return{ hitCoords, missedCoords, destroyedShips }    
     }
 
@@ -178,7 +157,6 @@ class Board {
         let hitCoords = []
         let missedCoords = []
         let destroyedShips = []
-        let isGameOver = false
         for (let i = -1; i <= 1; i++ )              // cluster has 9 square: 3*3 sized attack
         {
             for (let j = -1; j <= 1 ; j++)
@@ -215,10 +193,6 @@ class Board {
                     {
                         destroyedShips.push(ship)           // the destroyed ship is passed in the front end
                         this.sunkShips.push(ship)           // the destroyed ship is stored in the array for checking all the hit coords
-                        if(this.sunkShips.length === 5)     // if all 5 ships are sunk, game is over
-                        {
-                            isGameOver = true
-                        }
                     }
     
                 }
@@ -230,14 +204,13 @@ class Board {
             }
         }
 
-        // if (isGameOver)
-        // {
-        //     io.sockets.to(roomID).emit("Game-Over", playerID); 
-        // }
-
-        console.log(`the status: ${isGameOver}`)
-        console.log(destroyedShips)
+        // console.log(`the status: ${this.isGameOver()}`)
+        // console.log(destroyedShips)
         return{ hitCoords, missedCoords, destroyedShips }
+    }
+
+    isGameOver() {
+        return (this.sunkShips.length === 5)
     }
 
 }
