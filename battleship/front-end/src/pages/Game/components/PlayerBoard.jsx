@@ -43,28 +43,54 @@ export default function PlayerBoard() {
         setMissedCoords(missedCoords)
     })
 
-    const checks = useMemo(()=>{
-        Object.keys(ShipList).forEach((ship) => {
+
+    Object.keys(ShipList).forEach((ship) => {
             //console.log(location.state.coordinates[ShipList[ship].id])
             let x = location.state.coordinates[ShipList[ship].id][0][0]   // x coordinate
             let y = location.state.coordinates[ShipList[ship].id][0][1]     // y coordinate
             let  squareNo = 'squareNo' + x*10 + y                           // equivalent squares
             let squareElement = document.querySelector(`div.${squareNo}`);  //  for the given squares
             let currentTile = squareElement.getBoundingClientRect();
-            // console.log(`x: ${x}`)
-            // console.log(`y: ${y}`)
-            // console.log(squareNo)
+            let rotation = 0;
             console.log(currentTile)
             console.log(squareElement);
+            if (ShipList[ship].id !== "corvette")
+            {
+                let x1 = location.state.coordinates[ShipList[ship].id][1][0]
+                let y1 = location.state.coordinates[ShipList[ship].id][1][1]
+                if (x === x1)
+                {
+                    if (y > y1)
+                    {
+                        rotation = 0
+                    }
+                    else
+                    {
+                        rotation = 2
+                    }
+                }
+                else
+                {
+                    if (x < x1)
+                    {
+                       rotation = 1
+                    }
+                    else{
+                        rotation = 3
+                    }
+                }
+                //console.log(`The rotation is: ${rotation}`)
+            }
             shipImg.push(
                 <RenderShip
                     ship = {ShipList[ship]}
-                    currentTile = {currentTile}           
+                    currentTile = {currentTile}    
+                    rotation = {rotation}       
                 />
             ) 
         })
     
-    })
+    
     
 
     return (
@@ -125,20 +151,39 @@ function Square({x, y, hitCoords, missedCoords, squareNo}){
 }
 
 
-function RenderShip({ship, currentTile}){
+function RenderShip({ship, currentTile, rotation}){
 
     const [left, setLeft] = useState(0)
     const [top, setTop] = useState(0)
+    const [rotateClass, setRotateClass] = useState("")
 
     useEffect(()=>{
         setLeft(((currentTile.left))-((ship.length-1)*50))  // left of the DOMElement
         setTop(currentTile.top)
+        switch(rotation){
+            case 0:
+                setRotateClass("Zero_")
+                break
+            case 1: 
+                setRotateClass("Ninety_")
+                break
+            case 2: 
+                setRotateClass("HundredEighty_")
+                break
+            case 3: 
+                setRotateClass("TwoSeventy_")
+                break
+            default:  
+                console.log("There has been erro in PlayerBoard")
+                break
+        }
+        
     },[ship])
 
     return(
     <div
      style={ { left, top, position:'absolute'} } className="placeShip">
-     <img src={ship.thumb} alt="ships" className={'Zero_' + ship.id} /> 
+     <img src={ship.thumb} alt="ships" className={ rotateClass + ship.id} /> 
     </div>);
 
 }
