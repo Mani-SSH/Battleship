@@ -1,5 +1,4 @@
 import { useEffect, useMemo, useState } from "react";
-
 import { useLocation } from "react-router-dom";
 
 import * as io from "../../../io-client-handler"
@@ -135,7 +134,7 @@ export default function OpponentBoard({ setTurn, roomID, turn }) {
     }, [action, currentXY])
        
     return(
-        <>
+        <div className="oppBoard">
             <div 
             className="gBoard"
             onMouseLeave={ handleMouseLeaveBoard }
@@ -153,7 +152,7 @@ export default function OpponentBoard({ setTurn, roomID, turn }) {
             <div className = "energyBar">
                 Energy Bar : {energyBar}
             </div>
-        </>
+        </div>
     );
 }
 
