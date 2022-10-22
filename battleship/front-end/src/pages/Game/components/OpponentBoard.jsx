@@ -47,6 +47,8 @@ export default function OpponentBoard({ setTurn, roomID, turn }) {
     const [resetHighlight, setResetHighlight] = useState(false) // toggles when mouse in on and off the board, turns off highlight
 
     const [energyBar, setEnergyBar] = useState(2);  // eneryBar for each strikes
+
+    let shipImg = [] // array for ship
     /**
      * when mouse is off the board, resets highlight, current coordinates and adjacent coordinates
      */
@@ -133,6 +135,22 @@ export default function OpponentBoard({ setTurn, roomID, turn }) {
             }
         }
     }, [action, currentXY])
+
+    Object.keys(ShipList).forEach((ship) => {
+        let isDestroyed = false;
+        for(let i = 0; i < destroyedShips.length; i++)
+        {
+            if(ShipList[ship].id === destroyedShips[i])
+            {
+                isDestroyed = true;
+            }
+        }
+        shipImg.push(<ShipStatus
+            ship = {ShipList[ship]}
+            isDestroyed = {isDestroyed}
+        />
+        )
+    });
        
     return(
         <div className="oppBoard">
@@ -154,8 +172,8 @@ export default function OpponentBoard({ setTurn, roomID, turn }) {
                 Energy Bar : {energyBar}
             </div>
 
-            <div className="_shipStatus">
-                <ShipStatus destroyedShips={destroyedShips} />
+            <div className="ShipStatus">
+                { shipImg }
             </div>
         </div>
     );
@@ -258,11 +276,22 @@ function Square({x, y, setXY, hoverXYs, resetHighlight, onClick, hitCoords, miss
     )
 }
 
-function ShipStatus({destroyedShips}){
-
-    
-
+function ShipStatus({ship, isDestroyed}){ 
+    const [source, setSource] = useState("")
+    useEffect(()=>{
+        console.log(isDestroyed)
+        if (isDestroyed)
+        {
+            setSource(ship.dThumb)
+        }
+        else
+        {
+            setSource(ship.thumb)
+        }
+    },[isDestroyed])
     return(
-        
+        <div >
+        <img src={source} alt="ships" className= "destroyedShips" />
+        </div>
     )
 }
