@@ -7,21 +7,29 @@ import * as io from "../../../io-client-handler"
 import "../../../assets/css/gameBoard.sass";
 import EndTurn from "./EndTurn";
 import Actions from "./Actions";
+import { ActionList } from "../../../data/actionlist";
 
 
 const getAdjacentXYs = (x, y, action) => {
     const adjacentXYs = []
 
     switch(action.id){
-        case "missile":
+        case ActionList.MISSILE.id:
             adjacentXYs.push([x, y])
             break
-        case "aerial_strike":
+        case ActionList.AERIAL_STRIKE.id:
             for(let i = 1; i <= 9; i++){
                 adjacentXYs.push([i, y])
             }
             break
-        case "cluster_strike":
+        case ActionList.CLUSTER_STRIKE.id:
+            for(let i = -1; i <= 1; i++){
+                for(let j = -1; j<= 1; j++){
+                    adjacentXYs.push([x + i, y + j])
+                }
+            }
+            break
+        case ActionList.RADAR.id:
             for(let i = -1; i <= 1; i++){
                 for(let j = -1; j<= 1; j++){
                     adjacentXYs.push([x + i, y + j])
@@ -57,22 +65,33 @@ export default function OpponentBoard({ setTurn, roomID, turn }) {
     }
 
     const handleTileClicked = () => {
-        io.socket.emit("player-action", roomID, action.id, currentXY.x, currentXY.y, (isSuccessful, hitCoords, missedCoords, destroyedShips) => {
+        io.socket.emit("player-action", roomID, action.id, currentXY.x, currentXY.y, (isSuccessful, hitCoords, missedCoords, destroyedShips, radarHitCount) => {
             /* if action is not successful, alert the user */
             if(!isSuccessful){
                 alert("Some error occured")
             }
 
-            /* set hit and missed coords and destroyed ships */
-            setHitCoords(hitCoords)
-            setMissedCoords(missedCoords)
-            setDestroyedShips(destroyedShips)
-            console.log("hitCoords: ")
-            console.log(hitCoords)
-            console.log("missedCoords: ")
-            console.log(missedCoords)
-            console.log("destroyedShips: ")
-            console.log(destroyedShips)
+            if( energyBar > 0 ){
+                setEnergyBar(prevEnergyBar => prevEnergyBar - action.charge) // each action will decrease the energy
+            }else{
+                setEnergyBar(0)
+            }
+
+            /* if action is radar */
+            if (action.id === ActionList.RADAR.id){
+                alert(radarHitCount + " hits registered.")
+            }else{
+                /* set hit and missed coords and destroyed ships */
+                setHitCoords(hitCoords)
+                setMissedCoords(missedCoords)
+                setDestroyedShips(destroyedShips)
+                console.log("hitCoords: ")
+                console.log(hitCoords)
+                console.log("missedCoords: ")
+                console.log(missedCoords)
+                console.log("destroyedShips: ")
+                console.log(destroyedShips)
+            }
 
             /* reset action and highlight */
             setAction()
@@ -100,8 +119,6 @@ export default function OpponentBoard({ setTurn, roomID, turn }) {
                         hitCoords={ hitCoords }
                         missedCoords={ missedCoords }
                         action={ action }
-                        setEnergyBar = { setEnergyBar }
-                        energyBar = {energyBar}
                     />
                 );
             }
@@ -157,7 +174,7 @@ export default function OpponentBoard({ setTurn, roomID, turn }) {
     );
 }
 
-function Square({x, y, setXY, hoverXYs, resetHighlight, onClick, hitCoords, missedCoords, action, setEnergyBar, energyBar }) {
+function Square({x, y, setXY, hoverXYs, resetHighlight, onClick, hitCoords, missedCoords, action}) {
     const [color, setColor] = useState("white")
     const [status, setStatus] = useState("clear")
 
@@ -170,11 +187,6 @@ function Square({x, y, setXY, hoverXYs, resetHighlight, onClick, hitCoords, miss
     const handleClick = () => {
         if(action){
             onClick()
-            if(energyBar > 0)
-            {setEnergyBar(prevEnergyBar => prevEnergyBar - action.charge)} // each action will decrease the energy
-        else{
-            setEnergyBar(0)
-        }
         }
     } 
 
@@ -203,10 +215,8 @@ function Square({x, y, setXY, hoverXYs, resetHighlight, onClick, hitCoords, miss
 
     /* if mouse is off the board, set to default color */
     useEffect(() => {
-        if(status === "clear" || status === "miss"){
-            if(resetHighlight){
-                setColor("white")
-            }
+        if(resetHighlight){
+            setColor("white")
         }
     }, [resetHighlight]) // eslint-disable-line react-hooks/exhaustive-deps
 

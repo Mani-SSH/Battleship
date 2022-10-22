@@ -99,7 +99,14 @@ class Board {
         return { hitCoords, missedCoords, destroyedShips }
     }
 
-    doAirStrike(x,y){
+    /**
+     * Does an air strike on board.
+     * Destroys a whole column of coordinates
+     * @param {number} x 
+     * @param {number} y 
+     * @returns { { number[], number[], number[] } } {hitCoords, missedCoords, destroyedShips}
+     */
+    doAirStrike(x, y){
         let hitCoords = []
         let destroyedShips = []
         let missedCoords = []
@@ -153,6 +160,13 @@ class Board {
         return{ hitCoords, missedCoords, destroyedShips }    
     }
 
+    /**
+     * Does an cluster attack on board.
+     * Destroys a 3X3 area of coordinates
+     * @param {number} x 
+     * @param {number} y 
+     * @returns { { number[], number[], number[] } } {hitCoords, missedCoords, destroyedShips}
+     */
     doClusterAttack(x,y){
         let hitCoords = []
         let missedCoords = []
@@ -163,40 +177,40 @@ class Board {
             {
                 let isHit = false
                 Object.keys(this.ships).forEach((ship) => {     // checking for all 5 ships
-                if(this.ships[ship].isHit(x + i, y + j)){           //checking if the ship is hit: 
-                    isHit = true
-                    hitCoords.push([x + i, y + j])
-                    if (this.hitShipCoords[ship].length != 0)       // storing hitShipCoords if it is not empty
-                    {
-                        let isMatched = false
-                        for (let k = 0; k < this.hitShipCoords[ship].length; k++)       // checking if  tiles of a ship is repeated
+                    if(this.ships[ship].isHit(x + i, y + j)){           //checking if the ship is hit: 
+                        isHit = true
+                        hitCoords.push([x + i, y + j])
+                        if (this.hitShipCoords[ship].length != 0)       // storing hitShipCoords if it is not empty
                         {
-                            if(((x + i) === this.hitShipCoords[ship][k][0] && (y + j)=== this.hitShipCoords[ship][k][1]))        //avoiding repetition here
+                            let isMatched = false
+                            for (let k = 0; k < this.hitShipCoords[ship].length; k++)       // checking if  tiles of a ship is repeated
                             {
-                                isMatched = true
-                                break
+                                if(((x + i) === this.hitShipCoords[ship][k][0] && (y + j)=== this.hitShipCoords[ship][k][1]))        //avoiding repetition here
+                                {
+                                    isMatched = true
+                                    break
+                                }
                             }
-                        }
 
-                        if (!isMatched)     // if not repeated, hit coords are stored
-                        {
+                            if (!isMatched)     // if not repeated, hit coords are stored
+                            {
+                                this.hitShipCoords[ship].push([x + i, y + j])
+                            }
+                        }else{    // if the array is empty
                             this.hitShipCoords[ship].push([x + i, y + j])
                         }
-                    }
 
-                    else    // if the array is empty
-                    {
-                        this.hitShipCoords[ship].push([x + i, y + j])
-                    }
+                        if(this.hitShipCoords[ship].length === this.ships[ship].length)     //  checking if all the tiles of the ship is hit
+                        {
+                            destroyedShips.push(ship)           // the destroyed ship is passed in the front end
+                            this.sunkShips.push(ship)           // the destroyed ship is stored in the array for checking all the hit coords
+                        }
 
-                    if(this.hitShipCoords[ship].length === this.ships[ship].length)     //  checking if all the tiles of the ship is hit
-                    {
-                        destroyedShips.push(ship)           // the destroyed ship is passed in the front end
-                        this.sunkShips.push(ship)           // the destroyed ship is stored in the array for checking all the hit coords
+                        /* end loop for the ship */
+                        return
                     }
-    
-                }
                 })
+
                 if(!isHit)          // if the tile is not hit, it is stored in missedCoords and passed in front end
                 {
                     missedCoords.push([x + i, y + j])           // repetition is avoided here
@@ -204,9 +218,26 @@ class Board {
             }
         }
 
-        // console.log(`the status: ${this.isGameOver()}`)
-        // console.log(destroyedShips)
         return{ hitCoords, missedCoords, destroyedShips }
+    }
+
+    doRadar(x, y){
+        let count = 0
+
+        for (let i = -1; i <= 1; i++ )              // cluster has 9 square: 3*3 sized attack
+        {
+            for (let j = -1; j <= 1 ; j++)
+            {
+                Object.keys(this.ships).forEach((ship) => {     // checking for all 5 ships
+                    if(this.ships[ship].isHit(x + i, y + j)){           //checking if the ship is hit: 
+                        count++
+                        return
+                    }
+                })
+            }
+        }
+
+        return count
     }
 
     isGameOver() {

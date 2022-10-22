@@ -283,6 +283,7 @@ io.on('connection', (socket) => {
         let hitCoords = []
         let missedCoords = []
         let destroyedShips = []
+        let radarHitCount = 0
 
         let isSuccessful = false
 
@@ -297,13 +298,14 @@ io.on('connection', (socket) => {
                 ({ hitCoords, missedCoords, destroyedShips } = thisBoard.doMissile(x, y))
                 break
             case ActionList.RADAR.id:
+                radarHitCount = thisBoard.doRadar(x, y)
                 break
             default:
-                callback(isSuccessful, hitCoords, missedCoords, destroyedShips)
+                callback(isSuccessful, hitCoords, missedCoords, destroyedShips, radarHitCount)
                 return
         }
         isSuccessful = true
-        callback(isSuccessful, hitCoords, missedCoords, destroyedShips)
+        callback(isSuccessful, hitCoords, missedCoords, destroyedShips, radarHitCount)
         socket.to(roomID).emit("opponent-action", hitCoords, missedCoords, destroyedShips)
 
         /* if a ship is destroyed, check if the game is over */
