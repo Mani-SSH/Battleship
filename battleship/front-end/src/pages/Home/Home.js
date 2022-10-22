@@ -10,7 +10,6 @@ import wave2 from "../../assets/images/Home/wave2.png";
 import wave3 from "../../assets/images/Home/wave3.png";
 import wave4 from "../../assets/images/Home/wave4.png";
 import submarine from "../../assets/images/Home/submarine.png";
-import play from "../../assets/images/Home/play.png";
 import Music from "./components/sound";
 import Player from "../../player";
 import Play from "./components/Play";
@@ -42,7 +41,6 @@ export default function Home() {
 
               <div className="playButton">
                   <Play />
-                  <img src={play} alt="play" />
               </div>
               <div className="iinfo"><Info /></div>
               <div className="auidoo"><Music /></div>
