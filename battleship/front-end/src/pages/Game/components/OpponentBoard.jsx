@@ -6,6 +6,7 @@ import * as io from "../../../io-client-handler"
 import "../../../assets/css/gameBoard.sass";
 import EndTurn from "./EndTurn";
 import Actions from "./Actions";
+import { ShipList } from "../../../data/shiplist";
 
 
 const getAdjacentXYs = (x, y, action) => {
@@ -65,7 +66,7 @@ export default function OpponentBoard({ setTurn, roomID, turn }) {
             /* set hit and missed coords and destroyed ships */
             setHitCoords(hitCoords)
             setMissedCoords(missedCoords)
-            setDestroyedShips(destroyedShips)
+            setDestroyedShips(prev => [...prev, ...destroyedShips])
             console.log("hitCoords: ")
             console.log(hitCoords)
             console.log("missedCoords: ")
@@ -151,6 +152,10 @@ export default function OpponentBoard({ setTurn, roomID, turn }) {
                 <EndTurn onClick={ handleEndTurn }/>
             <div className = "energyBar">
                 Energy Bar : {energyBar}
+            </div>
+
+            <div className="_shipStatus">
+                <ShipStatus destroyedShips={destroyedShips} />
             </div>
         </div>
     );
@@ -250,5 +255,14 @@ function Square({x, y, setXY, hoverXYs, resetHighlight, onClick, hitCoords, miss
         <br/>
         { color }
         </div>
+    )
+}
+
+function ShipStatus({destroyedShips}){
+
+    
+
+    return(
+        
     )
 }
