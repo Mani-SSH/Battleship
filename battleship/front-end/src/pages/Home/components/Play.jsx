@@ -85,7 +85,12 @@ export default function Play() {
     io.socket.off("lobby-full").on("lobby-full", () => {
         console.log("Lobby is full. Now starting...");
 
-        io.socket.emit("get-opponentID", roomID, (playerID, opponentID) => {
+        io.socket.emit("get-opponentID", roomID, (isSuccessful, playerID, opponentID) => {
+            if(!isSuccessful){
+                alert("Error: Could not receive opponent's playerID")
+                return
+            }
+
             setOpponentID(opponentID);
         });
 

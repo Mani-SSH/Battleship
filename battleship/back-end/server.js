@@ -193,7 +193,17 @@ io.on('connection', (socket) => {
 
     socket.on("get-opponentID", (roomID, giveID) => {
         const thisRoom = rooms.getRoom(roomID);
+        let isSuccessful = false
 
+        /* if room not found, give error */
+        if(thisRoom == undefined){
+            giveID(isSuccessful)
+            return
+        }
+
+        isSuccessful = true
+
+        /* get IDs of both player */
         let playerID1 = thisRoom.elements.players[0].playerID
         let playerID2 = thisRoom.elements.players[1].playerID
 
@@ -216,7 +226,7 @@ io.on('connection', (socket) => {
             opponentID = playerID1;
             playerID = playerID2
         }
-        giveID(playerID, opponentID);
+        giveID(isSuccessful, playerID, opponentID);
     })
 
     socket.on("player-ready", (roomID) => {
@@ -273,6 +283,12 @@ io.on('connection', (socket) => {
     socket.on("player-action", (roomID, actionID, x, y, callback) => {
         /* get the room the player is in */
         const thisRoom = rooms.getRoom(roomID)
+        let isSuccessful = false
+
+        if(thisRoom == undefined){
+            callback(isSuccessful)
+            return
+        }
 
         /* get socket id of opponent */
         const opponentSocketID = thisRoom.getOpponentSocketID(socket.id)
@@ -284,8 +300,6 @@ io.on('connection', (socket) => {
         let missedCoords = []
         let destroyedShips = []
         let radarHitCount = 0
-
-        let isSuccessful = false
 
         switch(actionID){
             case ActionList.AERIAL_STRIKE.id:
@@ -323,12 +337,24 @@ io.on('connection', (socket) => {
 
     socket.on("remove-players", (roomID) => {
         const thisRoom = rooms.getRoom(roomID)
+
+        if(thisRoom == undefined){
+            console.error(`Room: ${ roomID } not found.`)
+            return
+        }
+
         thisRoom.removePlayers()
         thisRoom.display()
     })
 
     socket.on("leave-room", (roomID) => {
-        let thisRoom = rooms.getRoom(roomID);
+        const thisRoom = rooms.getRoom(roomID);
+
+        if(thisRoom == undefined){
+            console.error(`Room: ${ roomID } not found.`)
+            return
+        }
+        
         thisRoom.removePlayer(socket.id);
         thisRoom.display();
     })
