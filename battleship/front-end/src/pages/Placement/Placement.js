@@ -49,6 +49,11 @@ export const ReadyContext = React.createContext()
     io.socket.off("opponent-ships-set").on("opponent-ships-set", () => {
         setOpponentReady(true)
     })
+
+    io.socket.off("player-forfeit").on("player-forfeit", () => {
+        alert("Opponent left the game.")
+        navigate("/")
+    })
     
 
     const onLoad = () => {

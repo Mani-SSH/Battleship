@@ -1,5 +1,3 @@
-import Button from "react-bootstrap/esm/Button";
-
 import { useContext, useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 
@@ -7,6 +5,8 @@ import JoinRoom from "./JoinRoom";
 import OpponentFound from "./OpponentFound";
 import * as io from "../../../io-client-handler"
 import { LoggedInContext, PlayerContext } from "../Home";
+import play from "../../../assets/images/Home/play.png";
+import "../../../assets/css/playimage.sass";
 
 export default function Play() {
     const navigate = useNavigate()
@@ -85,7 +85,12 @@ export default function Play() {
     io.socket.off("lobby-full").on("lobby-full", () => {
         console.log("Lobby is full. Now starting...");
 
-        io.socket.emit("get-opponentID", roomID, (playerID, opponentID) => {
+        io.socket.emit("get-opponentID", roomID, (isSuccessful, playerID, opponentID) => {
+            if(!isSuccessful){
+                alert("Error: Could not receive opponent's playerID")
+                return
+            }
+
             setOpponentID(opponentID);
         });
 
@@ -106,8 +111,8 @@ export default function Play() {
 
     return (
         <>
-            <Button onClick={ handlePlayClicked } disabled={ disable }>Play</Button>
-
+            {/* <Button onClick={ handlePlayClicked } disabled={ disable }>P</Button> */}
+            <img src={play} alt="play" className="playimg" onClick={ handlePlayClicked } disabled={ disable } />
             <JoinRoom
             show={ showJoinRoom }
             onHide={ handleCloseJoinRoom }

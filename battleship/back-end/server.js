@@ -120,11 +120,11 @@ io.on('connection', (socket) => {
 
         /* join both players to the room */
         if(thisRoom.addPlayer(socket.id, playerID) && thisRoom.addPlayer(opponent.socketID, opponent.playerID)){
-            // io.sockets.in(socket.id).socketsJoin(thisRoom.elements.roomID)
-            // io.sockets.in(opponent.socketID).socketsJoin(thisRoom.elements.roomID)
             io.in(socket.id).socketsJoin(thisRoom.elements.roomID)
             io.in(opponent.socketID).socketsJoin(thisRoom.elements.roomID)
             isSuccessful = true
+
+            /* emit roomID */
             io.sockets.to(thisRoom.elements.roomID).emit("send-roomID", thisRoom.elements.roomID)
 
             /* if room gets full emit a message to another user */
@@ -193,7 +193,17 @@ io.on('connection', (socket) => {
 
     socket.on("get-opponentID", (roomID, giveID) => {
         const thisRoom = rooms.getRoom(roomID);
+        let isSuccessful = false
 
+        /* if room not found, give error */
+        if(thisRoom == undefined){
+            giveID(isSuccessful)
+            return
+        }
+
+        isSuccessful = true
+
+        /* get IDs of both player */
         let playerID1 = thisRoom.elements.players[0].playerID
         let playerID2 = thisRoom.elements.players[1].playerID
 
@@ -216,17 +226,10 @@ io.on('connection', (socket) => {
             opponentID = playerID1;
             playerID = playerID2
         }
-        giveID(playerID, opponentID);
+        giveID(isSuccessful, playerID, opponentID);
     })
 
     socket.on("player-ready", (roomID) => {
-        /* get room */
-        const thisRoom = rooms.getRoom(roomID);
-
-        /* increase ready count */
-        thisRoom.readyPlayer();
-        thisRoom.display();
-
         /* emit to opponent that player is ready */
         socket.to(roomID).emit("oppponent-ready");
     })
@@ -280,6 +283,12 @@ io.on('connection', (socket) => {
     socket.on("player-action", (roomID, actionID, x, y, callback) => {
         /* get the room the player is in */
         const thisRoom = rooms.getRoom(roomID)
+        let isSuccessful = false
+
+        if(thisRoom == undefined){
+            callback(isSuccessful)
+            return
+        }
 
         /* get socket id of opponent */
         const opponentSocketID = thisRoom.getOpponentSocketID(socket.id)
@@ -290,8 +299,7 @@ io.on('connection', (socket) => {
         let hitCoords = []
         let missedCoords = []
         let destroyedShips = []
-
-        let isSuccessful = false
+        let radarHitCount = 0
 
         switch(actionID){
             case ActionList.AERIAL_STRIKE.id:
@@ -304,14 +312,23 @@ io.on('connection', (socket) => {
                 ({ hitCoords, missedCoords, destroyedShips } = thisBoard.doMissile(x, y))
                 break
             case ActionList.RADAR.id:
+                radarHitCount = thisBoard.doRadar(x, y)
                 break
             default:
-                callback(isSuccessful, hitCoords, missedCoords, destroyedShips)
+                callback(isSuccessful, hitCoords, missedCoords, destroyedShips, radarHitCount)
                 return
         }
         isSuccessful = true
-        callback(isSuccessful, hitCoords, missedCoords, destroyedShips)
+        callback(isSuccessful, hitCoords, missedCoords, destroyedShips, radarHitCount)
         socket.to(roomID).emit("opponent-action", hitCoords, missedCoords, destroyedShips)
+
+        /* if a ship is destroyed, check if the game is over */
+        if(destroyedShips.length !== 0){
+            if(thisBoard.isGameOver()){
+                io.sockets.emit("game-over", socket.id)
+                rooms.remove(roomID)
+            }
+        }
     })
 
     socket.on("switch-turn", (roomID) => {
@@ -320,12 +337,24 @@ io.on('connection', (socket) => {
 
     socket.on("remove-players", (roomID) => {
         const thisRoom = rooms.getRoom(roomID)
+
+        if(thisRoom == undefined){
+            console.error(`Room: ${ roomID } not found.`)
+            return
+        }
+
         thisRoom.removePlayers()
         thisRoom.display()
     })
 
     socket.on("leave-room", (roomID) => {
-        let thisRoom = rooms.getRoom(roomID);
+        const thisRoom = rooms.getRoom(roomID);
+
+        if(thisRoom == undefined){
+            console.error(`Room: ${ roomID } not found.`)
+            return
+        }
+        
         thisRoom.removePlayer(socket.id);
         thisRoom.display();
     })
