@@ -1,15 +1,153 @@
 .gBoard
     display: flex
     position: absolute
-    right: 30%
-    left: auto
-    top: 10vh
+    right: 0
+    left: 0
+    margin: auto
+    top: 17vh
     bottom: auto
     flex-wrap: wrap
     width: 450px
     height: 450px
 
+
 .tiles
     width: 50px
     height: 50px
     border: 1px solid green
+
+.oppBoard
+    width: 100%
+    position: relative
+    display: flex
+    flex-direction: row
+
+.act
+    position: absolute
+    left: 10%
+    top: 17vh
+
+
+
+.Zero_submarine
+    height: 50px
+    width: 100px
+    z-index: 1  
+
+.Zero_frigate
+    height: 50px
+    width: 150px
+
+
+.Zero_destroyer
+    height: 50px
+    width: 150px
+
+
+.Zero_corvette
+    height: 50px
+    width: 50px
+
+
+.Zero_carrier
+    height: 50px
+    width: 200px
+
+.Ninety_submarine
+    height: 50px
+    width: 100px
+    z-index: 1  
+    transform: translate(25px,25px) rotate(90deg)
+
+.Ninety_frigate
+    height: 50px
+    width: 150px
+    transform: translate(50px,50px) rotate(90deg)
+
+
+.Ninety_destroyer
+    height: 50px
+    width: 150px
+    transform: translate(50px,50px) rotate(90deg)
+
+
+
+.Ninety_corvette
+    height: 50px
+    width: 50px
+    transform: rotate(90deg)
+
+
+.Ninety_carrier
+    height: 50px
+    width: 200px
+    transform: translate(75px,75px) rotate(90deg)
+
+
+
+.HundredEighty_submarine
+    height: 50px
+    width: 100px
+    z-index: 1
+    transform: translate(50px) rotate(180deg)  
+
+.HundredEighty_frigate
+    height: 50px
+    width: 150px
+    transform: translate(100px) rotate(180deg)
+
+.HundredEighty_destroyer
+    height: 50px
+    width: 150px
+    transform: translate(100px) rotate(180deg)
+
+.HundredEighty_corvette
+    height: 50px
+    width: 50px
+    transform: rotate(180deg)
+
+.HundredEighty_carrier
+    height: 50px
+    width: 200px
+    transform: translate(150px) rotate(180deg)
+
+
+.TwoSeventy_submarine
+    height: 50px
+    width: 100px
+    z-index: 1  
+    transform: translate(25px,-25px) rotate(270deg)
+
+.TwoSeventy_frigate
+    height: 50px
+    width: 150px
+    transform: translate(50px,-50px) rotate(270deg)
+
+
+.TwoSeventy_destroyer
+    height: 50px
+    width: 150px
+    transform: translate(50px,-50px) rotate(270deg)
+
+
+.TwoSeventy_corvette
+    height: 50px
+    width: 50px
+    transform: rotate(270deg)
+
+
+.TwoSeventy_carrier
+    height: 50px
+    width: 200px
+    transform: translate(75px,-75px) rotate(270deg)
+
+.destroyedShips
+    width: 100px
+
+.ShipStatus
+    display: flex
+    flex-direction: column
+    gap: 2vh
+    position: absolute
+    right: 10%
+    top: 10%

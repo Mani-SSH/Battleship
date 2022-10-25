@@ -1,5 +1,4 @@
 import { useEffect, useMemo, useState } from "react";
-
 import { useLocation } from "react-router-dom";
 
 import * as io from "../../../io-client-handler"
@@ -7,7 +6,11 @@ import * as io from "../../../io-client-handler"
 import "../../../assets/css/gameBoard.sass";
 import EndTurn from "./EndTurn";
 import Actions from "./Actions";
+
+import { ShipList } from "../../../data/shiplist";
+
 import { ActionList } from "../../../data/actionlist";
+
 
 
 const getAdjacentXYs = (x, y, action) => {
@@ -55,6 +58,8 @@ export default function OpponentBoard({ setTurn, roomID, turn }) {
     const [resetHighlight, setResetHighlight] = useState(false) // toggles when mouse in on and off the board, turns off highlight
 
     const [energyBar, setEnergyBar] = useState(2);  // eneryBar for each strikes
+
+    let shipImg = [] // array for ship
     /**
      * when mouse is off the board, resets highlight, current coordinates and adjacent coordinates
      */
@@ -70,6 +75,7 @@ export default function OpponentBoard({ setTurn, roomID, turn }) {
             if(!isSuccessful){
                 alert("Some error occured")
             }
+
 
             if( energyBar > 0 ){
                 setEnergyBar(prevEnergyBar => prevEnergyBar - action.charge) // each action will decrease the energy
@@ -92,6 +98,7 @@ export default function OpponentBoard({ setTurn, roomID, turn }) {
                 console.log("destroyedShips: ")
                 console.log(destroyedShips)
             }
+
 
             /* reset action and highlight */
             setAction()
@@ -150,9 +157,25 @@ export default function OpponentBoard({ setTurn, roomID, turn }) {
             }
         }
     }, [action, currentXY])
+
+    Object.keys(ShipList).forEach((ship) => {
+        let isDestroyed = false;
+        for(let i = 0; i < destroyedShips.length; i++)
+        {
+            if(ShipList[ship].id === destroyedShips[i])
+            {
+                isDestroyed = true;
+            }
+        }
+        shipImg.push(<ShipStatus
+            ship = {ShipList[ship]}
+            isDestroyed = {isDestroyed}
+        />
+        )
+    });
        
     return(
-        <>
+        <div className="oppBoard">
             <div 
             className="gBoard"
             onMouseLeave={ handleMouseLeaveBoard }
@@ -170,7 +193,11 @@ export default function OpponentBoard({ setTurn, roomID, turn }) {
             <div className = "energyBar">
                 Energy Bar : {energyBar}
             </div>
-        </>
+
+            <div className="ShipStatus">
+                { shipImg }
+            </div>
+        </div>
     );
 }
 
@@ -260,6 +287,26 @@ function Square({x, y, setXY, hoverXYs, resetHighlight, onClick, hitCoords, miss
         { status }
         <br/>
         { color }
+        </div>
+    )
+}
+
+function ShipStatus({ship, isDestroyed}){ 
+    const [source, setSource] = useState("")
+    useEffect(()=>{
+        console.log(isDestroyed)
+        if (isDestroyed)
+        {
+            setSource(ship.dThumb)
+        }
+        else
+        {
+            setSource(ship.thumb)
+        }
+    },[isDestroyed])
+    return(
+        <div >
+        <img src={source} alt="ships" className= "destroyedShips" />
         </div>
     )
 }
