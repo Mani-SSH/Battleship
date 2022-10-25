@@ -1,37 +1,58 @@
-.card
+.logout
+    width: 100px
+    height: 35px
+    text-transform: uppercase
+    font-weight: 500
+    cursor: pointer
+    background-color: #043f0e
+    border: 2px solid #1a192b
+    border-radius: 8px
+    -webkit-transition: all .15s ease-in-out
+    transition: all .15s ease-in-out
+    color: white
+    padding: 5px
+    font-size: 15px
+
+.logout:hover
+    background: #9fd6df
+    transform: translate(-4px,-4px)
+
+.pinfo
+    color: white
+    background: #34495E 
+    font-size: 5rem
     position: absolute
     bottom: auto
+    top: 11vh
     left: auto
-    z-index: 10 
-    text-align: center
+    right: 6vw
 
-    .card-body
-        color: #043a16
-        background-color: pink
-        & h3
-            font-size: 20px
-        & h4
-            font-size: 20px
-    .card-title
-        font-size: 25px
-        color: purple
-    
+.pinfo:hover
+    box-shadow: 0 0 5px 0 #417e78 inset, 0 0 10px 1px #3b0e11
+    border: 2px solid #9a1063
+    cursor: pointer
 
-    .logout
-        width: 100px
-        height: 35px
-        text-transform: uppercase
-        font-weight: 500
-        cursor: pointer
-        background-color: #9de9b6
-        border: 2px solid #0a063a
-        border-radius: 15px
-        -webkit-transition: all .15s ease-in-out
-        transition: all .15s ease-in-out
-        color: purple
-        padding: 5px
-        font-size: 15px
+.uinfo-modal
+    backdrop-filter: blur(5px)
 
-    .logout:hover
-        background: white
-        transform: translate(-4px,-4px)
+    .uinfo-header
+        background-color: #b5f4bf
+        font-family: cursive
+
+    .uinfo-title
+        color: #051c41
+
+    .unfo-icon
+        font-size: 2rem
+        margin-bottom: 0.2rem
+
+    .unfo-body
+        background-color: #9fd6df
+        align-items: center
+        & h3,h4
+            font-size: 1.4rem
+            font-family: cursive
+            color: #051c41
+    .unfo-footer
+        background: #cae8ce
+        justify-content: center
