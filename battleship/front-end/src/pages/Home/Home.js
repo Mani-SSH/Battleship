@@ -4,6 +4,7 @@ import LogInNSignUp from "./components/LogInNSignUp";
 import UserInfo from "./components/UserInfo";
 import CreateRoom from "./components/CreateRoom";
 import Info from "./components/Info";
+import ScoreBoard from "./components/ScoreBoard"
 import Destroyer from "../../assets/images/Home/destroyer.png";
 import wave1 from "../../assets/images/Home/wave1.png";
 import wave2 from "../../assets/images/Home/wave2.png";
@@ -45,6 +46,7 @@ export default function Home() {
               <div className="iinfo"><Info /></div>
               <div className="auidoo"><Music /></div>
               <div className="crRoom"><CreateRoom /></div>
+              <div className = "scoreBoard"><ScoreBoard/></div>
           </LoggedInUpdateContext.Provider>
           </LoggedInContext.Provider>
           </PlayerUpdateContext.Provider>

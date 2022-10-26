@@ -112,3 +112,28 @@ async function updateStatus(username)
     await PlayerModel.findOneAndUpdate({Username: username}, {isLoggedIn: 'true'})
     return;
 }
+
+/**
+ * returns the top 5 score from the PlayerModel schema with desesnding scores
+ * the mongoDB array is converted into plane JS array
+ */
+module.exports.ScoreBoard = async (callback) => {
+    try{
+        const scores = await PlayerModel
+        .find({})
+        .sort({Score : -1})     // -1 is for desending order sorting
+        .limit(5)               // max of 5 objects are passed
+        .lean()                 // converting into plain array
+        .exec( function(err, docs){     // callback function to return the result
+            callback(null, docs)    
+            return
+        })
+    }
+    catch(err)              // if any error, occurs. error handling is done here
+    {
+        console.log("eror",err);
+        callback(err, null)
+    return
+    }
+}
+

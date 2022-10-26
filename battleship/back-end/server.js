@@ -37,8 +37,7 @@ io.on('connection', (socket) => {
             if(error){
                 giveUserDetails(error);
                 return;
-            }
-            
+            }            
             /* return user through callback */
             giveUserDetails(null, user);
         });
@@ -58,6 +57,20 @@ io.on('connection', (socket) => {
             }
         });
         })
+    
+    /* Listen to event on a socket to generate scoreBoard */    
+    socket.on("generate-scoreboard",(ScoreHandler)=>{
+        db.ScoreBoard((error, getScores)=>{
+            if(error === null)  // ScoreBoard has callback function, which returns error and Score
+            {
+                ScoreHandler(null, getScores)   // callbaack function ScoreHandler, which returns error and Score
+            }
+            else
+            {
+                console.log(error)
+            }
+        });
+    })
 
     /* listen to event on a socket to generate roomID */
     socket.on('generate-roomID', (giveRoomID) => {
@@ -375,3 +388,4 @@ io.on('connection', (socket) => {
         rooms.remove(roomID)
     })
 })
+
