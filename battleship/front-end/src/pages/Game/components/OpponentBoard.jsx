@@ -10,7 +10,7 @@ import Actions from "./Actions";
 import { ShipList } from "../../../data/shiplist";
 
 import { ActionList } from "../../../data/actionlist";
-
+import flame from "../../../assets/gif/flame.gif";
 
 
 const getAdjacentXYs = (x, y, action) => {
@@ -202,8 +202,9 @@ export default function OpponentBoard({ setTurn, roomID, turn }) {
 }
 
 function Square({x, y, setXY, hoverXYs, resetHighlight, onClick, hitCoords, missedCoords, action}) {
-    const [color, setColor] = useState("white")
+    const [color, setColor] = useState("")
     const [status, setStatus] = useState("clear")
+    
 
     const handleHover = () => {
         if(action){
@@ -235,7 +236,7 @@ function Square({x, y, setXY, hoverXYs, resetHighlight, onClick, hitCoords, miss
                 }
             }else{
                 /* default color */
-                setColor("white")
+                setColor("")
             }
         }
     }, [hoverXYs]) // eslint-disable-line react-hooks/exhaustive-deps
@@ -243,7 +244,7 @@ function Square({x, y, setXY, hoverXYs, resetHighlight, onClick, hitCoords, miss
     /* if mouse is off the board, set to default color */
     useEffect(() => {
         if(resetHighlight){
-            setColor("white")
+            setColor("")
         }
     }, [resetHighlight]) // eslint-disable-line react-hooks/exhaustive-deps
 
@@ -274,21 +275,48 @@ function Square({x, y, setXY, hoverXYs, resetHighlight, onClick, hitCoords, miss
         opacity:1,
         width:50+ 'px',
         height:50+'px',
-        border:'1px solid black',
+        border:'1.2px solid white',
     }
 
-    return(
-        <div 
-        className="tiles"
-        onMouseOver={ handleHover }
-        onClick = { handleClick }
-        style={mystyle}
-        >
-        { status }
-        <br/>
-        { color }
-        </div>
-    )
+
+    if(status==="hit")
+    {
+        return(
+            <div 
+            className="tiles"
+            onMouseOver={ handleHover }
+            onClick = { handleClick }
+            style={mystyle}
+            >
+            <img src={flame} alt="flame" className="flame" />
+            </div>
+        )
+    }
+    else if(status==="miss")
+    {
+        return(
+            <div 
+            className="tiles"
+            onMouseOver={ handleHover }
+            onClick = { handleClick }
+            style={mystyle}
+            >
+                <div style={{color:"white", fontSize:"30px"}}>•</div>
+            </div>
+        )
+    }
+    else
+    {
+        return(
+            <div 
+            className="tiles"
+            onMouseOver={ handleHover }
+            onClick = { handleClick }
+            style={mystyle}
+            >
+            </div>
+        )
+    }
 }
 
 function ShipStatus({ship, isDestroyed}){ 

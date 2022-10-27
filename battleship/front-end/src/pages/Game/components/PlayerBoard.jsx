@@ -5,6 +5,7 @@ import * as io from "../../../io-client-handler"
 import { ShipList } from "../../../data/shiplist";
 
 import "../../../assets/css/gameBoard.sass";
+import flame from "../../../assets/gif/flame.gif";
 
 export default function PlayerBoard() {
     const location = useLocation()
@@ -25,7 +26,7 @@ export default function PlayerBoard() {
                         key={ 10*j + i }
                         x={j}
                         y={i}
-                        squareNo = {'squareNo' + j*10 + i}
+                        squareNo = {`_pTiles ${'squareNo' + j*10 + i}`}
                         hitCoords={ hitCoords }
                         missedCoords={ missedCoords }
                     />
@@ -107,7 +108,7 @@ export default function PlayerBoard() {
 }
 
 function Square({x, y, hitCoords, missedCoords, squareNo}){
-    const [color, setColor] = useState("white")
+    const [color, setColor] = useState("")
     const [status, setStatus] = useState("clear")
 
     const mystyle = {
@@ -115,7 +116,7 @@ function Square({x, y, hitCoords, missedCoords, squareNo}){
         opacity:1,
         width:50+ 'px',
         height:50+'px',
-        border:'1px solid black',
+        border:'1.2px solid white',
     }
 
     /* if attack missed */
@@ -140,14 +141,39 @@ function Square({x, y, hitCoords, missedCoords, squareNo}){
         }
     }, [hitCoords]) // eslint-disable-line react-hooks/exhaustive-deps
 
-    return(
-        <div 
-        className = {squareNo}
-        style={mystyle}
-        >
-        { status }
-        </div>
-    )
+
+    if(status==="hit")
+    {
+        return(
+            <div 
+            className = {squareNo}
+            style={mystyle}
+            >
+            <img src={flame} alt="flame" className="flame" />
+            </div>
+        )
+    }
+    else if(status==="miss")
+    {
+        return(
+            <div 
+            className = {squareNo}
+            style={mystyle}
+            >
+                <div style={{color:"white", fontSize:"30px"}}>•</div>
+            </div>
+        )
+    }
+    else
+    {
+        return(
+            <div 
+            className = {`_pTiles ${squareNo}`}
+            style={mystyle}
+            >
+            </div>
+        )
+    }
 }
 
 

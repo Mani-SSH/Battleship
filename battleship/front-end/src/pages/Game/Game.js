@@ -16,8 +16,10 @@ export default function Game()
     })
     
     return(
-        <div className="Gamee">
-            <Boards roomID={ location.state.roomID }/>
+        <div className="body">
+            <div className="Gamee">
+                <Boards roomID={ location.state.roomID }/>
+            </div>
         </div>
     );
 
