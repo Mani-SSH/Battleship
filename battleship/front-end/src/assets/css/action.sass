@@ -1,24 +1,30 @@
-.action
-    width: max-content
-    height: 40px
-    text-align: center
-    text-transform: uppercase
-    font-weight: 400
-    cursor: pointer
-    background-color: #075b23
-    border: 1px solid #050318
-    border-radius: 10px
-    transition: all .15s ease-in-out
-    color:#f7f7f7
-    padding: 5px
-    font-size: 15px
-    margin: 0px 4px 0px 4px
-    
-.action:hover
-    box-shadow: 5px 5px 0 rgb(82, 120, 95)
-    transform: translate(-4px,-4px)
-
-.actionBtnCnt
+.powerButtons
     display: flex
     flex-direction: column
-    gap: 2vh
+    column-gap: 10px
+
+
+.action
+    background: #DAD6CD
+    width: 70px
+    height: 70px
+    border-bottom: 6px inset #82837F
+    border-left: 6px inset #FFFFFF
+    border-right: 6px inset #82837F
+    border-top: 6px inset #FFFFFF
+    box-sizing: border-box
+    cursor: pointer
+    display: inline-block
+    margin: 1rem
+    padding: .5rem
+
+    &:focus, &:hover
+        background: #F4F0E9
+
+    &:disabled
+        background: #7A7A7A
+
+        
+.powerIcon
+    width: 45px
+    height: auto

@@ -35,10 +35,13 @@ function ButtonAction({ onClick, action, energyBar }) {
         console.log(`EnergyBar: ${energyBar}`)
     }, [energyBar])
     return(
-        <Button className="action" 
+        <div className="powerButtons">
+        <button className="action" 
         variant="danger" 
         onClick = { onClick }
         disabled = { disable }>
-        { action.id }</Button>
+            <img src={action.imgSrc} alt="action.id" className="powerIcon"/>
+        </button>
+        </div>
     )
 }
