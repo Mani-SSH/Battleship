@@ -8,6 +8,8 @@ import {HiOutlineInformationCircle} from "react-icons/hi";
 import Modal from "react-bootstrap/Modal";
 import '../../../assets/css/info.sass';
 
+import * as io from "../../../io-client-handler"
+
 export default function UserInfo()
 {
 
@@ -26,17 +28,25 @@ export default function UserInfo()
             setIsLoggedIn(false);
         }
     }, [logout]) // eslint-disable-line react-hooks/exhaustive-deps
+
+    const handleClick = () =>{        
+        io.socket.emit("request-logout", player.name, player.tag, (err, LogOutSuccessfull) =>{
+            if (err)
+            {
+                console.log("there is error in logging Out", err)
+            }
+            if(LogOutSuccessfull === true)
+            {
+                setlogout(true)   
+            }
+            else
+            {
+                console.log("The user has been logged out")
+            }
+        })   
+
+    }
     return(
-        // <div className="card">
-        //     <BsInfoSquareFill  onClick={handleShow}/>
-        // <div className="card-body">
-        //     <h5 class="card-title">Player Identity</h5>
-        //     <h3>Name: { player.name }</h3>
-        //     <h4>PlayerTag: { player.name.concat("#", player.tag) }</h4>
-        //     <h3>Score: { player.score }</h3>
-        //     <button className="logout" onClick={ () => setlogout(true) }>Logout</button>
-        // </div>
-        // </div>
         <div className="uinfoBack">
             <BsPersonBoundingBox className="pinfo"  onClick={handleShow}/>
         <Modal className="uinfo-modal"
@@ -54,7 +64,7 @@ export default function UserInfo()
                     <h3>Score: { player.score }</h3>                   
                     </Modal.Body>
                 <Modal.Footer className="unfo-footer">
-                <button className="logout" onClick={ () => setlogout(true) }>Logout</button>
+                <button className="logout" onClick={ handleClick }>Logout</button>
                 </Modal.Footer>
         </Modal>
     </div>

@@ -83,7 +83,7 @@ module.exports.logIn = function logIn(name, tag, password, callback){
         docs.toObject(); // docs is Mongoose Object at first. Converting it to JS object
 
         /* if password is wrong */
-        if(docs.Password != password){
+        if(docs.Password != password || docs.isLoggedIn === true){
             callback(null, undefined);
             return;
         }
@@ -134,6 +134,24 @@ module.exports.ScoreBoard = async (callback) => {
         console.log("eror",err);
         callback(err, null)
     return
+    }
+}
+
+
+module.exports.LogOut = async (name, tag, callback) => {
+    let Username = name.concat("#",tag)
+    try{
+        const thisPlayer = await PlayerModel
+        .findOneAndUpdate({Username: Username}, {isLoggedIn: 'false'})
+        .exec( function(err, docs){
+            callback(null, true)
+            return
+        })
+    }
+    catch(err)
+    {
+        callback(err,false)
+        return
     }
 }
 
