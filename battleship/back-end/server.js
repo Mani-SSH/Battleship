@@ -67,9 +67,22 @@ io.on('connection', (socket) => {
             }
             else
             {
-                console.log(error)
+                ScoreHandler(error, null)
             }
         });
+    })
+
+    socket.on("request-logout", (username, tag, checkLoggedOut)=>{
+        db.LogOut(username, tag, (err, LoggedOut)=>{
+            if(LoggedOut === true)
+            {
+                checkLoggedOut(null, true)
+            }
+            else
+            {
+                checkLoggedOut(err, false)
+            }
+        })
     })
 
     /* listen to event on a socket to generate roomID */
