@@ -1,6 +1,6 @@
 import { useContext, useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
-
+import Button from "react-bootstrap/Button"
 import JoinRoom from "./JoinRoom";
 import OpponentFound from "./OpponentFound";
 import * as io from "../../../io-client-handler"
@@ -111,8 +111,10 @@ export default function Play() {
 
     return (
         <>
-            {/* <Button onClick={ handlePlayClicked } disabled={ disable }>P</Button> */}
-            <img src={play} alt="play" className="playimg" onClick={ handlePlayClicked } disabled={ disable } />
+            <Button onClick={ handlePlayClicked } disabled={ disable } className="playButton">
+                <img src={play} alt="play" className="playImage"/>
+            </Button>
+            {/* <img src={play} alt="play" className="playimg" onClick={ handlePlayClicked } disabled={ disable } /> */}
             <JoinRoom
             show={ showJoinRoom }
             onHide={ handleCloseJoinRoom }
