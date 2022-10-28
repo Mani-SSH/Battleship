@@ -1,5 +1,5 @@
 import "../../../src/assets/css/Game.sass";
-import React, { useEffect, useState } from "react";
+import React from "react";
 import { useLocation, useNavigate } from "react-router-dom";
 import Boards from "./components/Boards";
 import * as io from "../../io-client-handler"

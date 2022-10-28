@@ -1,5 +1,4 @@
 import { useEffect, useMemo, useState } from "react";
-import { useLocation } from "react-router-dom";
 
 import * as io from "../../../io-client-handler"
 
@@ -59,7 +58,6 @@ export default function OpponentBoard({ setTurn, roomID, turn }) {
 
     const [energyBar, setEnergyBar] = useState(2);  // eneryBar for each strikes
 
-    let shipImg = [] // array for ship
     /**
      * when mouse is off the board, resets highlight, current coordinates and adjacent coordinates
      */
@@ -134,6 +132,22 @@ export default function OpponentBoard({ setTurn, roomID, turn }) {
         return board
     }, [hoverXYs, resetHighlight, hitCoords, missedCoords, action]); // eslint-disable-line react-hooks/exhaustive-deps
 
+    const shipImg = useMemo(() => {
+        let shipImg = []
+
+        Object.keys(ShipList).forEach((ship) => {
+            shipImg.push(
+                <ShipStatus
+                    key={ShipList[ship].id}
+                    ship = {ShipList[ship]}
+                    destroyedShips={ destroyedShips }
+                />
+            )
+        })
+
+        return shipImg
+    }, [destroyedShips]) // eslint-disable-line react-hooks/exhaustive-deps
+
     const handleEndTurn = () => {
         setTurn(false)
         setEnergyBar(energyBar => energyBar + 2)
@@ -157,15 +171,6 @@ export default function OpponentBoard({ setTurn, roomID, turn }) {
             }
         }
     }, [action, currentXY])
-
-    Object.keys(ShipList).forEach((ship) => {
-        shipImg.push(
-            <ShipStatus
-                ship = {ShipList[ship]}
-                destroyedShips={ destroyedShips }
-            />
-        )
-    });
        
     return(
         <div className="oppBoard">
@@ -308,7 +313,7 @@ function ShipStatus({ship, destroyedShips}){
                 }
             }
         }
-    },[destroyedShips])
+    },[destroyedShips]) // eslint-disable-line react-hooks/exhaustive-deps
 
     return(
         <div >

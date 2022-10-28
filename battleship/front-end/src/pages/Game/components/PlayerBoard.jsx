@@ -11,7 +11,6 @@ export default function PlayerBoard() {
     const location = useLocation()
     const [hitCoords, setHitCoords] = useState([])
     const [missedCoords, setMissedCoords] = useState([])
-    let shipImg = []
 
     const board = useMemo(() => {
         let board = []
@@ -44,8 +43,10 @@ export default function PlayerBoard() {
         setMissedCoords(missedCoords)
     })
 
+    const shipImg = useMemo(() => {
+        let shipImg = []
 
-    Object.keys(ShipList).forEach((ship) => {
+        Object.keys(ShipList).forEach((ship) => {
             //console.log(location.state.coordinates[ShipList[ship].id])
             let x = location.state.coordinates[ShipList[ship].id][0][0]   // x coordinate
             let y = location.state.coordinates[ShipList[ship].id][0][1]     // y coordinate
@@ -53,8 +54,7 @@ export default function PlayerBoard() {
             let squareElement = document.querySelector(`div.${squareNo}`);  //  for the given squares
             let currentTile = squareElement.getBoundingClientRect();
             let rotation = 0;
-            console.log(currentTile)
-            console.log(squareElement);
+
             if (ShipList[ship].id !== "corvette")
             {
                 let x1 = location.state.coordinates[ShipList[ship].id][1][0]
@@ -74,7 +74,7 @@ export default function PlayerBoard() {
                 {
                     if (x < x1)
                     {
-                       rotation = 1
+                        rotation = 1
                     }
                     else{
                         rotation = 3
@@ -82,6 +82,7 @@ export default function PlayerBoard() {
                 }
                 //console.log(`The rotation is: ${rotation}`)
             }
+
             shipImg.push(
                 <RenderShip
                     ship = {ShipList[ship]}
@@ -90,9 +91,9 @@ export default function PlayerBoard() {
                 />
             ) 
         })
-    
-    
-    
+
+        return shipImg
+    }, []) // eslint-disable-line react-hooks/exhaustive-deps
 
     return (
         <div className = "playerBoardContainer">
@@ -108,11 +109,9 @@ export default function PlayerBoard() {
 }
 
 function Square({x, y, hitCoords, missedCoords, squareNo}){
-    const [color, setColor] = useState("")
     const [status, setStatus] = useState("clear")
 
     const mystyle = {
-        backgroundColor:color,
         opacity:1,
         width:50+ 'px',
         height:50+'px',
@@ -141,44 +140,28 @@ function Square({x, y, hitCoords, missedCoords, squareNo}){
         }
     }, [hitCoords]) // eslint-disable-line react-hooks/exhaustive-deps
 
-
-    if(status==="hit")
-    {
-        return(
-            <div 
-            className = {squareNo}
-            style={mystyle}
-            >
-            <img src={flame} alt="flame" className="flame" />
-            </div>
-        )
-    }
-    else if(status==="miss")
-    {
-        return(
-            <div 
-            className = {squareNo}
-            style={mystyle}
-            >
-                <div style={{color:"white", fontSize:"30px"}}>•</div>
-            </div>
-        )
-    }
-    else
-    {
-        return(
-            <div 
-            className = {`_pTiles ${squareNo}`}
-            style={mystyle}
-            >
-            </div>
-        )
-    }
+    return(
+        <div 
+        className = {`_pTiles ${squareNo}`}
+        style={mystyle}
+        >
+        {
+            (status === "hit")?(
+                <img src={flame} alt="flame" className="flame" />
+            ):(
+                (status==="miss")?(
+                    <div style={{color:"white", fontSize:"30px"}}>•</div>
+                ):(
+                    <></>
+                )
+            )
+        }
+        </div>
+    )
 }
 
 
 function RenderShip({ship, currentTile, rotation}){
-
     const [left, setLeft] = useState(0)
     const [top, setTop] = useState(0)
     const [rotateClass, setRotateClass] = useState("")
@@ -204,7 +187,7 @@ function RenderShip({ship, currentTile, rotation}){
                 break
         }
         
-    },[ship])
+    },[ship]) // eslint-disable-line react-hooks/exhaustive-deps
 
     return(
     <div

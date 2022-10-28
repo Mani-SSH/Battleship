@@ -1,5 +1,4 @@
 import { useState, useEffect } from "react";
-import Button from "react-bootstrap/esm/Button";
 import "../../../assets/css/action.sass";
 
 import { ActionList } from "../../../data/actionlist";
@@ -33,7 +32,8 @@ function ButtonAction({ onClick, action, energyBar }) {
             setDisable(false) // enable the button
         }
         console.log(`EnergyBar: ${energyBar}`)
-    }, [energyBar])
+    }, [energyBar]) // eslint-disable-line react-hooks/exhaustive-deps
+
     return(
         <div className="powerButtons">
         <button className="action" 
