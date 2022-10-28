@@ -159,18 +159,11 @@ export default function OpponentBoard({ setTurn, roomID, turn }) {
     }, [action, currentXY])
 
     Object.keys(ShipList).forEach((ship) => {
-        let isDestroyed = false;
-        for(let i = 0; i < destroyedShips.length; i++)
-        {
-            if(ShipList[ship].id === destroyedShips[i])
-            {
-                isDestroyed = true;
-            }
-        }
-        shipImg.push(<ShipStatus
-            ship = {ShipList[ship]}
-            isDestroyed = {isDestroyed}
-        />
+        shipImg.push(
+            <ShipStatus
+                ship = {ShipList[ship]}
+                destroyedShips={ destroyedShips }
+            />
         )
     });
        
@@ -319,19 +312,23 @@ function Square({x, y, setXY, hoverXYs, resetHighlight, onClick, hitCoords, miss
     }
 }
 
-function ShipStatus({ship, isDestroyed}){ 
-    const [source, setSource] = useState("")
+function ShipStatus({ship, destroyedShips}){ 
+    const [source, setSource] = useState(ship.thumb)
+    const [destroyed, setDestroyed] = useState(false)
+
     useEffect(()=>{
-        console.log(isDestroyed)
-        if (isDestroyed)
-        {
-            setSource(ship.dThumb)
+        /* if ship not destroyed */
+        if (!destroyed){
+            /* for each destroyed ship, check if ship is destroyed */
+            for(let i = 0; i < destroyedShips.length; i++){
+                if(ship.id === destroyedShips[i]){
+                    setSource(ship.dThumb)
+                    setDestroyed(true)
+                }
+            }
         }
-        else
-        {
-            setSource(ship.thumb)
-        }
-    },[isDestroyed])
+    },[destroyedShips])
+
     return(
         <div >
         <img src={source} alt="ships" className= "destroyedShips" />
