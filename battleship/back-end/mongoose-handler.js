@@ -1,15 +1,14 @@
+require("dotenv/config")
+
 /* mongoDB connection */
-const dbUrl = 'mongodb+srv://ReDei:hridaya12345@cluster0.g5srtyf.mongodb.net/test';
 const mongoose = require('mongoose');
 const { Player } = require('./classes/player');
 const { exists } = require('./mongo-schemas/PlayerSchema');
 
 const PlayerModel = require('./mongo-schemas/PlayerSchema'); // PlayerModel is mongoose model imported from PlayerSchema.js
 
-
-
 /* Connectiing mongoose server to Database */
-mongoose.connect(dbUrl, (err) => {
+mongoose.connect(process.env.MONGO_CONN_STRING, (err) => {
     console.log('mongodb connected', err);
 })
  

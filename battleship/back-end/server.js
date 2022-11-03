@@ -1,3 +1,5 @@
+require("dotenv/config")
+
 /* connect socket io with express */
 const express = require('express');
 const { createServer } = require("http");
@@ -14,6 +16,8 @@ let matchQueue = new MatchQueue
 
 /* port */
 let PORT = process.env.PORT||5000;
+
+console.log(`Running on port: ${ PORT }`)
 
 /* using express */
 const app = express();
