@@ -1,14 +1,13 @@
 .Body
     position: absolute
-    height: 100vh
+    height: 100%
     width: 100%
     overflow: hidden
+    background-image: url(../images/Ships/cover.png)
+    background-position: center
+    background-repeat: no-repeat
+    background-size: cover
     
-    .bg
-
-        width: 100%
-        height: 100%
-        z-index: -1
 
     .boardContainer
         // position: absolute
@@ -16,12 +15,9 @@
         
 
     .Header1
-        // animation: rippleX 3s linear infinite
-        border: 1px solid white
-        border-radius: 30px
         position: fixed
         margin: auto
-        top: 25px
+        top: 15px
         left: 0
         right: 0
         text-align: center
@@ -31,9 +27,34 @@
         justify-content: center
         width: 400px
         height: 55px
-        background-color: white
+        color: white
+        font-family: "Nunito"
+        font-weight: 800
 
-    .Header1::before
+
+
+    .Header2
+        // animation: rippleX 3s linear infinite
+        border-color: #9ecaed
+        box-shadow: 0 0 10px #9ecaed
+        border: 1px solid white
+        border-radius: 30px
+        position: fixed
+        margin: auto
+        top: 85px
+        left: 0
+        right: 0
+        text-align: center
+        display: flex
+        flex-direction: row
+        align-items: center
+        justify-content: center
+        width: 400px
+        height: 55px
+        color: white
+        background-color: rgb(0,0,0,0.3)
+
+    .Header2::before
         content: ''
         position: absolute
         border: .3vmin solid white
@@ -57,30 +78,60 @@
             opacity: 0
             transform: scaleY(1.5)
 
-    & h1
-        color: black
-        font-family: "sans-serif"
-        font-size: 32px
-        font-weight: bold
-        text-align: center
-        letter-spacing: 5px
-
 
     .shipBtnPre
         display: flex
         flex-direction: column
         position: absolute
-        left: 12vh
+        left: 15vh
         top: 17vh
         row-gap: 20px
+        background-color: rgb(0,0,0,0.2)
+        border: 3px solid white
+        border-radius: 20px
+        padding: 30px
+        box-shadow: 0px 0px 10px lightskyblue
+
 
     .readyBtn
+        background-color: rgb(0,0,0,0.5)
+        border: 2px double white
+        border-radius: 5px
+        color: white
+        font-family: 'Star Jedi', Quicksand
+        font-size: 18px
+        transition: all 1s
+        padding: 10px
+        position: fixed
+        width: 150px
+        top: 90vh
+        left: 0
+        right: 0
+        margin: auto
 
+        &:hover:enabled
+            box-shadow: 0px 0px 30px lightskyblue
+
+        &:disabled
+            opacity: 0.6
+
+       
 
     .secButtons
+        border: 2px solid white
+        border-radius: 10px
+        padding: 7px
         display: flex
         flex-direction: column
-        gap: 10px
+        gap: 3px
         position: absolute
-        right: 33vh
-        top: 17vh
+        right: 4vh
+        top: 4vh
+        align-items: flex-start
+        color: white
+        
+        h2
+            font-size: 16px
+            font-family: "Nunito"
+            font-weight: 800
+        

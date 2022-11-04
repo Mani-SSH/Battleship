@@ -39,11 +39,11 @@ function ButtonShip({ onClick, ship }){
     }, [coordinates[ship.id]]) // eslint-disable-line react-hooks/exhaustive-deps
 
     return(
-        <Button 
+        <button 
         onClick={ onClick } 
         className='shipButton'
         disabled={ disable }
-        >{ ship.id.toUpperCase() }</Button>
+        >{ ship.id.toUpperCase() }</button>
     )
 }
 

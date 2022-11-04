@@ -4,11 +4,12 @@
     right: 0
     left: 0
     margin: auto
-    top: 17vh
+    top: 23vh
     bottom: auto
     flex-wrap: wrap
     width: 450px
     height: 450px
+    box-shadow: 0px 0px 12px lightskyblue
 
 
 .tiles
@@ -40,6 +41,28 @@
     width: auto
     align-self: center
     z-index: 9
+
+.endTurnBtn
+    background-color: rgb(0,0,0,0.5)
+    border: 2px double white
+    border-radius: 5px
+    color: white
+    font-family: 'Star Jedi', Quicksand
+    font-size: 18px
+    transition: all 1s
+    padding: 10px
+    position: fixed
+    width: 150px
+    top: 90vh
+    left: 0
+    right: 0
+    margin: auto
+
+    &:hover:enabled
+        box-shadow: 0px 0px 30px lightskyblue
+
+    &:disabled
+        opacity: 0.6
 
 .Zero_submarine
     height: 50px

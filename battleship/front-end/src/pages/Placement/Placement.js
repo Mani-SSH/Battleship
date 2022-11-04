@@ -9,7 +9,7 @@ import Board from "./components/Board";
 import * as io from "../../io-client-handler"
 import Button from "react-bootstrap/Button";
 import OpponentStatus from "./components/OpponentStatus";
-import background from "../../assets/images/Ships/bg.jpg"
+import background from "../../assets/images/Ships/cover.png"
 
 export const CoordinatesContext = React.createContext()
 export const CoordinatesUpdateContext = React.createContext()
@@ -89,19 +89,23 @@ export const ReadyContext = React.createContext()
 
     return (
         <div className="Body">
-            <img src={background} alt="background" className="bg"/>
             <div className="Header1">
-                <h1>Plan Your Ships</h1>
+                <h1>Plan Your Ships</h1>               
+            </div>
+            <div className="Header2">
                 <h3>{ location.state.playerID }'s Board</h3>
             </div>
+            
 
             <CoordinatesContext.Provider value={ coordinates }>
             <CoordinatesUpdateContext.Provider value={ setCoordinates }>
             <ReadyContext.Provider value={ ready }>
-                <div className="secButtons">
-                    <OpponentStatus opponentID={ location.state.opponentID } ready={ opponentReady }/>
-                    <ButtonReady onClick={ handleReady }/>
-                </div>
+            <div className="secButtons">
+                <h2>Opponent Status:</h2>
+                <OpponentStatus opponentID={ location.state.opponentID } ready={ opponentReady }/>  
+            </div>
+
+            <ButtonReady onClick={ handleReady } className="ready"/>
 
             <div className="boardContainer"><Board /></div>
 
@@ -138,6 +142,6 @@ export const ReadyContext = React.createContext()
     }, [coordinates, ready])
 
     return(
-        <Button className="readyBtn" disabled={ disable } onClick={ handleClicked }>Ready</Button>
+        <button className="readyBtn" disabled={ disable } onClick={ handleClicked }>Ready</button>
     )
  }
