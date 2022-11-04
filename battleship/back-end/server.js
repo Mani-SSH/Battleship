@@ -98,7 +98,6 @@ io.on('connection', (socket) => {
 
         /* add room to the list */
         rooms.add(thisRoom);
-        rooms.display()
 
         /* remove room if inactivite by checking every 5 min */
         const removeInactiveRoom = setInterval(() => {
@@ -124,7 +123,6 @@ io.on('connection', (socket) => {
         if(opponent == undefined){
             matchQueue.addToQueue(playerID, playerScore, socket.id)
             console.log(`${ playerID } added to queue.`)
-            matchQueue.display()
             isSuccessful = true
             callback(isSuccessful)
             return
@@ -413,7 +411,6 @@ io.on('connection', (socket) => {
 
         io.in(roomID).socketsLeave(roomID);
         thisRoom.removePlayers()
-        thisRoom.display()
         console.log(`Removed players from room: ${ roomID }`)
     })
 
@@ -430,7 +427,6 @@ io.on('connection', (socket) => {
         /* remove player from the room */
         thisRoom.removePlayer(socket.id);
         socket.leave(roomID)
-        thisRoom.display();
         console.log(`Player left room: ${ roomID } successfully.`)
     })
 
