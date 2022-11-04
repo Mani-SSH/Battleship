@@ -55,7 +55,6 @@ class Room{
          return false;
       }else{
          this.elements.players.push(new RoomPlayer(socketID, playerID));
-         this.display();
          return true;
       }
    }
@@ -182,9 +181,8 @@ class RoomList{
          temp.next = room;
       }
 
-      /* update size of list and display */
+      /* update size of list*/
       this.size++;
-      this.display();
    }
 
 
@@ -220,7 +218,7 @@ class RoomList{
       let temp = this.head;
       while(temp)
       {
-         console.log(temp.elements);
+         console.log(temp.elements.roomID);
          temp = temp.next;
       }
       console.log(`size: ${ this.size }\n`)

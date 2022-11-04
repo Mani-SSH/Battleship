@@ -91,12 +91,14 @@ io.on('connection', (socket) => {
 
     /* listen to event on a socket to generate roomID */
     socket.on('generate-roomID', (giveRoomID) => {
+        console.log("\nGenerating new room...")
         /* create new room */
         let thisRoom = new Room;
-        console.log(`\nnew room: ${ thisRoom.elements.roomID } generated\n`);
+        console.log(`new room: ${ thisRoom.elements.roomID } generated\n`);
 
         /* add room to the list */
         rooms.add(thisRoom);
+        rooms.display()
 
         /* remove room if inactivite by checking every 5 min */
         const removeInactiveRoom = setInterval(() => {
@@ -114,6 +116,7 @@ io.on('connection', (socket) => {
     })
 
     socket.on("join-queue", (playerID, playerScore, callback) => {
+        console.log(`Joining ${ playerID } to queue...`)
         const opponent = matchQueue.searchMatch(playerScore)
         let isSuccessful = false
         
@@ -135,8 +138,6 @@ io.on('connection', (socket) => {
             callback(isSuccessful)
             return
         }
-
-        matchQueue.display()
 
         /** if match found, make new room */
         let thisRoom = new Room
@@ -170,16 +171,21 @@ io.on('connection', (socket) => {
     })
 
     socket.on("remove-from-queue", (playerID) => {
-        matchQueue.remove(playerID)
-        matchQueue.display()
+        if(matchQueue.remove(playerID)){
+            console.log(`\n${ playerID } left match queue.`)
+        }else{
+            console.error(`\n${ playerID } failed to leave queue. Some error occured.`)
+        }
     })
 
     socket.on('join-room', (roomID, playerID, fn) => {
+        console.log(`\nJoining ${ playerID } to room: ${ roomID }...`)
         let hasJoined = false;                  //state of player if joined
         let isFound = false;                    //state of room if found
 
         /* if room list is empty */
         if(rooms.isEmpty()){
+            console.error(`Error: Cannot find room: ${ roomID }. Failed to join ${ playerID }`)
             fn(isFound, hasJoined)
             return;
         }
@@ -189,6 +195,7 @@ io.on('connection', (socket) => {
 
         /* if room is not found */
         if(thisRoom == undefined){
+            console.error(`Error: Cannot find room: ${ roomID }. Failed to join ${ playerID }`)
             fn(isFound, hasJoined);
             return;
         }
@@ -197,6 +204,7 @@ io.on('connection', (socket) => {
 
         /* if room is full */
         if (thisRoom.isFull()){
+            console.log(`Error: Room: ${ roomID } is full. Failed to join ${ playerID }`)
             fn(isFound, hasJoined);
             return;
         }
@@ -211,25 +219,25 @@ io.on('connection', (socket) => {
             /* join room */
             socket.join(roomID);
 
-            /* send message */
-            const msg = playerID /* id */ + " joined room: " + roomID;
-            console.log(msg);
-
+            console.log(playerID /* id */ + " joined room: " + roomID);
             fn(isFound, hasJoined);
         }
 
         /* if room gets full emit a message to another user */
         if(thisRoom.isFull()){
+            console.log(`Room: ${ roomID } is now full. Starting game in few moments...`)
             io.sockets.to(roomID).emit("lobby-full");            
         }
     })
 
     socket.on("get-opponentID", (roomID, giveID) => {
+        console.log("\nSending playerIDs to room: " + roomID + "...")
         const thisRoom = rooms.getRoom(roomID);
         let isSuccessful = false
 
         /* if room not found, give error */
         if(thisRoom == undefined){
+            console.error("Error: Couldn't find room: " + roomID)
             giveID(isSuccessful)
             return
         }
@@ -260,18 +268,20 @@ io.on('connection', (socket) => {
             playerID = playerID2
         }
         giveID(isSuccessful, playerID, opponentID);
+        console.log("Sent playerIDs to room: " + roomID)
     })
 
     socket.on("player-ready", (roomID) => {
+        console.log("\nA player is ready in room: " + roomID)
+
         /* emit to opponent that player is ready */
         socket.to(roomID).emit("oppponent-ready");
     })
 
     socket.on("send-ship-coordinates", (coordinates, roomID, callback) => {
+        console.log(`\nA player in room: ${ roomID } has sent coordinates of ships`)
         const thisRoom = rooms.getRoom(roomID)
         let isSuccessful = false
-
-        console.log(thisRoom)
 
         try {
             /* if room not found */
@@ -292,6 +302,7 @@ io.on('connection', (socket) => {
             socket.to(roomID).emit("opponent-ships-set")
 
             if(thisRoom.elements.players[0].board.isEmpty() || thisRoom.elements.players[1].board.isEmpty()){
+                console.log(`Both players have sent their ship coordinates. Now setting player for first turn...`)
                 thisRoom.setFirstTurn()
             }
         } catch (error) {
@@ -300,25 +311,41 @@ io.on('connection', (socket) => {
     })
 
     socket.on("get-turn", (roomID, giveTurn) => {
+        console.log(`\nGiving turn of first player to room: ${ roomID }`)
+
+        /* get room and player of first turn */
         const thisRoom = rooms.getRoom(roomID)
         const socketIDofFirst = thisRoom.getFirstTurn()
         let isSuccessful = false
 
+        /* if room not found, give error */
+        if(thisRoom == undefined){
+            console.error(`Error: Room: ${ roomID } not found. Failed to give first turn.`)
+            giveTurn(isSuccessful)
+            return
+        }
+
+        /* if player with first turn not found, give error */
         if(socketIDofFirst.length === 0){
+            console.error("Error: Failed to get player of First turn")
             giveTurn(isSuccessful)
             return
         }
 
         isSuccessful = true
+        console.log(`Player of first turn set to a player in room: ${ roomID }`)
         giveTurn(isSuccessful, socketIDofFirst)
     })
 
     socket.on("player-action", (roomID, actionID, x, y, callback) => {
+        console.log(`\nCommiting action: ${ actionID } in (${ x }, ${ y }) in room: ${ roomID }...`)
+
         /* get the room the player is in */
         const thisRoom = rooms.getRoom(roomID)
         let isSuccessful = false
 
         if(thisRoom == undefined){
+            console.error(`Error: Room: ${ roomID } not found. Failed to commit action.`)
             callback(isSuccessful)
             return
         }
@@ -348,6 +375,7 @@ io.on('connection', (socket) => {
                 radarHitCount = thisBoard.doRadar(x, y)
                 break
             default:
+                console.error("Error: Invalid actionID in room: " + roomID)
                 callback(isSuccessful, hitCoords, missedCoords, destroyedShips, radarHitCount)
                 return
         }
@@ -358,35 +386,44 @@ io.on('connection', (socket) => {
         /* if a ship is destroyed, check if the game is over */
         if(destroyedShips.length !== 0){
             if(thisBoard.isGameOver()){
+                console.log("Game over in room: " + roomID + ". Removing room...")
                 io.sockets.emit("game-over", socket.id)
-                rooms.remove(roomID)
+                if(rooms.remove(roomID)){
+                    console.log(`Room: ${ roomID } removed successfully...`)
+                }else{
+                    console.error(`Error: Room: ${ roomID } not found. Failed to remove room.`)
+                }
             }
         }
     })
 
     socket.on("switch-turn", (roomID) => {
+        console.log(`Switching turn in room: ${ roomID }`)
         socket.to(roomID).emit("switched-turn")
     })
 
     socket.on("remove-players", (roomID) => {
+        console.log(`Removing players from room: ${ roomID }`)
         const thisRoom = rooms.getRoom(roomID)
 
         if(thisRoom == undefined){
-            console.error(`Room: ${ roomID } not found.`)
+            console.error(`Error: Room: ${ roomID } not found. Failed to remove players from room...`)
             return
         }
 
         io.in(roomID).socketsLeave(roomID);
         thisRoom.removePlayers()
         thisRoom.display()
+        console.log(`Removed players from room: ${ roomID }`)
     })
 
     socket.on("leave-room", (roomID) => {
+        console.log(`\nA player is leaving room: ${ roomID }...`)
         /* get room */
         const thisRoom = rooms.getRoom(roomID);
 
         if(thisRoom == undefined){
-            console.error(`Room: ${ roomID } not found.`)
+            console.error(`Error: Room: ${ roomID } not found.`)
             return
         }
         
@@ -394,9 +431,11 @@ io.on('connection', (socket) => {
         thisRoom.removePlayer(socket.id);
         socket.leave(roomID)
         thisRoom.display();
+        console.log(`Player left room: ${ roomID } successfully.`)
     })
 
     socket.on("disconnecting", () => {
+        console.log(`Disconnenting player with socketID: ${ socket.id }...`)
         /* check if user was on a room */
         const ROOMS = socket.rooms.values()
         ROOMS.next().value
@@ -408,9 +447,11 @@ io.on('connection', (socket) => {
         }
 
         /* emit to room player has forfeit */
+        console.log(`Sending forfeit message to opponent in room: ${ roomID }`)
         socket.to(roomID).emit("player-forfeit")
         io.in(roomID).socketsLeave(roomID);
         rooms.remove(roomID)
+        console.log(`Removed room: ${ roomID }`)
     })
 })
 
