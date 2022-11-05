@@ -232,13 +232,9 @@ export default function Board()
                 setPreviewClass("preTwoSeventy")
             }
         }
+        setRotation(0);
     },[rotateShip])
 
-    
-    //Needs to be removed
-    useEffect(()=>{
-        console.log(previewClass);
-    },[previewClass])
 
     return(
         <div className="BoardContainer">
