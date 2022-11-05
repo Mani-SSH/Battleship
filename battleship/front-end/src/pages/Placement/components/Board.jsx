@@ -232,7 +232,6 @@ export default function Board()
                 setPreviewClass("preTwoSeventy")
             }
         }
-        setRotation(0);
     },[rotateShip])
 
 
