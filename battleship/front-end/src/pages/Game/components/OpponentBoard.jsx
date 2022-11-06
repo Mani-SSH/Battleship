@@ -171,6 +171,18 @@ export default function OpponentBoard({ setTurn, roomID, turn }) {
             }
         }
     }, [action, currentXY])
+
+    //adds emoji in react
+    const Emoji = props => (
+        <span
+            className="emoji"
+            role="img"
+            aria-label={props.label ? props.label : ""}
+            aria-hidden={props.label ? "false" : "true"}
+        >
+            {props.symbol}
+        </span>
+    );
        
     return(
         <div className="oppBoard">
@@ -189,11 +201,15 @@ export default function OpponentBoard({ setTurn, roomID, turn }) {
             </div>
                 <EndTurn onClick={ handleEndTurn }/>
             <div className = "energyBar">
-                Energy Bar : {energyBar}
+                Energy Bar : {energyBar}X<Emoji symbol="⚡"/>
             </div>
 
             <div className="ShipStatus">
-                { shipImg }
+                <h3 className="fleetH3">Opponent Fleet</h3>
+                <div className="shipImg">
+                    { shipImg }
+                </div>
+                
             </div>
         </div>
     );

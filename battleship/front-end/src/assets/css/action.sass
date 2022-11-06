@@ -1,8 +1,28 @@
 .powerButtons
     display: flex
     flex-direction: column
-    column-gap: 10px
+    column-gap: 8px
+    align-items: center
 
+
+.actionBtnCnt
+    display: flex
+    flex-direction: column
+    align-items: center
+    background: white
+    height: 550px
+    width: 200px
+    gap: 8px
+    background-color: rgb(0,0,0,0.2)
+    border: 3px solid white
+    border-radius: 20px
+    padding: 30px
+    box-shadow: 0px 0px 10px lightskyblue
+
+.inventory
+    color: white
+    font-family: nunito
+    font-weight: 800
 
 .action
     background: #DAD6CD
@@ -17,14 +37,45 @@
     display: inline-block
     margin: 1rem
     padding: .5rem
+    position: relative
 
-    &:focus, &:hover
+    &:hover
         background: #F4F0E9
+
+    &:active
+        background: #c2beb5
 
     &:disabled
         background: #7A7A7A
+        opacity: 0.6
 
+.action:before
+    content: ''
+    background: rgb(2,0,36)
+    background: radial-gradient(circle, rgba(0,212,255,1) 0%, #0c90aa 35%, rgba(0,212,255,1) 100%)
+    position: absolute
+    top: -10px
+    left: -10px
+    background-size: 400%
+    z-index: -1
+    filter: blur(5px)
+    width: calc(100% + 20px)
+    height: calc(100% + 20px)
+    animation: glowing 20s linear infinite
+    opacity: 0
+    transition: opacity .1s ease-in-out
+
+    @keyframes glowing 
+        0% 
+            background-position: 0 0 
+        50% 
+            background-position: 400% 0 
+        100% 
+            background-position: 0 0 
         
+.action:enabled:before
+    opacity: 1
+
 .powerIcon
     width: 45px
     height: auto

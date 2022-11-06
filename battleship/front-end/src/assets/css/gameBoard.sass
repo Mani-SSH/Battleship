@@ -178,10 +178,64 @@
 .destroyedShips
     width: 100px
 
+.energyBar
+    color: white
+    font-family: nunito
+    font-weight: 800
+
+
+.shipImg
+    display: flex
+    flex-direction: row
+    align-items: center
+    column-gap: 30px
+
+.fleetH3
+    color: black
+    font-family: nunito
+    font-weight: 800
+    position: relative
+    top: 25px
+
+
 .ShipStatus
     display: flex
     flex-direction: column
-    gap: 2vh
-    position: absolute
-    right: 10%
-    top: 10%
+    align-items: center
+    top: 3%
+    justify-content: center
+    border-color: #9ecaed
+    box-shadow: 0 0 10px #9ecaed
+    border: 1px solid white
+    border-radius: 60px
+    position: fixed
+    right: 0
+    left: 0
+    margin: auto
+    background: white
+    height: 100px
+    width: 700px
+
+.ShipStatus::before
+        content: ''
+        position: absolute
+        border: .3vmin solid white
+        top: -1px
+        bottom: -1px
+        left: -1px
+        right: -1px
+        border-top-right-radius: 30px
+        border-bottom-right-radius: 30px
+        border-top-left-radius: 30px
+        border-bottom-left-radius: 30px
+        border-left: none
+        border-right: none
+        animation: ripplesY 3s linear infinite
+
+@keyframes ripplesY
+    0%
+        opacity: 1
+        transform: scaleY(1)
+    100%
+        opacity: 0
+        transform: scaleY(1.5)
