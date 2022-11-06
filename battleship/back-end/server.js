@@ -101,7 +101,7 @@ io.on('connection', (socket) => {
 
         /* remove room if inactivite by checking every 5 min */
         const removeInactiveRoom = setInterval(() => {
-            if(thisRoom.elements.player_count == 0){
+            if(thisRoom.elements.players.length == 0){
                 if(!rooms.remove(thisRoom.elements.roomID)){
                     console.log(`Room ${ thisRoom.elements.roomID } does not exist`)
                 }else{
@@ -143,9 +143,12 @@ io.on('connection', (socket) => {
 
         /* remove room if inactivite by checking every 5 min */
         const removeInactiveRoom = setInterval(() => {
-            if(thisRoom.elements.player_count == 0){
-                rooms.remove(thisRoom.elements.roomID);
-                console.log(`Room removed due to inactivity: ${ thisRoom.elements.roomID }`);
+            if(thisRoom.elements.players.length == 0){
+                if(!rooms.remove(thisRoom.elements.roomID)){
+                    console.log(`Room ${ thisRoom.elements.roomID } does not exist`)
+                }else{
+                    console.log(`Room removed due to inactivity: ${ thisRoom.elements.roomID }`)
+                }
                 clearInterval(removeInactiveRoom);
             }
         }, 300000)
