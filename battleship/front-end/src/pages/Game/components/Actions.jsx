@@ -15,7 +15,10 @@ export default function Actions({ setAction, energyBar }) {
     })
 
     return(
-        <div className="actionBtnCnt">{ actions }</div>
+        <div className="actionBtnCnt">
+            <h3 className="inventory">INVENTORY</h3>
+            { actions }
+        </div>
     )
 }
 
