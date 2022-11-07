@@ -241,11 +241,6 @@ export default function Board()
         }
     },[ship])
 
-    
-    //Needs to be removed
-    useEffect(()=>{
-        console.log(previewClass);
-    },[previewClass])
 
     return(
         <div className="BoardContainer">
