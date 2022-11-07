@@ -234,6 +234,13 @@ export default function Board()
         }
     },[rotateShip])
 
+    useEffect(()=>{
+        if(ship)
+        {
+            setPreviewClass("preZero");
+        }
+    },[ship])
+
     
     //Needs to be removed
     useEffect(()=>{
