@@ -433,24 +433,24 @@ io.on('connection', (socket) => {
         console.log(`Player left room: ${ roomID } successfully.`)
     })
 
-    socket.on("disconnecting", () => {
-        console.log(`Disconnenting player with socketID: ${ socket.id }...`)
-        /* check if user was on a room */
-        const ROOMS = socket.rooms.values()
-        ROOMS.next().value
-        const roomID = ROOMS.next().value
+    // socket.on("disconnecting", () => {
+    //     console.log(`Disconnenting player with socketID: ${ socket.id }...`)
+    //     /* check if user was on a room */
+    //     const ROOMS = socket.rooms.values()
+    //     ROOMS.next().value
+    //     const roomID = ROOMS.next().value
 
-        /* if not joined to room, do nothing */
-        if(roomID == undefined){
-            return
-        }
+    //     /* if not joined to room, do nothing */
+    //     if(roomID == undefined){
+    //         return
+    //     }
 
-        /* emit to room player has forfeit */
-        console.log(`Sending forfeit message to opponent in room: ${ roomID }`)
-        socket.to(roomID).emit("player-forfeit")
-        io.in(roomID).socketsLeave(roomID);
-        rooms.remove(roomID)
-        console.log(`Removed room: ${ roomID }`)
-    })
+    //     /* emit to room player has forfeit */
+    //     console.log(`Sending forfeit message to opponent in room: ${ roomID }`)
+    //     socket.to(roomID).emit("player-forfeit")
+    //     io.in(roomID).socketsLeave(roomID);
+    //     rooms.remove(roomID)
+    //     console.log(`Removed room: ${ roomID }`)
+    // })
 })
 
