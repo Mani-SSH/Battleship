@@ -435,7 +435,7 @@ io.on('connection', (socket) => {
         console.log(`Player left room: ${ roomID } successfully.`)
     })
 
-    socket.on("disconnect", () => {
+    socket.on("disconnecting", () => {
         console.log(`Disconnenting player with socketID: ${ socket.id }...`)
         /* check if user was on a room */
         const ROOMS = socket.rooms.values()
@@ -453,6 +453,10 @@ io.on('connection', (socket) => {
         io.in(roomID).socketsLeave(roomID);
         rooms.remove(roomID)
         console.log(`Removed room: ${ roomID }`)
+    })
+
+    socket.on("disconnect", (reason) => {
+        console.log(`Socket: ${ socket.id } disconnected due to ${ reason }.`)
     })
 })
 
