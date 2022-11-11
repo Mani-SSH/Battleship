@@ -180,8 +180,8 @@ function SignUp(props){
 
     const handleSignUpClicked = () => {
         io.socket.emit("request-signup", username, tag, password, (err,alreadyExists)=>{
-            setplayerExistsWarning(alreadyExists);
-        });
+            setplayerExistsWarning(alreadyExists);        
+        });    
     }
 
     useEffect(() => {

@@ -3,6 +3,8 @@ import React, {useState, useMemo} from 'react'
 import Modal from "react-bootstrap/Modal";
 import Button from "react-bootstrap/Button";
 import Table from 'react-bootstrap/Table';
+import "../../../assets/css/scoreboard.sass";
+import {GrScorecard} from "react-icons/gr";
 
 import * as io from "../../../io-client-handler"
 
@@ -54,18 +56,16 @@ export default function ScoreBoard() {
          <div>
          <Modal className="scoreBoard-modal"
             show={show}
-            size="lg"
+            size="md"
             onHide = {handleClose}
             centered
             >
                 <Modal.Header className="scoreBoard-header" closeButton>
-                    <Modal.Title className="scoreBoard-title">Score Board</Modal.Title>
+                    <Modal.Title className="scoreBoard-title">Score Board <GrScorecard className='scoreicon'/></Modal.Title>
                 </Modal.Header>
                 <Modal.Body className="scoreBoard-body">
                     {scoreBoard}
                 </Modal.Body>
-                <Modal.Footer className="scoreBoard-footer">
-                </Modal.Footer>
         </Modal>
     </div>
     </div>
@@ -78,7 +78,7 @@ export default function ScoreBoard() {
 function TallyBoard({score}) 
 {
     return(
-            <Table striped bordered hover variant = "dark">
+            <Table striped bordered hover variant = "info">
                     <tbody>
                     <tr>
                         <td>{score.Username}</td>

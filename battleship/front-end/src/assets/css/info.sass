@@ -1,28 +1,48 @@
 .button-info
 
-  width: max-content
-  height: 45px
+  width: 130px
+  height: 40px
   text-align: center
-  text-transform: uppercase
-  font-weight: 400
+  color: white
   cursor: pointer
-  background-color: #043a16
-  border: 2px solid #0c0749
-  border-radius: 10px
-  -webkit-transition: all .15s ease-in-out
-  transition: all .15s ease-in-out
-  color:#f7f7f7
-  padding: 5px
-  font-size: 15px
+  text-transform: uppercase
+  padding: 0
+  border: none
+  border-radius: 0 10px
+  // transform: skewX(-15deg)
+  font-family: 'DotGothic16'
+  background: linear-gradient(50deg, #0f3d1e 0%, #0e7e33 100%)
 
   @media screen and (max-width: 972px)
     width: max-content
     height: 35px
 
-.button-info:hover
+.button-info:hover 
+  color: #151715
+  background: transparent
+  box-shadow: none
 
-  box-shadow: 5px 5px 0 rgb(24, 27, 25)
-  transform: translate(-4px,-4px)
+.button-info:before,
+.button-info:after
+  content:''
+  position: absolute
+  top: 0
+  right: 0
+  height:2px
+  width: 0
+  background: #0b0c0b
+  box-shadow: -1px -1px 5px 0px #861a1a, 7px 7px 20px 0px #60505033, 4px 4px 5px 0px #0002
+  transition: 400ms ease all
+
+.button-info:after
+  right: inherit
+  top: inherit
+  left:0
+  bottom:0
+
+.button-info:hover:before, .button-info:hover:after
+  width: 100%
+  transition: 800ms ease all
 
 .info-modal
   backdrop-filter: blur(5px)

@@ -114,7 +114,6 @@ export default function Play() {
             <Button onClick={ handlePlayClicked } disabled={ disable } className="playButton">
                 <img src={play} alt="play" className="playImage"/>
             </Button>
-            {/* <img src={play} alt="play" className="playimg" onClick={ handlePlayClicked } disabled={ disable } /> */}
             <JoinRoom
             show={ showJoinRoom }
             onHide={ handleCloseJoinRoom }

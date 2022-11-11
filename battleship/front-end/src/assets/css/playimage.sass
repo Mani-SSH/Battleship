@@ -1,19 +1,18 @@
-.playimg
-    width: 70%
-    transition: all .15s ease-in-out
-    @media screen and (max-width: 972px)
-        width: 50%
-
-.playimg:hover
-    transform: translate(-4px,-4px)
-    cursor: pointer
-
 .playButton
     background: none
     border: none
     width: 210px
     height: auto
-    border-radius: 50%    
+    border-radius: 50%   
+    .playImage
+        width: 80%
+        transition: all .15s ease-in-out
+    @media screen and (max-width: 972px)
+        width: 50%
+
+    .playImage:hover
+        transform: translate(-4px,-4px)
+        cursor: pointer 
 
 .playButton:hover
     background: none
