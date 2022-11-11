@@ -1,14 +1,16 @@
-import { useEffect, useState } from "react"
-import { useLocation, useNavigate } from "react-router-dom"
+import { useState } from "react"
+import { useLocation } from "react-router-dom"
 import * as io from "../../../io-client-handler"
 
 import OpponentBoard from "./OpponentBoard"
 import PlayerBoard from "./PlayerBoard"
+import WinLoseModal from "./WinLoseModal"
 
-export default function Boards({ roomID }) {
-    const navigate = useNavigate()
+export default function Boards({ roomID, setTurn, turn }) {
     const location = useLocation()
-    const [turn, setTurn] = useState(true)
+
+    const [showModal, setShowModal] = useState(false)
+    const [win, setWin] = useState(false)
 
     io.socket.off("switched-turn").on("switched-turn", () => {
         setTurn(true)
@@ -21,36 +23,18 @@ export default function Boards({ roomID }) {
         /* show win or lose */
         if(io.socket.id === winnerSocketID){
             hasWin = true
-            alert("Victory Royale!!!")
-        }else{
-            alert("You lose")
         }
 
-        if(location.state.isCustom == false){
+        /* if ranked match update score */
+        if(location.state.isCustom === false){
             io.socket.emit("update-player-score", location.state.playerID, hasWin)
-        } 
+        }
 
         setTimeout(() => {
-            /* navigate back to home page */
-            navigate("/")
+            setWin(hasWin)
+            setShowModal(true)
         }, 2000) 
     })
-
-    useEffect(() => {
-        io.socket.emit("get-turn", roomID, (isSuccessful, socketIDofFirst) => {
-            if(!isSuccessful){
-                alert("Some error occured!")
-                return
-            }
-
-            /* if socket id of first turn matches the socket id, set turn true */
-            if(io.socket.id === socketIDofFirst){
-                setTurn(true)
-            }else{
-                setTurn(false)
-            }
-        })
-    }, [])
 
     return (
         <>
@@ -60,6 +44,11 @@ export default function Boards({ roomID }) {
         <div style={ { display: (!turn)? "block" : "none"} }>
             <PlayerBoard setTurn={ setTurn }/>
         </div>
+        <WinLoseModal
+            show={ showModal }
+            onHide={ () => setShowModal(false) }
+            hasWin={ win }
+        />
         </>
     )
 }

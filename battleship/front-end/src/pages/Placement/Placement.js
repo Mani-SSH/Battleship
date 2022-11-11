@@ -7,9 +7,7 @@ import { useLocation, useNavigate } from 'react-router-dom';
 import Board from "./components/Board";
 
 import * as io from "../../io-client-handler"
-import Button from "react-bootstrap/Button";
 import OpponentStatus from "./components/OpponentStatus";
-import background from "../../assets/images/Ships/cover.png"
 
 export const CoordinatesContext = React.createContext()
 export const CoordinatesUpdateContext = React.createContext()
