@@ -30,8 +30,10 @@ export default function Boards({ roomID }) {
             io.socket.emit("update-player-score", location.state.playerID, hasWin)
         } 
 
-        /* navigate back to home page */
-        navigate("/")
+        setTimeout(() => {
+            /* navigate back to home page */
+            navigate("/")
+        }, 2000) 
     })
 
     useEffect(() => {
