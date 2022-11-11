@@ -1,2 +1,4 @@
 import { io } from "socket.io-client";
-export const socket = io("https://battleship-isg1.onrender.com", { transports: ['websocket'], upgrade: false });
+
+const URL = (process.env.NODE_ENV == "production")? process.env.REACT_APP_DEVELOPMENT_URL : process.env.REACT_APP_LOCAL_URL;
+export const socket = io(URL, { transports: ['websocket'], upgrade: false });
