@@ -27,25 +27,15 @@ const io = new Server(httpServer,{
         origin: "*"
     },
     transports: ['websocket'],
-    allowUpgrades: false
+    allowUpgrades: false,
+    pingTimeout: 90000
 });
 
 httpServer.listen(PORT);
 
-function sendHeartbeat(){
-    setTimeout(sendHeartbeat, 8000);
-    io.sockets.emit('ping', { beat : 1 });
-}
-
-setTimeout(sendHeartbeat, 8000);
-
 /* listen to event on a socket connection to server */
 io.on('connection', (socket) => {
     console.log(`user connected with socket id: ${ socket.id }`);
-
-    socket.on('pong', function(data){
-        console.log("Pong received from client");
-    });
 
     /* listen to login request */
     socket.on("request-login", (username, tag, password, giveUserDetails) => {

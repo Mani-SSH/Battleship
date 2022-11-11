@@ -5,13 +5,8 @@ import Home from './pages/Home/Home';
 import Placement from './pages/Placement/Placement';
 import Game from './pages/Game/Game'; 
 import { BrowserRouter, Routes, Route } from "react-router-dom";
-import * as io from "./io-client-handler"
 
 export default function App() {
-  io.socket.on('ping', function(data){
-    io.socket.emit('pong', {beat: 1});
-  });
-
   return(
     <div className='App'>
     <React.StrictMode>
