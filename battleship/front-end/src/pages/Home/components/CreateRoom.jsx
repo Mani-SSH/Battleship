@@ -112,7 +112,8 @@ export default function CreateRoom() {
                 roomID, 
                 playerID, 
                 opponentID, 
-                socketID: io.socket.id 
+                socketID: io.socket.id,
+                isCustom: true
             },
             replace: true 
         });

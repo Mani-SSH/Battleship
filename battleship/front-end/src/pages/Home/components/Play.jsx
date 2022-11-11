@@ -64,7 +64,8 @@ export default function Play() {
                 roomID, 
                 playerID: player.id, 
                 opponentID, 
-                socketID: io.socket.id 
+                socketID: io.socket.id,
+                isCustom: false
             },
             replace: true 
         });

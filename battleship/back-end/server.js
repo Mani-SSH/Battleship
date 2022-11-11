@@ -403,6 +403,15 @@ io.on('connection', (socket) => {
         socket.to(roomID).emit("switched-turn")
     })
 
+    socket.on("update-player-score", (playerID, hasWin) => {
+        console.log(`Updating score of player: ${ playerID }...`)
+        if(hasWin){
+            /* +20 */
+        }else{
+            /* -20 */
+        }
+    })
+
     socket.on("remove-players", (roomID) => {
         console.log(`Removing players from room: ${ roomID }`)
         const thisRoom = rooms.getRoom(roomID)

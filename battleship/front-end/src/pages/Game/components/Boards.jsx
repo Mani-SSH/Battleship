@@ -1,5 +1,5 @@
 import { useEffect, useState } from "react"
-import { useNavigate } from "react-router-dom"
+import { useLocation, useNavigate } from "react-router-dom"
 import * as io from "../../../io-client-handler"
 
 import OpponentBoard from "./OpponentBoard"
@@ -7,6 +7,7 @@ import PlayerBoard from "./PlayerBoard"
 
 export default function Boards({ roomID }) {
     const navigate = useNavigate()
+    const location = useLocation()
     const [turn, setTurn] = useState(true)
 
     io.socket.off("switched-turn").on("switched-turn", () => {
@@ -15,12 +16,19 @@ export default function Boards({ roomID }) {
     })
 
     io.socket.off("game-over").on("game-over", (winnerSocketID) => {
+        let hasWin = false
+
         /* show win or lose */
         if(io.socket.id === winnerSocketID){
+            hasWin = true
             alert("Victory Royale!!!")
         }else{
             alert("You lose")
         }
+
+        if(location.state.isCustom == false){
+            io.socket.emit("update-player-score", location.state.playerID, hasWin)
+        } 
 
         /* navigate back to home page */
         navigate("/")

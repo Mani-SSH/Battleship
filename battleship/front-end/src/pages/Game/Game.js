@@ -3,8 +3,6 @@ import React from "react";
 import { useLocation, useNavigate } from "react-router-dom";
 import Boards from "./components/Boards";
 import * as io from "../../io-client-handler"
-import background from "../../assets/images/Ships/cover.png"
-
 
 export default function Game()
 {
@@ -15,6 +13,20 @@ export default function Game()
         alert("Opponent left the game.")
         navigate("/")
     })
+
+    const onLoad = () => {
+        try{
+            if(location.state.socketID !== io.socket.id){
+                throw console.error("Page reloaded");
+            }
+        }catch(e){
+            navigate("/");
+        }
+    }
+
+    useEffect(() => {
+        onLoad();
+    }, []) // eslint-disable-line react-hooks/exhaustive-deps
     
     return(
         <div className="body">
