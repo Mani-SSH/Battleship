@@ -25,10 +25,7 @@ const httpServer = createServer(app);
 const io = new Server(httpServer,{
     cors: {
         origin: "*"
-    },
-    transports: ['websocket'],
-    allowUpgrades: false,
-    pingTimeout: 90000
+    }
 });
 
 httpServer.listen(PORT);
