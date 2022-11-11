@@ -1,0 +1,66 @@
+.scoreButton
+  width: 150px
+  height: 35px
+  font-size: 1rem
+  text-align: center
+  color: white
+  cursor: pointer
+  text-transform: uppercase
+  padding: 0
+  border: none
+  border-radius: 0 10px
+  // transform: skewX(-15deg)
+  font-family: 'DotGothic16'
+  background: linear-gradient(40deg, #1c8d30 0%, #1a975d 100%)
+
+  @media screen and (max-width: 972px)
+    width: max-content
+    height: 35px
+
+.scoreButton:hover 
+  color: #2ed12c
+  background: transparent
+  box-shadow: none
+
+.scoreButton:before,
+.scoreButton:after
+  content:''
+  position: absolute
+  top: 0
+  right: 0
+  height:2px
+  width: 0
+  background: #2ed12c
+  box-shadow: -1px -1px 5px 0px #fff, 7px 7px 20px 0px #0003, 4px 4px 5px 0px #0002
+  transition: 400ms ease all
+
+.scoreButton:after
+  right: inherit
+  top: inherit
+  left:0
+  bottom:0
+
+.scoreButton:hover:before, .scoreButton:hover:after
+  width: 100%
+  transition: 800ms ease all
+
+
+.scoreBoard-modal
+    backdrop-filter: blur(5px)
+
+    .scoreBoard-header
+        background-color: #b5f4bf
+        font-family: cursive
+
+    .scoreBoard-title
+        color: #051c41
+        position: absolute
+        right: auto
+        left: 12vw
+
+    .scoreicon
+        font-size: 30px
+        margin-bottom: 3.2px
+
+    .scoreBoard-body
+        background-color: #9fd6df

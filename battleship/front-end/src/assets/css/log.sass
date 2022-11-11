@@ -1,52 +1,88 @@
-.logg
-
-  width: 130px
+@import url('https://fonts.googleapis.com/css2?family=Raleway+Dots&display=swap')
+.logg 
+  width: 120px
   height: 35px
   text-align: center
-  text-transform: uppercase
-  font-weight: 400
+  color: white
   cursor: pointer
-  background-color: #0e7e33
-  border: 2px solid #100a59
-  border-radius: 10px
-  -webkit-transition: all .15s ease-in-out
-  transition: all .15s ease-in-out
-  color: #f7f7f7
-  padding: 5p
-  font-size: 15px
-
+  text-transform: uppercase
+  padding: 0
+  border: none
+  border-radius: 0 10px
+  // transform: skewX(-15deg)
+  font-family: 'DotGothic16'
+  background: linear-gradient(40deg, #1c8d30 0%, #1a975d 100%)
   @media screen and (max-width: 972px)
     width: 100px
     height: 30px
 
-.logg:hover
+.logg:hover 
+  color: #2ed12c
+  background: transparent
+  box-shadow: none
 
-  box-shadow: 5px 5px 0 rgb(24, 27, 25)
-  transform: translate(-4px,-4px)
+.logg:before,
+.logg:after
+  content:''
+  position: absolute
+  top: 0
+  right: 0
+  height:2px
+  width: 0
+  background: #2ed12c
+  box-shadow: -1px -1px 5px 0px #fff, 7px 7px 20px 0px #0003, 4px 4px 5px 0px #0002
+  transition: 400ms ease all
 
+.logg:after
+  right: inherit
+  top: inherit
+  left:0
+  bottom:0
 
-.logg1
+.logg:hover:before, .logg:hover:after
+  width: 100%
+  transition: 800ms ease all
 
-  width: 130px
+.logg1 
+  width: 120px
   height: 35px
   text-align: center
-  text-transform: uppercase
-  font-weight: 400
+  color: white
   cursor: pointer
-  background-color: #0e7e33
-  border: 2px solid #100a59
-  border-radius: 10px
-  -webkit-transition: all .15s ease-in-out
-  transition: all .15s ease-in-out
-  color:#f7f7f7
-  padding: 5px
-  font-size: 15px
-
+  text-transform: uppercase
+  padding: 0
+  border: none
+  border-radius: 0 10px
+  // transform: skewX(-15deg)
+  font-family: 'DotGothic16'
+  background: linear-gradient(40deg, #1c8d30 0%, #1a975d 100%)
   @media screen and (max-width: 972px)
     width: 100px
     height: 30px
 
-.logg1:hover
+.logg1:hover 
+  color: #2ed12c
+  background: transparent
+  box-shadow: none
 
-  box-shadow: 5px 5px 0 rgb(24, 27, 25)
-  transform: translate(-4px,-4px)
+.logg1:before,
+.logg1:after
+  content:''
+  position: absolute
+  top: 0
+  right: 0
+  height:2px
+  width: 0
+  background: #2ed12c
+  box-shadow: -1px -1px 5px 0px #fff, 7px 7px 20px 0px #0003, 4px 4px 5px 0px #0002
+  transition: 400ms ease all
+
+.logg1:after
+  right: inherit
+  top: inherit
+  left:0
+  bottom:0
+
+.logg1:hover:before, .logg1:hover:after
+  width: 100%
+  transition: 800ms ease all

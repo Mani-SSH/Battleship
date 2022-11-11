@@ -1,5 +1,5 @@
 .Home
-    background: #002A69
+    background: #16053f
     height: 100vh
     width: 100%
     position: relative
@@ -29,13 +29,14 @@
 
     .topButton
         position: absolute
-        top: 2vh
-        right: 1vw
+        top: 5vh
+        right: 3vw
         bottom: auto
         left: auto
         display: flex
         flex-direction: row
         z-index: 10
+        gap: 0.5rem
 
     .playButton
         z-index: 10
@@ -46,8 +47,6 @@
         display: flex
         align-items: center
         justify-content: center
-        // & img
-        //     width: 60%
 
     .background
         & img
@@ -131,6 +130,16 @@
         right: 5vh
         bottom: 5vh
         left: auto
+        display: flex
+        flex-direction: row
+        z-index: 10 
+
+    .scoreBoard
+        position: absolute
+        top: 5vh
+        right: auto
+        bottom: auto
+        left: 3vw
         display: flex
         flex-direction: row
         z-index: 10 
