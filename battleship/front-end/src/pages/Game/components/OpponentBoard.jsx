@@ -10,7 +10,7 @@ import { ShipList } from "../../../data/shiplist";
 
 import { ActionList } from "../../../data/actionlist";
 import flame from "../../../assets/gif/flame.gif";
-
+import EnergyIcon from "./energyLabel";
 
 const getAdjacentXYs = (x, y, action) => {
     const adjacentXYs = []
@@ -201,7 +201,7 @@ export default function OpponentBoard({ setTurn, roomID, turn }) {
             </div>
                 <EndTurn onClick={ handleEndTurn }/>
             <div className = "energyBar">
-                Energy Bar : {energyBar}X<Emoji symbol="⚡"/>
+                <EnergyIcon energy={energyBar} />
             </div>
 
             <div className="ShipStatus">
