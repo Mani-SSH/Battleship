@@ -178,9 +178,32 @@ module.exports.AddScore = async (username, callback)=>{
 module.exports.DeductScore = async(username,callback)=>{
     try{
         const thisPlayer = await PlayerModel
-        .findOneAndUpdate({Username: username}, {
-            $cond: { if: { $gte: [ "$Score", 0 ] }, then: {$inc: {Score: -30}}}
-        })
+        .findOne({Username: username})
+        .updateOne(
+            [
+              {
+                "$set": {
+                  "Score": {
+                    $cond: {
+                      if: {
+                        $gte: [
+                          "$Score",
+                            30
+                        ]
+                      },
+                      then: {
+                        $sum: [
+                          "$Score",
+                          -30
+                        ]
+                      },
+                      else: 0
+                    }
+                  }
+                }
+              }
+            ]
+        )
         .exec(function(err,docs){
             callback(null,true)
             return

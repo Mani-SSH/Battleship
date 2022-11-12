@@ -412,11 +412,10 @@ io.on('connection', (socket) => {
                     console.log("Score has been added successfully")
                 }
             })
-        }else{
+        }
+        if(!hasWin){
             db.DeductScore(playerID,(error, isSuccessful)=>{
-                if(isSuccessful){
-                    console.log("Score has been deducted successfully")
-                }
+                    console.log(`Score has been deducted successfully: ${isSuccessful}`)
             })
         }
     })
