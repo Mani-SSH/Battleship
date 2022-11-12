@@ -110,7 +110,8 @@ export default function CreateRoom() {
         navigate("/placement", { 
             state: {
                 roomID, 
-                playerID, 
+                playerID,
+                password: player.password,
                 opponentID, 
                 socketID: io.socket.id,
                 isCustom: true

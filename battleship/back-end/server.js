@@ -32,6 +32,8 @@ httpServer.listen(PORT);
 
 /* listen to event on a socket connection to server */
 io.on('connection', (socket) => {
+    let Username = ""
+    let Tag = ""
     console.log(`user connected with socket id: ${ socket.id }`);
 
     /* listen to login request */
@@ -41,9 +43,12 @@ io.on('connection', (socket) => {
             if(error){
                 giveUserDetails(error);
                 return;
-            }            
+            }
+
             /* return user through callback */
             giveUserDetails(null, user);
+            Username = username
+            Tag = tag
         });
     })
 
@@ -471,6 +476,14 @@ io.on('connection', (socket) => {
     })
 
     socket.on("disconnect", (reason) => {
+        if(Username.length !== 0 && Tag.length !== 0){
+            db.LogOut(Username, Tag, (err, LoggedOut)=>{
+                if(LoggedOut === true){
+                    console.log(`${ Username + "#" + Tag } has been logged out.`)
+                }
+            })
+        }
+
         console.log(`Socket: ${ socket.id } disconnected due to ${ reason }.`)
     })
 })

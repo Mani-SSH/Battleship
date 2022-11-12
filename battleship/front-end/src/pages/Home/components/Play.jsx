@@ -62,7 +62,8 @@ export default function Play() {
         navigate("/placement", { 
             state: {
                 roomID, 
-                playerID: player.id, 
+                playerID: player.id,
+                password: player.password,
                 opponentID, 
                 socketID: io.socket.id,
                 isCustom: false

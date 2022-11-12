@@ -8,6 +8,8 @@ import Board from "./components/Board";
 
 import * as io from "../../io-client-handler"
 import OpponentStatus from "./components/OpponentStatus";
+import click_icon from "../../assets/images/instruction/click_btn.png"
+import rotate_icon from "../../assets/images/instruction/rotate_btn.png"
 
 export const CoordinatesContext = React.createContext()
 export const CoordinatesUpdateContext = React.createContext()
@@ -107,6 +109,13 @@ export const ReadyContext = React.createContext()
             <ButtonReady onClick={ handleReady } className="ready"/>
 
             <div className="boardContainer"><Board /></div>
+
+            <div className="instructions">
+                <h5 className="inst_1">Click, hover <br /> and drop</h5>
+                <img src={click_icon} alt="click_icon" className="click_icon" />
+                <h5 className="inst_2">Click to rotate</h5>
+                <img src={rotate_icon} alt="rotate_icon" className="rotate_icon" />  
+            </div>
 
             
             </ReadyContext.Provider>
