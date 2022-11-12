@@ -115,7 +115,7 @@ function Square({x, y, hitCoords, missedCoords, squareNo}){
         opacity:1,
         width:50+ 'px',
         height:50+'px',
-        border:'1.2px solid white',
+        border:'1.2px solid black',
     }
 
     /* if attack missed */
