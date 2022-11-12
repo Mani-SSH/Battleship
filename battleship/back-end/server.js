@@ -53,11 +53,11 @@ io.on('connection', (socket) => {
             checkSameAccount(null, SameAccount);
             if (SameAccount === true)
             {
-                alert("Username has been already used")
+                console.log("Username has been already used")
             }
             if (SameAccount === false)
             {
-                alert("Account has been created successfully")
+                console.log("Account has been created successfully")
             }
         });
         })
@@ -404,11 +404,20 @@ io.on('connection', (socket) => {
     })
 
     socket.on("update-player-score", (playerID, hasWin) => {
+        console.log("................HEllo.............")
         console.log(`Updating score of player: ${ playerID }...`)
         if(hasWin){
-            /* +20 */
+            db.AddScore(playerID,(error,isSuccessful)=>{
+                if (isSuccessful) {
+                    console.log("Score has been added successfully")
+                }
+            })
         }else{
-            /* -20 */
+            db.DeductScore(playerID,(error, isSuccessful)=>{
+                if(isSuccessful){
+                    console.log("Score has been deducted successfully")
+                }
+            })
         }
     })
 
