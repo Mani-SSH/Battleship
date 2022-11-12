@@ -5,6 +5,9 @@ import Button from "react-bootstrap/Button";
 import Table from 'react-bootstrap/Table';
 import "../../../assets/css/scoreboard.sass";
 import {GrScorecard} from "react-icons/gr";
+import {GrAchievement} from "react-icons/gr";
+import pirate from "../../../assets/images/modal/pirate.png";
+import arrow from "../../../assets/images/modal/arrow.png";
 
 import * as io from "../../../io-client-handler"
 
@@ -50,9 +53,7 @@ export default function ScoreBoard() {
 
   return (
     <div className = "scoreBoardContainer">
-         <Button className="scoreButton" size='lg' variant="success" onClick={handleShow}>
-         Score Board
-         </Button> 
+         <GrAchievement className="scoreButton" size='sm' onClick={handleShow} />
          <div>
          <Modal className="scoreBoard-modal"
             show={show}
@@ -80,9 +81,9 @@ function TallyBoard({score})
     return(
             <Table striped bordered hover variant = "info">
                     <tbody>
-                    <tr>
-                        <td>{score.Username}</td>
-                        <td>{score.Score}</td>
+                    <tr>                       
+                        <td><img src={pirate} classname="piratee" ></img>{score.Username}</td>
+                        <td><img src={arrow} classname="piratee" ></img>{score.Score}</td>
                     </tr>
                     </tbody>
             </Table>   

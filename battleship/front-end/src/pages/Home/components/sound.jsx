@@ -2,8 +2,8 @@ import React,{useEffect,useState} from "react";
 import 'bootstrap/dist/css/bootstrap.min.css';
 import '../../../assets/css/audio.sass';
 import background from "../../../assets/bgm/Home/opbgm.m4a";
-import {MdMusicNote} from "react-icons/md";
-import {MdMusicOff} from "react-icons/md";
+import {TbMusic} from "react-icons/tb";
+import {TbMusicOff} from "react-icons/tb";
 
 /**
  * @returns background music with button to toggle it on and off for home page
@@ -27,7 +27,7 @@ export default function Music()
 
         return(
             <div>
-                {playing? <MdMusicNote className="audi" size='sm' onClick={ toggle }/> : <MdMusicOff className="audi" size='sm' onClick={ toggle }/> }
+                {playing? <TbMusic className="audi" size='sm' onClick={ toggle }/> : <TbMusicOff className="audi" size='sm' onClick={ toggle }/> }
             </div>
         );
 

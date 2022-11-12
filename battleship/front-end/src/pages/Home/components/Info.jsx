@@ -4,6 +4,7 @@ import Button from "react-bootstrap/Button";
 import 'bootstrap/dist/css/bootstrap.min.css';
 import '../../../assets/css/info.sass';
 import {HiOutlineInformationCircle} from "react-icons/hi";
+import {GrStatusInfo} from "react-icons/gr";
 
 export default function Info()
 {
@@ -14,12 +15,11 @@ export default function Info()
 
     return (
     <div className="infoBack">
-        <button className="button-info" size='lg' variant="success" onClick={handleShow}>
-            Information</button>
+            <GrStatusInfo className="button-info" size='sm' onClick={handleShow} />
         <Modal className="info-modal"
             show={show}
             onHide={handleClose}
-            size="sm"
+            size="md"
             centered
             >
                 <Modal.Header className="info-header" closeButton>
