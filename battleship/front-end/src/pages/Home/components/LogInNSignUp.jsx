@@ -184,6 +184,7 @@ function SignUp(props){
         });    
     }
 
+    
     useEffect(() => {
         if(password !== confirmPassword){
             setHideWarning(false);
@@ -193,6 +194,7 @@ function SignUp(props){
     }, [password, confirmPassword])
 
     return(
+        <>
         <Modal
         show={ props.show }
         onHide={ props.onHide }
@@ -255,9 +257,12 @@ function SignUp(props){
                 username={ username }
                 confirmPassword={ confirmPassword }
                 tag={ tag }
+                playerExistsWarning = { playerExistsWarning }
                 />
             </Modal.Footer>
         </Modal>
+        
+        </>
     )
 }
 
@@ -265,7 +270,7 @@ function SignUp(props){
 
 function ButtonSignUp(props){
     const [isDisabled, setDisabled ] = useState(false);         //state of "Log In" button
-
+    const [signUpShow, setSignUpShow] = useState(false);
     /* enables and disables "Log In" button */
     useEffect(() => {
         /* if username and password section is not empty and hash section is full, enable the button, else disable */
@@ -276,10 +281,34 @@ function ButtonSignUp(props){
         }
     }, [props.password, props.username, props.tag, props.confirmPassword])
 
+    const handleOnClick = () => {
+        setSignUpShow(!props.playerExistsWarning)
+        props.onClick();
+    }
+
+    const handleonHide = () =>{
+        setSignUpShow(false)
+    }
+
+
     return(
+        <>
         <Button
-        onClick={ props.onClick }
+        onClick={ handleOnClick }
         disabled={ isDisabled }
         >Sign In</Button>
+        <Modal
+        show={ signUpShow }
+        onHide = {handleonHide}
+        size="sm"
+        centered>
+        <Modal.Header closeButton>
+                <Modal.Title>SignUp</Modal.Title>
+            </Modal.Header>
+        <Modal.Body>
+        SignUp has been successful
+        </Modal.Body>
+        </Modal>
+        </>
     )
 }
