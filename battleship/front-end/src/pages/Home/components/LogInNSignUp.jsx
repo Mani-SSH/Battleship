@@ -174,7 +174,7 @@ function SignUp(props){
     const [tag, setTag] = useState("");
     const [showPassword, setShowPassword] = useState(false);
     const [hideWarning, setHideWarning] = useState(false);
-    const [playerExistsWarning,setplayerExistsWarning] = useState();
+    const [playerExistsWarning,setplayerExistsWarning] = useState(false);
 
     const handleToggleShowPassword = () => setShowPassword(!showPassword);
 
