@@ -10,7 +10,9 @@ import { ShipList } from "../../../data/shiplist";
 
 import { ActionList } from "../../../data/actionlist";
 import flame from "../../../assets/gif/flame.gif";
-import EnergyIcon from "./energyLabel";
+import radarGif from "../../../assets/gif/radar.gif";
+import EnergyIcon from "./energyLevel";
+import HitBar from "./hitbar";
 
 const getAdjacentXYs = (x, y, action) => {
     const adjacentXYs = []
@@ -58,6 +60,23 @@ export default function OpponentBoard({ setTurn, roomID, turn }) {
 
     const [energyBar, setEnergyBar] = useState(2);  // eneryBar for each strikes
 
+    //prepping for the radar action
+    const initialRadarText="Waiting for Order"
+    const [radarText, setRadarText] =useState(initialRadarText);
+    const changeText=(radarHitCount)=>{
+
+        setRadarText(`${radarHitCount} hits registered`)
+
+        const time=setTimeout(()=>{
+            setRadarText(initialRadarText)
+        },5000)
+
+        return()=>clearTimeout(time);
+
+    };
+
+
+
     /**
      * when mouse is off the board, resets highlight, current coordinates and adjacent coordinates
      */
@@ -83,7 +102,12 @@ export default function OpponentBoard({ setTurn, roomID, turn }) {
 
             /* if action is radar */
             if (action.id === ActionList.RADAR.id){
-                alert(radarHitCount + " hits registered.")
+                // alert(radarHitCount + " hits registered.")
+
+                //shows the result of using radar action
+                //calls the function changeText which sets the state of RadarText
+                changeText(radarHitCount);
+            
             }else{
                 /* set hit and missed coords and destroyed ships */
                 setHitCoords(hitCoords)
@@ -202,6 +226,12 @@ export default function OpponentBoard({ setTurn, roomID, turn }) {
                 <EndTurn onClick={ handleEndTurn }/>
             <div className = "energyBar">
                 <EnergyIcon energy={energyBar} />
+            </div>
+
+            <div className="radarCtn">
+                <img src={radarGif} alt="radarGif" className="radarGif" />
+                <HitBar hit={radarText} />
+
             </div>
 
             <div className="ShipStatus">
