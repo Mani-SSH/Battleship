@@ -22,8 +22,8 @@ export default function WinLoseModal({ show, onHide, hasWin }) {
             <Modal.Body className="win_lose">
                 <img src={modalBg} alt="modal" className="modalBg" />
                 <div className="modalText">
-                    { (hasWin)? <h1>You Win</h1> : <h1>You Lose</h1> }
-                    { show && <>Returning back to home page in <br /> <Countdown counter={ 4 } onEnd={ handleCounterEnd } className="countDown" /></>}
+                    <span className="result">{ (hasWin)? <h1>YOU WIN</h1> : <h1>YOU LOSE</h1> }</span>
+                    { show && <>Returning back to home page in <br /> <span className="countDown"><Countdown counter={ 4 } onEnd={ handleCounterEnd } /></span></>}
                 </div>
             </Modal.Body>
         </Modal>
