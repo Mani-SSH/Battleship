@@ -5,6 +5,7 @@ import 'bootstrap/dist/css/bootstrap.min.css';
 import '../../../assets/css/info.sass';
 import {HiOutlineInformationCircle} from "react-icons/hi";
 import {GrStatusInfo} from "react-icons/gr";
+import bModal from "../../../assets/images/modal/boxxModal.png";
 
 export default function Info()
 {
@@ -22,10 +23,10 @@ export default function Info()
             size="md"
             centered
             >
-                <Modal.Header className="info-header" closeButton>
-                    <Modal.Title className="info-title">App Information <HiOutlineInformationCircle className="info-icon"/></Modal.Title>
-                </Modal.Header>
                 <Modal.Body className="info-body">
+                    <img src={bModal} alt="modal" className="boxmodal" />
+                    <div className='modaltext'>
+                    <Modal.Title className="info-title">App Information <HiOutlineInformationCircle className="info-icon"/></Modal.Title >
                     <p>Battleship is a war-themed board game for two players in which the opponents 
                     try to guess the location of their opponent's warships and sink them.</p>
                     <ul > <h5>Developers</h5>
@@ -37,12 +38,9 @@ export default function Info()
                     <ul> <h5>SuperVisor</h5>
                     <li>Amrit Dahal</li>
                     </ul>
+                    <Button className="info-btn" onClick={handleClose}>Close</Button>
+                    </div>
                     </Modal.Body>
-                <Modal.Footer className="info-footer">
-                <Button variant="primary" onClick={handleClose}>
-                    Close
-                </Button>
-                </Modal.Footer>
         </Modal>
     </div>
     );
