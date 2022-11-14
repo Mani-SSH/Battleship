@@ -6,8 +6,6 @@ import Table from 'react-bootstrap/Table';
 import "../../../assets/css/scoreboard.sass";
 import {GrScorecard} from "react-icons/gr";
 import {GrAchievement} from "react-icons/gr";
-import pirate from "../../../assets/images/modal/pirate.png";
-import arrow from "../../../assets/images/modal/arrow.png";
 
 import * as io from "../../../io-client-handler"
 
@@ -82,8 +80,8 @@ function TallyBoard({score})
             <Table striped bordered hover variant = "info">
                     <tbody>
                     <tr>                       
-                        <td><img src={pirate} classname="piratee" ></img>{score.Username}</td>
-                        <td><img src={arrow} classname="piratee" ></img>{score.Score}</td>
+                        <td>{score.Username}</td>
+                        <td>{score.Score}</td>
                     </tr>
                     </tbody>
             </Table>   
