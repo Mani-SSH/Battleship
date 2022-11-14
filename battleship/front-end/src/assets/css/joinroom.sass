@@ -1,33 +1,53 @@
-
 .join-modal
   backdrop-filter: blur(5px)
   .modal-content
-    background: none
-
-.join-header
-    border-radius: 10px 10px 0 0
-    background: linear-gradient(180deg, #2d96d7 10%, #79c5d0 70%)
-    border: none
-
-.join-title
-    color: #051c41
-    font-family: 'Nunito', sans-serif
-    font-size: 25px
-    margin-left: 1rem
+    background: transparent
+    border: transparent
 
 .join-body
-    border: none
-    background: linear-gradient(180deg, #2d96d7 10%, #79c5d0 70%)
-    color: #131f18
-    text-align: center
-    & h2
-        font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif
-        font-size: 35px
-        color: #131f18
-
-.join-footer
-    border: none
-    background: linear-gradient(10deg, #79c5d0 10%, #2d96d7 80%)
-    position: relative
+    display: flex
     justify-content: center
-    border-radius: 0 0 10px 10px
+    align-items: center
+    left: 0
+    top: 0
+    margin: 1rem
+
+    .bgmodal
+        width: 430px
+        height: 430px
+        position: absolute
+        z-index: -1
+    
+    .modaltext
+        display: flex
+        flex-direction: column
+        justify-content: center
+        align-items: center
+        position: relative
+        z-index: 10
+        color: white
+        text-align: center
+        font-family: nunito
+        & h1
+            font-family: nunito
+            font-size: 30px
+            color: #f8c008
+        & h2
+            font-family: nunito
+            font-size: 25px
+            color: #ffffff
+        & h6
+            font-family: nunito
+            font-size: 15px
+            color: #1be56c
+        .join-btn
+            background: linear-gradient(368deg, #4aa6df 10%, #0a5e92 40%)
+            margin-top: 1rem
+            cursor: pointer
+            border: 1px solid #070338
+            transition: 0.15s all ease-in-out
+
+        .join-btn:hover 
+            background: #3e8bb8
+            transform: translate(-4px,-4px)
+            box-shadow: -1px -1px 5px 0px #0c1543, 7px 7px 20px 0px #60505033, 4px 4px 5px 0px #0002

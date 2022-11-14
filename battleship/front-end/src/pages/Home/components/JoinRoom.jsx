@@ -2,6 +2,7 @@ import Button from 'react-bootstrap/Button';
 import Modal from 'react-bootstrap/Modal';
 
 import "../../../assets/css/joinroom.sass";
+import bgModal from "../../../assets/images/modal/bgModal.png";
 
 export default function JoinRoom({ show, onHide, isCustom, roomID, onCancel }){
     return(
@@ -12,20 +13,18 @@ export default function JoinRoom({ show, onHide, isCustom, roomID, onCancel }){
             backdrop="static"
             keyboard="false"
             centered>
-            <Modal.Header className='join-header'>
-                <Modal.Title className='join-title'>Joining room: { (isCustom)? roomID: "" }</Modal.Title>
-            </Modal.Header>
 
             <Modal.Body className='join-body'>
+                <img src={bgModal} alt="modal" className="bgmodal" />
+                <div className='modaltext'>
+                <h1>Joining room: { (isCustom)? roomID: "" }</h1>
                 <h2>Waiting for opponent...</h2>
                 <div className='spinner-border text-success m-2' role="status">
                 </div>
                 <h6>Loading...</h6>
+                <Button className='join-btn' onClick={ onCancel }>Cancel</Button>
+                </div>
             </Modal.Body>
-
-            <Modal.Footer className='join-footer'>
-                <Button variant="primary" onClick={ onCancel }>Cancel</Button>
-            </Modal.Footer>
 
         </Modal>
     )
