@@ -20,36 +20,60 @@
 .info-modal
   backdrop-filter: blur(5px)
   .modal-content
-    background: none
+    background: transparent
+    border: transparent
 
-  .info-header
-    border-radius: 10px 10px 0 0
-    background: linear-gradient(180deg, #2d96d7 10%, #79c5d0 70%)
-    border: none
+.info-body
+  display: flex
+  justify-content: center
+  align-items: center
+  left: 0
+  top: 0
+  margin: 1rem
+  .boxmodal
+    width: 600px
+    height: 500px
+    position: absolute
+    z-index: -1
 
-  .info-title
-    color: #051c41
-    margin-left: 6rem
-    font-family: 'Nunito', sans-serif
-    font-size: 30px
+  .modaltext
+    display: flex
+    flex-direction: column
+    justify-content: center
+    align-items: center
+    position: relative
+    z-index: 10
+    color: white
+    text-align: center
+    font-family: nunito
+    .info-title
+      color: #f8c008
+      font-size: 36px
 
   .info-icon
     font-size: 36px
     margin-bottom: 3.2px
-    color: 051c41
+    color: #f8c008
 
-  .info-body
-    border: none
-    background: linear-gradient(180deg, #2d96d7 10%, #79c5d0 70%)
-    & h5
-      font-size: 22.4px
-      font-family: 'Nunito', sans-serif
-      font-weight: 600
-      color: #051c41
+  .info-btn
+    background: linear-gradient(368deg, #4aa6df 10%, #0a5e92 40%)
+    cursor: pointer
+    border: 1px solid #070338
+    transition: 0.15s all ease-in-out
 
-  .info-footer
-    border: none
-    background: linear-gradient(10deg, #79c5d0 10%, #2d96d7 80%)
-    position: relative
-    justify-content: center
-    border-radius: 0 0 10px 10px
+  .info-btn:hover 
+    background: #3e8bb8
+    transform: translate(-4px,-4px)
+    box-shadow: -1px -1px 5px 0px #0c1543, 7px 7px 20px 0px #60505033, 4px 4px 5px 0px #0002
+
+  .info-btn
+    background: linear-gradient(368deg, #4aa6df 10%, #0a5e92 40%)
+    cursor: pointer
+    margin-left: 1.6rem
+    border: 1px solid #070338
+    transition: 0.15s all ease-in-out
+
+  .info-btn:hover 
+    background: #3e8bb8
+    transform: translate(-4px,-4px)
+    box-shadow: -1px -1px 5px 0px #0c1543, 7px 7px 20px 0px #60505033, 4px 4px 5px 0px #0002
