@@ -30,9 +30,9 @@
   left: 0
   top: 0
   margin: 1rem
-  .boxmodal
+  & img
     width: 600px
-    height: 500px
+    height: 550px
     position: absolute
     z-index: -1
 
@@ -47,29 +47,23 @@
     text-align: center
     font-family: nunito
     .info-title
+      margin-bottom: 1rem
       color: #f8c008
       font-size: 36px
+    & ul
+      style: none
+    & h5 
+      color: #f8c008
 
   .info-icon
-    font-size: 36px
+    font-size: 38px
     margin-bottom: 3.2px
     color: #f8c008
 
   .info-btn
+    margin-top: 45px
     background: linear-gradient(368deg, #4aa6df 10%, #0a5e92 40%)
     cursor: pointer
-    border: 1px solid #070338
-    transition: 0.15s all ease-in-out
-
-  .info-btn:hover 
-    background: #3e8bb8
-    transform: translate(-4px,-4px)
-    box-shadow: -1px -1px 5px 0px #0c1543, 7px 7px 20px 0px #60505033, 4px 4px 5px 0px #0002
-
-  .info-btn
-    background: linear-gradient(368deg, #4aa6df 10%, #0a5e92 40%)
-    cursor: pointer
-    margin-left: 1.6rem
     border: 1px solid #070338
     transition: 0.15s all ease-in-out
 

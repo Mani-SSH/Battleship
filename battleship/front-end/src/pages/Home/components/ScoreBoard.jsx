@@ -1,11 +1,12 @@
 import React, {useState, useMemo} from 'react'
 
 import Modal from "react-bootstrap/Modal";
-import Button from "react-bootstrap/Button";
 import Table from 'react-bootstrap/Table';
+import Button from 'react-bootstrap/esm/Button';
 import "../../../assets/css/scoreboard.sass";
 import {GrScorecard} from "react-icons/gr";
 import {GrAchievement} from "react-icons/gr";
+import scoreModal from "../../../assets/images/modal/scoreBox.png";
 
 import * as io from "../../../io-client-handler"
 
@@ -58,13 +59,15 @@ export default function ScoreBoard() {
             size="md"
             onHide = {handleClose}
             centered
-            >
-                <Modal.Header className="scoreBoard-header" closeButton>
-                    <Modal.Title className="scoreBoard-title">Score Board <GrScorecard className='scoreicon'/></Modal.Title>
-                </Modal.Header>
+            > 
                 <Modal.Body className="scoreBoard-body">
+                <img src={scoreModal} alt="modal" className="boxmodal" />
+                <div className='modaltext'>
+                <Modal.Title className="scoreBoard-title">Score Board <GrScorecard className='scoreicon'/></Modal.Title>
                     {scoreBoard}
+                </div>
                 </Modal.Body>
+                <Button className="score-btn" onClick={handleClose}>Close</Button>
         </Modal>
     </div>
     </div>
@@ -77,8 +80,8 @@ export default function ScoreBoard() {
 function TallyBoard({score}) 
 {
     return(
-            <Table striped bordered hover variant = "info">
-                    <tbody>
+            <Table striped bordered hover variant = "info" >
+                    <tbody className='table'>
                     <tr>                       
                         <td>{score.Username}</td>
                         <td>{score.Score}</td>
