@@ -5,7 +5,7 @@ import 'bootstrap/dist/css/bootstrap.min.css';
 import '../../../assets/css/info.sass';
 import {HiOutlineInformationCircle} from "react-icons/hi";
 import {GrStatusInfo} from "react-icons/gr";
-import bModal from "../../../assets/images/modal/boxxModal.png";
+import bModal from "../../../assets/images/modal/boxModal.png";
 
 export default function Info()
 {

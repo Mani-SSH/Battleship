@@ -19,31 +19,63 @@
 .scoreBoard-modal
     backdrop-filter: blur(5px)
     .modal-content
-        background: none
-    .scoreBoard-header
-        background: linear-gradient(180deg, #2d96d7 10%, #79c5d0 70%)
-        border: none
-        border-radius: 10px 10px 0 0 
+        background: transparent
+        border: transparent
+.scoreBoard-body
+  display: flex
+  justify-content: center
+  align-items: center
+  left: 0
+  top: 0
+  margin: 1rem
+  & img
+    width: 600px
+    height: 550px
+    position: absolute
+    z-index: -1
 
+  .modaltext
+    display: flex
+    flex-direction: column
+    align-items: center
+    justify-content: center
+    position: absolute
+    margin-top: -8rem
+    z-index: 10
+    text-align: center
+    font-family: nunito
     .scoreBoard-title
-        font-family: 'Nunito', sans-serif
-        font-size: 2rem
-        font-weight: 600
-        color: #0e0e0f
-        margin-left: 10vw
-        margin-top: 1vh
-
+      color: #f8c008
+      font-size: 36px
+  
     .scoreicon
         font-size: 40px
         padding: 2px
-        margin-bottom: 3.2px
-        background: #b8c7d9
+        margin-bottom: 1rem
+        background: #f6c31c
         border-radius: 6px
 
-    .scoreBoard-body
-        background: linear-gradient(180deg, #2d96d7 10%, #79c5d0 70%)
-        border-radius: 0 0 10px 10px
-        & img
-            margin-right: 2rem
-            width: 20%
-            height: 20%
+.score-btn
+    position: absolute
+    left: 42.5%
+    right: auto
+    top: 38vh
+    bottom: auto
+    width: 80px
+    background: linear-gradient(368deg, #d8c483 10%, #af9029 40%)
+    cursor: pointer
+    border: 1px solid #070338
+    color: black
+    transition: 0.15s all ease-in-out
+
+.score-btn:hover 
+    background: #3e8bb8
+    transform: translate(-4px,-4px)
+    box-shadow: -1px -1px 5px 0px #0c1543, 7px 7px 20px 0px #60505033, 4px 4px 5px 0px #0002
+
+.table
+    position: relative
+    width: 400px
+    text-align: left
+    background: #e4e6e7
+    border: 2px solid #14e76c
