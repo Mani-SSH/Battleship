@@ -52,7 +52,11 @@ export const ReadyContext = React.createContext()
 
     io.socket.off("player-forfeit").on("player-forfeit", () => {
         alert("Opponent left the game.")
-        navigate("/")
+        navigate("/", { state: {
+            socketID: io.socket.id,
+            playerID: location.state.playerID,
+            password: location.state.password
+        }})
     })
     
 
@@ -77,6 +81,7 @@ export const ReadyContext = React.createContext()
             navigate("/game", { 
                 state: { 
                     playerID: location.state.playerID,
+                    password: location.state.password,
                     opponentID: location.state.opponentID,
                     roomID: location.state.roomID,
                     socketID: location.state.socketID,

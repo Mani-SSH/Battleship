@@ -13,7 +13,11 @@ export default function Game()
 
     io.socket.off("player-forfeit").on("player-forfeit", () => {
         alert("Opponent left the game.")
-        navigate("/")
+        navigate("/", { state: {
+            socketID: io.socket.id,
+            playerID: location.state.playerID,
+            password: location.state.password
+        }})
     })
 
     const onLoad = () => {

@@ -1,19 +1,23 @@
 import "../../assets/css/Home.sass";
-import React, { useEffect, useState } from "react";
-import LogInNSignUp from "./components/LogInNSignUp";
-import UserInfo from "./components/UserInfo";
-import CreateRoom from "./components/CreateRoom";
-import Info from "./components/Info";
-import ScoreBoard from "./components/ScoreBoard"
 import Destroyer from "../../assets/images/Home/destroyer.png";
 import wave1 from "../../assets/images/Home/wave1.png";
 import wave2 from "../../assets/images/Home/wave2.png";
 import wave3 from "../../assets/images/Home/wave3.png";
 import wave4 from "../../assets/images/Home/wave4.png";
 import submarine from "../../assets/images/Home/submarine.png";
+
+import React, { useEffect, useState } from "react";
+import { useLocation } from "react-router-dom";
+
+import LogInNSignUp from "./components/LogInNSignUp";
+import UserInfo from "./components/UserInfo";
+import CreateRoom from "./components/CreateRoom";
+import Info from "./components/Info";
+import ScoreBoard from "./components/ScoreBoard"
 import Music from "./components/sound";
 import Player from "../../player";
 import Play from "./components/Play";
+import * as io from "../../io-client-handler"
 
 export const PlayerContext = React.createContext()
 export const PlayerUpdateContext = React.createContext()
@@ -26,6 +30,55 @@ export const LoggedInUpdateContext = React.createContext()
 export default function Home() {
   const [player, setPlayer] = useState(new Player());
   const [isLoggedIn, setIsLoggedIn] = useState(false);
+  const location = useLocation()
+
+  useEffect(() => {
+    const onLoad = () => {
+      try{
+        /* if page loaded first time */
+        // eslint-disable-next-line
+        if (location.state == undefined) {
+          return
+        }
+
+        /* if page was reloaded */
+        if(location.state.socketID !== io.socket.id){
+          console.log("Page reloaded")
+          return
+        }
+        
+        console.log(location.state.playerID)
+        console.log(location.state.password)
+        /* if not logged in */
+        if(location.state.password.length === 0) {
+          return
+        }
+
+        const username = location.state.playerID.slice(0, (location.state.playerID.length - 5));
+        const tag = location.state.playerID.slice((location.state.playerID.length - 4), location.state.playerID.length )
+
+        /* emit a request to server to log in with given credentials */
+        io.socket.emit("request-login", username, tag, location.state.password, (err, user) => {
+          /* if any error occured */
+          if(err){
+            throw Error("Some error occured: " + err)
+          }
+
+          /* if login is not successful, alert the user */
+          // eslint-disable-next-line
+          if(user == undefined){
+            return
+          }
+
+          setPlayer({ ...user, password: location.state.password });
+          setIsLoggedIn(true);
+        })
+      }catch(e){
+        console.error(e)
+      }
+    }
+    onLoad()
+  }, []) // eslint-disable-line react-hooks/exhaustive-deps
   
   return (
       <div className="Home">

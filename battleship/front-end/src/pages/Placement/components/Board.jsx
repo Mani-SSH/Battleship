@@ -1,5 +1,4 @@
 import React, { useContext, useEffect, useState, useMemo } from "react";
-import Button from "react-bootstrap/Button"
 
 import "../../../assets/css/board.sass";
 import { ShipList } from "../../../data/shiplist";
@@ -156,8 +155,7 @@ export default function Board()
                     resetHighlight={ resetHighlight }
                     valid={ valid }
                     setCurrentTile = {setCurrentTile}
-                    key = {j*10 + i}
-                    
+                    key = { j*10 + i }
                     />
                 );
             }
@@ -201,10 +199,11 @@ export default function Board()
     Object.keys(ShipList).forEach((ship)=>{
         shipsImg.push(
         <RenderShip
-        currentTile={ currentTile }
-        ship={ ShipList[ship] }
-        rotateShip={ rotateShip }
-        setRotation = {setRotation}
+            currentTile={ currentTile }
+            ship={ ShipList[ship] }
+            rotateShip={ rotateShip }
+            setRotation = {setRotation}
+            key={ ShipList[ship].id }
         />
         ) 
     })
@@ -232,7 +231,7 @@ export default function Board()
                 setPreviewClass("preTwoSeventy")
             }
         }
-    },[rotateShip])
+    },[rotateShip]) // eslint-disable-line react-hooks/exhaustive-deps
 
     useEffect(()=>{
         if(ship)

@@ -72,7 +72,7 @@ function LogIn(props){
             if(user == undefined){
                 alert("UserID or password is incorrect.");
             }else{
-                setPlayer(user);
+                setPlayer({ ...user, password});
                 setIsLoggedIn(true);
             }
         })
