@@ -47,8 +47,6 @@ export default function Home() {
           return
         }
         
-        console.log(location.state.playerID)
-        console.log(location.state.password)
         /* if not logged in */
         if(location.state.password.length === 0) {
           return
@@ -57,21 +55,31 @@ export default function Home() {
         const username = location.state.playerID.slice(0, (location.state.playerID.length - 5));
         const tag = location.state.playerID.slice((location.state.playerID.length - 4), location.state.playerID.length )
 
-        /* emit a request to server to log in with given credentials */
-        io.socket.emit("request-login", username, tag, location.state.password, (err, user) => {
-          /* if any error occured */
-          if(err){
-            throw Error("Some error occured: " + err)
+        io.socket.emit("request-logout", username, tag, (err, LogOutSuccessfull) =>{
+          if (err) {
+            throw Error("there is error in logging Out" + err)
           }
 
-          /* if login is not successful, alert the user */
-          // eslint-disable-next-line
-          if(user == undefined){
-            return
+          if(!LogOutSuccessfull) {
+            throw Error("Some error occured.")
           }
-
-          setPlayer({ ...user, password: location.state.password });
-          setIsLoggedIn(true);
+  
+          /* emit a request to server to log in with given credentials */
+          io.socket.emit("request-login", username, tag, location.state.password, (err, user) => {
+            /* if any error occured */
+            if(err){
+              throw Error("Some error occured: " + err)
+            }
+  
+            /* if login is not successful, alert the user */
+            // eslint-disable-next-line
+            if(user == undefined){
+              return
+            }
+  
+            setPlayer({ ...user, password: location.state.password });
+            setIsLoggedIn(true);
+          })
         })
       }catch(e){
         console.error(e)

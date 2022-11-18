@@ -87,8 +87,12 @@ module.exports.logIn = function logIn(name, tag, password, callback){
             return;
         }
 
-        else{
         /* if username found and password matched */
+        if(docs.isLoggedIn == true) {
+            callback(null, undefined);
+            return;
+        }
+        
         /* get details of the player */
         const thisPlayer = new Player;
         thisPlayer.setDetails(docs.Username, docs.Score);
@@ -96,8 +100,6 @@ module.exports.logIn = function logIn(name, tag, password, callback){
         /* return details of player with callback */
         callback(null, thisPlayer);
         updateStatus(docs.Username)
-        return;
-        }
     }
     })
 }
