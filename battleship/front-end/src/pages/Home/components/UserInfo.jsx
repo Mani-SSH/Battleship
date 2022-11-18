@@ -1,4 +1,4 @@
-import { useContext, useState, useEffect } from "react"
+import { useContext, useState } from "react"
 import { PlayerContext } from "../Home"
 import "../../../assets/css/userinfo.sass";
 import { PlayerUpdateContext,LoggedInUpdateContext } from "../Home";
@@ -18,16 +18,9 @@ export default function UserInfo()
     const handleShow = () => setShow(true);
 
     const player = useContext(PlayerContext);
-    const [logout, setlogout] = useState(false);
+
     const setPlayer = useContext(PlayerUpdateContext);
     const setIsLoggedIn = useContext(LoggedInUpdateContext);
-
-    useEffect(() => {
-        if(logout) {
-            setPlayer(new Player());
-            setIsLoggedIn(false);
-        }
-    }, [logout]) // eslint-disable-line react-hooks/exhaustive-deps
 
     const handleClick = () =>{        
         io.socket.emit("request-logout", player.name, player.tag, (err, LogOutSuccessfull) =>{
@@ -37,7 +30,8 @@ export default function UserInfo()
             }
             if(LogOutSuccessfull === true)
             {
-                setlogout(true)   
+                setPlayer(new Player());
+                setIsLoggedIn(false);  
             }
             else
             {

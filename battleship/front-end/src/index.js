@@ -15,6 +15,7 @@ export default function App() {
           <Route path='/' element={ <Home/> } />
           <Route path="placement" element={ <Placement/> } />
           <Route path='game' element={ <Game /> } />
+          <Route path="*" element={ <Home /> } />
         </Routes>
       </BrowserRouter>
     </React.StrictMode>

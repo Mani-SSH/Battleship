@@ -91,6 +91,8 @@ io.on('connection', (socket) => {
             {
                 checkLoggedOut(err, false)
             }
+            Username = ""
+            Tag = ""
         })
     })
 
@@ -477,6 +479,8 @@ io.on('connection', (socket) => {
 
     socket.on("disconnect", (reason) => {
         if(Username.length !== 0 && Tag.length !== 0){
+            matchQueue.remove(Username + "#" + Tag)
+
             db.LogOut(Username, Tag, (err, LoggedOut)=>{
                 if(LoggedOut === true){
                     console.log(`${ Username + "#" + Tag } has been logged out.`)
