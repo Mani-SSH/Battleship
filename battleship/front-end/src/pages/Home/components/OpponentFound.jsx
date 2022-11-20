@@ -3,6 +3,7 @@ import Button from 'react-bootstrap/Button';
 import "../../../assets/css/oppfound.sass";
 import {CgSearchFound} from "react-icons/cg";
 import {AiFillCheckCircle} from "react-icons/ai";
+import bgModal from "../../../assets/images/modal/bgModal.png";
 
 import { useState } from 'react';
 
@@ -42,22 +43,23 @@ export default function OpponentFound({show, onHide, roomID, playerID, opponentI
         backdrop="static"
         keyboard="false"
         centered>
-            <Modal.Header className='of-header'>
-                <Modal.Title className='of-title'>Opponent Found<CgSearchFound /></Modal.Title>
-            </Modal.Header>
             <Modal.Body className='of-body'>
+            <img src={bgModal} alt="modal" className="bgmodal" />
+            <div className='modaltext'>
+            <h1>Opponent Found<CgSearchFound className='search'/></h1>
                 <h3>{!(ready && opponentReady)? <Countdown counter={ 10 } onEnd={ handleOnCountdownEnd } /> : <></> }</h3>
                 { 
                     (ready)? 
-                    <PlayerReady 
+                    <PlayerReady
                     playerID={ playerID } 
                     opponentID={ opponentID }
                     playerReady={ ready }
                     opponentReady={ opponentReady }
                     handleGoToNextPage={ handleGoToNextPage }
                     /> :
-                    <Button variant='primary' onClick={ handleReadyClicked }>Ready</Button>
+                    <Button className='ready-btn' onClick={ handleReadyClicked }>Ready</Button>
                 }
+                </div>
             </Modal.Body>
         </Modal>
     )
@@ -66,9 +68,9 @@ export default function OpponentFound({show, onHide, roomID, playerID, opponentI
 
 function PlayerReady({playerID, opponentID, playerReady, opponentReady, handleGoToNextPage}){
     return(
-        <div className='h1-head'>
-            <h1>{ playerID }  { (playerReady)? <><AiFillCheckCircle className='check' /></> : <div className='spinner-border text-success m-0.2' role="status"></div> }</h1>
-            <h1>{ opponentID }    { (opponentReady)? <><AiFillCheckCircle className='check' /></> : <div className='spinner-border text-success m-0.2' role="status"></div> }</h1>
+        <div className='ready_player'>
+            <h1>{ playerID }  { (playerReady)? <><AiFillCheckCircle className='check' /></> : <div className='spinner-border m-0.2' role="status"></div> }</h1>
+            <h1>{ opponentID }    { (opponentReady)? <><AiFillCheckCircle className='check' /></> : <div className='spinner-border m-0.2' role="status"></div> }</h1>
             <h2>{ (playerReady && opponentReady)? <>Game starts in <Countdown counter={ 3 } onEnd={ handleGoToNextPage }/>...</>:<></> }</h2>
         </div>
     )

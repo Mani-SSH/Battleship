@@ -1,42 +1,86 @@
-.modal-content
-    border-radius: 5px
 .of-modal
   backdrop-filter: blur(5px)
-
-.of-header
-    font-family: cursive
-    background: red
-
-    background-color:#b5f4bf
-
-.of-title
-     color: #051c41
-     margin-left: 25px
-     font-size: 26px
+  .modal-content
+    background: transparent
+    border: transparent
 
 .of-body
-    background-color: #b0dde4
-    color: #051c41
-    text-align: center
-    & h3
-        font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif
-        font-size: 35px
-        margin-top: 4px
-
-.h1-head
-    background-color: #b0dde4
-    color: #051c41
-    text-align: center
-    & h1 
-        font-size: 25px
-    & h2
-        font-size: 30px
-
-    .spinner-border
-        font-size: 10px
-        margin-left: 10px
+    display: flex
+    justify-content: center
+    align-items: center
+    left: 0
+    top: 0
+    margin: 1rem
+    .bgmodal
+        width: 430px
+        height: 430px
+        position: absolute
+        z-index: -1
     
-    .check
-        margin-bottom: 5px
-        font-size: 30.4px
-        color: green
+
+    .modaltext
+        display: flex
+        flex-direction: column
+        justify-content: center
+        align-items: center
+        position: relative
+        z-index: 10
+        color: white
+        text-align: center
+        font-family: nunito
+        .search
+            padding: 2px
+            font-size: 30px
+            margin-left: 10px
+            margin-bottom: 8px
+            background: #f8c008
+            border-radius: 10px
+            color: #060504
+        & h1
+            font-family: nunito
+            font-size: 40px
+            color: #f8c008
+
+        & h3
+            margin-top: 10px
+            font-family: nunito
+            font-size: 30px
+            color: #ffffff
+        & h5
+            font-family: nunito
+            font-size: 15px
+            color: #b60d0d
+
+        .ready_player
+            & h1
+                font-family: nunito
+                color: #ffffff
+                font-size: 25px
+            & h2
+                font-family: nunito
+                font-size: 25px
+                color: #ffffff
+            .spinner-border
+                font-size: 15px
+                color: #30f40d
+                margin-left: 5px
+
+            .check
+                margin-bottom: 8px
+                font-size: 30px
+                color: #30f40d
+
+        .ready-btn
+            background: linear-gradient(368deg, #4aa6df 10%, #0a5e92 40%)
+            margin-top: 2rem
+            cursor: pointer
+            border: 1px solid #070338
+            transition: 0.15s all ease-in-out
+
+        .ready-btn:hover 
+            background: #3e8bb8
+            transform: translate(-4px,-4px)
+            box-shadow: -1px -1px 5px 0px #0c1543, 7px 7px 20px 0px #60505033, 4px 4px 5px 0px #0002
+
+
+    
