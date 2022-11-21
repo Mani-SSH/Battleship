@@ -4,6 +4,7 @@ import { useLocation, useNavigate } from "react-router-dom";
 import Boards from "./components/Boards";
 import * as io from "../../io-client-handler"
 
+
 export default function Game()
 {
     const location = useLocation()
@@ -53,6 +54,7 @@ export default function Game()
             <div className="Gamee">
                 <Boards roomID={ location.state.roomID } turn={ turn } setTurn={ setTurn } />
             </div>
+            
         </div>
     );
 

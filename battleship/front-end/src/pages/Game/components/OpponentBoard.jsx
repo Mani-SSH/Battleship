@@ -13,6 +13,7 @@ import flame from "../../../assets/gif/flame.gif";
 import radarGif from "../../../assets/gif/radar.gif";
 import EnergyIcon from "./energyLevel";
 import HitBar from "./hitbar";
+import instruction from "../../../assets/images/instruction/instructions.png";
 
 const getAdjacentXYs = (x, y, action) => {
     const adjacentXYs = []
@@ -241,6 +242,7 @@ export default function OpponentBoard({ setTurn, roomID, turn }) {
                 </div>
                 
             </div>
+            <img src={instruction} alt="instruction" className="instructionPng" />
         </div>
     );
 }
