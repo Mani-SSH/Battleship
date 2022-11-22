@@ -1,58 +1,87 @@
-.logout
-    width: 100px
-    height: 35px
-    text-transform: uppercase
-    font-weight: 500
-    cursor: pointer
-    background-color: #043f0e
-    border: 2px solid #1a192b
-    border-radius: 8px
-    -webkit-transition: all .15s ease-in-out
-    transition: all .15s ease-in-out
-    color: white
-    padding: 5px
-    font-size: 15px
-
-.logout:hover
-    background: #083f47
-    transform: translate(-4px,-4px)
-
-.pinfo
-    color: #cfd2e8
-    font-size: 80px
+.imageinfo
     position: absolute
     bottom: auto
-    top: 11vh
+    top: 3vh
     left: auto
-    right: 85vw
-
-.pinfo:hover
-    cursor: pointer
-    color: #0db113
+    right: 77vw
     background: transparent
-    box-shadow: none
+    border: transparent
+    width: 210px
+    height: auto 
+    border-radius: 30px
+    & img
+        width: 70%
+        z-index: -1
+    & img:hover
+        transform: translate(-4px,-4px)
+        cursor: pointer 
+
+.imageinfo:hover
+    background: none
+    border: none
+    width: 210px
+    height: auto
 
 .uinfo-modal
-    backdrop-filter: blur(5px)
+  backdrop-filter: blur(5px)
+  .modal-content
+    background: transparent
+    border: transparent
 
-    .uinfo-header
-        background-color: #b5f4bf
-        font-family: cursive
+.uinfo-body
+  display: flex
+  justify-content: center
+  align-items: center
+  left: 0
+  top: 0
+  margin: 1rem
+  & img
+    width: 400px
+    height: 450px
+    position: absolute
+    z-index: -1
 
-    .uinfo-title
-        color: #051c41
+  .modaltext
+    display: flex
+    flex-direction: column
+    justify-content: center
+    align-items: center
+    position: relative
+    z-index: 10
+    color: white
+    text-align: center
+    font-family: nunito   
+    & h1
+        margin-top: 15px
+        color: #f8c008
+        font-size: 35px
+    & h3
+        margin-top: 2rem
+        color: #d1c1c6
+        font-size: 28px
+    & h4
+        color: #d1c1c6
+        font-size: 22px
+    & h2
+        margin-top: 2rem
+        color: #10d0d6
+        font-size: 28px
+    
+  .info-icon
+    font-size: 38px
+    margin-bottom: 3.2px
+    color: #f8c008
+    background: #4d41a4
+    border-radius: 15px
 
-    .unfo-icon
-        font-size: 36px
-        margin-bottom: 3.2px
-
-    .unfo-body
-        background-color: #9fd6df
-        align-items: center
-        & h3,h4
-            font-size: 22.4px
-            font-family: cursive
-            color: #051c41
-    .unfo-footer
-        background: #cae8ce
-        justify-content: center
+.uinfo-btn
+    width: 90px 
+    margin-top: 6rem
+    background: linear-gradient(368deg, #4aa6df 10%, #0a5e92 40%)
+    cursor: pointer
+    border: 1px solid #070338
+    transition: 0.15s all ease-in-out
+.uinfo-btn:hover
+    background: primary
+    transform: translate(-4px,-4px)
+    box-shadow: -1px -1px 5px 0px #0c1543, 7px 7px 20px 0px #60505033, 4px 4px 5px 0px #0002

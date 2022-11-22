@@ -3,11 +3,12 @@ import { PlayerContext } from "../Home"
 import "../../../assets/css/userinfo.sass";
 import { PlayerUpdateContext,LoggedInUpdateContext } from "../Home";
 import Player from "../../../player";
-import {BsPersonBoundingBox} from 'react-icons/bs';
-import {HiOutlineInformationCircle} from "react-icons/hi";
+import {MdOutlinePermIdentity} from "react-icons/md";
 import Modal from "react-bootstrap/Modal";
 import '../../../assets/css/info.sass';
-
+import bModal from "../../../assets/images/modal/boxModal.png";
+import Button from "react-bootstrap/esm/Button";
+import playid from "../../../assets/images/modal/id.png";
 import * as io from "../../../io-client-handler"
 
 export default function UserInfo()
@@ -42,24 +43,23 @@ export default function UserInfo()
     }
     return(
         <div className="uinfoBack">
-            <BsPersonBoundingBox className="pinfo"  onClick={handleShow}/>
+            <button className="imageinfo" onClick={handleShow}><img src={playid} /></button>
         <Modal className="uinfo-modal"
             show={show}
             onHide={handleClose}
-            size="sm"
+            size="md"
             centered
             >
-                <Modal.Header className="uinfo-header" closeButton>
-                    <Modal.Title className="unfo-title">Player Identity <HiOutlineInformationCircle className="info-icon"/></Modal.Title>
-                </Modal.Header>
-                <Modal.Body className="unfo-body">
+                <Modal.Body className="uinfo-body">
+                    <img src={bModal} alt="modal" className="boxmodal" />
+                    <div className='modaltext'>
+                    <h1>Player Identity <MdOutlinePermIdentity className="info-icon"/></h1>
                     <h3>Name: { player.name }</h3>
                     <h4>PlayerTag: { player.name.concat("#", player.tag) }</h4>
-                    <h3>Score: { player.score }</h3>                   
-                    </Modal.Body>
-                <Modal.Footer className="unfo-footer">
-                <button className="logout" onClick={ handleClick }>Logout</button>
-                </Modal.Footer>
+                    <h2>Score: { player.score }</h2>   
+                    <Button className="uinfo-btn" onClick={ handleClick }>Logout</Button> 
+                    </div>               
+                </Modal.Body>            
         </Modal>
     </div>
     )
