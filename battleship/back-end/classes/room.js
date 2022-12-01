@@ -14,8 +14,8 @@ function makeRoomID() {
    for ( let i = 0; i < LENGTH_ROOMID; i++ ) {
       result += characters.charAt(Math.floor(Math.random() * 
       charactersLength));
-}
-return result;
+   }
+   return result;
 }
 
 class RoomPlayer {
